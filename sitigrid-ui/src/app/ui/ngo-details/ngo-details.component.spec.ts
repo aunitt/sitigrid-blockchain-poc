@@ -15,7 +15,7 @@
 */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NgoDetailsComponent } from './ngo-details.component';
+import { NgoDetailsComponent } from './sitigrid-details.component';
 
 describe('NgoDetailsComponent', () => {
   let component: NgoDetailsComponent;

@@ -1,5 +1,5 @@
 {
-  "name": "ngo-rest-api",
+  "name": "sitigrid-rest-api",
   "version": "1.0.0",
   "description": "A REST api supporting the NGO application",
   "main": "app.js",

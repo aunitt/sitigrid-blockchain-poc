@@ -23,9 +23,9 @@ import { DonorchartComponent } from 'src/app/ui/components/donorchart/donorchart
 
 
 @Component({
-  selector: 'app-ngo-details',
-  templateUrl: './ngo-details.component.html',
-  styleUrls: ['./ngo-details.component.scss']
+  selector: 'app-sitigrid-details',
+  templateUrl: './sitigrid-details.component.html',
+  styleUrls: ['./sitigrid-details.component.scss']
 })
 export class NgoDetailsComponent implements OnInit {
 

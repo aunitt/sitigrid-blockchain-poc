@@ -22,7 +22,7 @@ import { DonorService } from 'src/app/services/shared';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'ngo-blockchain';
+  title = 'sitigrid-blockchain';
 
   constructor(
     private donorService: DonorService

@@ -13,7 +13,7 @@
 # express or implied. See the License for the specific language governing
 # permissions and limitations under the License.
 
-cd ~/sitigrid-blockchain/ngo-lambda
+cd ~/sitigrid-blockchain/sitigrid-lambda
 
 echo Copy the Managed Blockchain TLS Certificate
 cp ~/managedblockchain-tls-chain.pem ./src/certs/managedblockchain-tls-chain.pem

@@ -2,9 +2,9 @@
 
 The UI is a Node.js / AngularJS application and will run on your AWS Cloud9 instance.
 The instructions in this README will help you to install the NGO User Interface application,
-and connect it to the REST API you created in [Part 3:](../ngo-rest-api/README.md).
+and connect it to the REST API you created in [Part 3:](../sitigrid-rest-api/README.md).
 
-All steps are carried out on the Cloud9 instance you created in [Part 1](../ngo-fabric/README.md).
+All steps are carried out on the Cloud9 instance you created in [Part 1](../sitigrid-fabric/README.md).
 
 ## Which browser?
 
@@ -27,10 +27,10 @@ On Cloud9.
 Open a new terminal pane.  Click on Window -> New Terminal.  **You should not be SSH'ed into the Fabric client node for this.**
 
 Your REST API should be exposed via an AWS Elastic Load Balancer (ELB). The ELB was created for you
-by AWS CloudFormation in [Part 1](../ngo-fabric/README.md). You can find the DNS endpoint for the ELB in
+by AWS CloudFormation in [Part 1](../sitigrid-fabric/README.md). You can find the DNS endpoint for the ELB in
 the Outputs of your CloudFormation stack in the AWS CloudFormation console.
 
-You should have already cloned this repo in [Part 1](../ngo-fabric/README.md)
+You should have already cloned this repo in [Part 1](../sitigrid-fabric/README.md)
 
 ```
 cd ~
@@ -55,20 +55,20 @@ nvm use lts/carbon
 ## Step 2 - Install dependencies
 
 ```
-cd ~/sitigrid-blockchain/ngo-ui
+cd ~/sitigrid-blockchain/sitigrid-ui
 npm i
 ```
 
 ## Step 3 - Point the Node.js application to your REST API
 
 Your REST API is exposed via an AWS Elastic Load Balancer (ELB). The ELB was created for you
-by CloudFormation in [Part 1](../ngo-fabric/README.md). You can find the DNS endpoint for the ELB in
+by CloudFormation in [Part 1](../sitigrid-fabric/README.md). You can find the DNS endpoint for the ELB in
 the Outputs of your CloudFormation stack in the CloudFormation console. In the statements below we 
 will query the CloudFormation stack to obtain the DNS endpoint, then replace this in the Node.js environment config file:
 
 ```
 export REGION=us-east-1
-export FABRICSTACK=ngo-fabric-client-node
+export FABRICSTACK=sitigrid-fabric-client-node
 export ELBURL=$(aws cloudformation --region $REGION describe-stacks --stack-name $FABRICSTACK --query "Stacks[0].Outputs[?OutputKey=='ELBDNS'].OutputValue" --output text)
 sed -i "s|__ELBURL__|$ELBURL|g" src/environments/environment.ts 
 ```
@@ -76,7 +76,7 @@ sed -i "s|__ELBURL__|$ELBURL|g" src/environments/environment.ts
 ## Step 4 - Start the application
 
 ```
-cd ~/sitigrid-blockchain/ngo-ui
+cd ~/sitigrid-blockchain/sitigrid-ui
 nvm use lts/carbon
 npm start &
 ```
@@ -120,15 +120,15 @@ will see the blocks appearing in the 'Blockchain Events' on the main NGO list. H
 block will show you the transaction ID's of all transactions appearing in that block. Blocks will also be created
 as you donate funds to a non-profit.
 
-See the function `dummySpend()` in `ngo-rest-api/app.js` for details on how spend records are randomly created.
+See the function `dummySpend()` in `sitigrid-rest-api/app.js` for details on how spend records are randomly created.
 
 All of the information you see in the application is stored in the Fabric network Amazon Managed Blockchain . 
 You can check this by querying the REST API directly. You can cURL the REST API from the Fabric client 
 node. Examples of the cURL commands used with the REST API can be found in the files that load test data 
-into the network, such as [this one](../ngo-rest-api/ngo-load-workshop.sh)
+into the network, such as [this one](../sitigrid-rest-api/sitigrid-load-workshop.sh)
 
 You could also query the chaincode directly and see the same information. You query the chaincode from 
-the Fabric client node. An example of how to query the chaincode can be found in [this script](../ngo-chaincode/test-chaincode-aws.sh)
+the Fabric client node. An example of how to query the chaincode can be found in [this script](../sitigrid-chaincode/test-chaincode-aws.sh)
 
 ## Long lived RESTful API server and User Interface application using PM2
 If you want to run the RESTful API server and the user interface application in such a way that they continue
@@ -143,14 +143,14 @@ npm install pm2 -g
 For Cloud9:
 
 ```
-cd ~/sitigrid-blockchain/ngo-ui
+cd ~/sitigrid-blockchain/sitigrid-ui
 pm2 start npm -- start
 ```
 
 For the Fabric client node:
 
 ```
-cd ~/sitigrid-blockchain/ngo-rest-api
+cd ~/sitigrid-blockchain/sitigrid-rest-api
 pm2 start app.js
 ```
 
@@ -167,9 +167,9 @@ communicates with the RESTful API.
 
 The workshop instructions can be found in the README files in parts 1-4:
 
-* [Part 1:](../ngo-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
-* [Part 2:](../ngo-chaincode/README.md) Deploy the non-profit chaincode. 
-* [Part 3:](../ngo-rest-api/README.md) Run the RESTful API server. 
-* [Part 4:](../ngo-ui/README.md) Run the application. 
+* [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
+* [Part 2:](../sitigrid-chaincode/README.md) Deploy the non-profit chaincode. 
+* [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server. 
+* [Part 4:](../sitigrid-ui/README.md) Run the application. 
 * [Part 5:](../new-member/README.md) Add a new member to the network. 
-* [Part 6:](../ngo-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
+* [Part 6:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.

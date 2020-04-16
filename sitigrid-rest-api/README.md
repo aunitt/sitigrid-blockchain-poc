@@ -9,13 +9,13 @@ For the Fabric workshop, the REST API server will run on the Fabric client node.
 
 From Cloud9, SSH into the Fabric client node. The key (i.e. the .PEM file) should be in your home directory. 
 The DNS of the Fabric client node EC2 instance can be found in the output of the AWS CloudFormation stack you 
-created in [Part 1](../ngo-fabric/README.md)
+created in [Part 1](../sitigrid-fabric/README.md)
 
 ```
 ssh ec2-user@<dns of EC2 instance> -i ~/<Fabric network name>-keypair.pem
 ```
 
-You should have already cloned this repo in [Part 1](../ngo-fabric/README.md)
+You should have already cloned this repo in [Part 1](../sitigrid-fabric/README.md)
 
 ```
 cd ~
@@ -23,15 +23,15 @@ git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 You will need to set the context before carrying out any Fabric CLI commands. We do this 
-using the export files that were generated for us in [Part 1](../ngo-fabric/README.md)
+using the export files that were generated for us in [Part 1](../sitigrid-fabric/README.md)
 
 Source the file, so the exports are applied to your current session. If you exit the SSH 
 session and re-connect, you'll need to source the file again. The `source` command below
 will print out the values of the key ENV variables. Make sure they are all populated. If
-they are not, follow Step 4 in [Part 1](../ngo-fabric/README.md) to repopulate them:
+they are not, follow Step 4 in [Part 1](../sitigrid-fabric/README.md) to repopulate them:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 source fabric-exports.sh
 ```
 
@@ -60,7 +60,7 @@ sudo yum install gcc-c++ -y
 On the Fabric client node.
 
 ```
-cd ~/sitigrid-blockchain/ngo-rest-api
+cd ~/sitigrid-blockchain/sitigrid-rest-api
 npm install
 ```
 
@@ -74,13 +74,13 @@ Fabric network. The instructions below will auto-generate a connection profile.
 Generate the connection profile using the script below and check that the connection profile contains 
 URL endpoints for the peer, ordering service and CA, an 'mspid', a 'caName', and that the admin username and password
 match those you entered when creating the Fabric network. If they do not match, edit the connection profile
-and update them. The connection profile can be found here: `~/sitigrid-blockchain/tmp/connection-profile/ngo-connection-profile.yaml`
+and update them. The connection profile can be found here: `~/sitigrid-blockchain/tmp/connection-profile/sitigrid-connection-profile.yaml`
 
 ```
-cd ~/sitigrid-blockchain/ngo-rest-api/connection-profile
+cd ~/sitigrid-blockchain/sitigrid-rest-api/connection-profile
 ./gen-connection-profile.sh
 cd ~/sitigrid-blockchain/tmp/connection-profile/
-cat ngo-connection-profile.yaml
+cat sitigrid-connection-profile.yaml
 ```
 
 ## Step 4 - Run the REST API Node.js application
@@ -89,7 +89,7 @@ On the Fabric client node.
 Run the app:
 
 ```
-cd ~/sitigrid-blockchain/ngo-rest-api
+cd ~/sitigrid-blockchain/sitigrid-rest-api
 nvm use lts/carbon
 node app.js 
 ```
@@ -103,7 +103,7 @@ From the new terminal, SSH into the Fabric cilent node.
 export REGION=us-east-1
 export STACKNAME=$(aws cloudformation describe-stacks --region $REGION --query 'Stacks[?Description==`Amazon Managed Blockchain. Creates network with a single member and peer node`] | [0].StackName' --output text)
 export NETWORKNAME=$(aws cloudformation describe-stacks --stack-name $STACKNAME --region $REGION --query 'Stacks[0].Outputs[?OutputKey==`NetworkName`].OutputValue' --output text)
-export EC2URL=$(aws cloudformation describe-stacks --stack-name ngo-fabric-client-node --query "Stacks[0].Outputs[?OutputKey=='EC2URL'].OutputValue" --output text --region $REGION)
+export EC2URL=$(aws cloudformation describe-stacks --stack-name sitigrid-fabric-client-node --query "Stacks[0].Outputs[?OutputKey=='EC2URL'].OutputValue" --output text --region $REGION)
 ssh ec2-user@$EC2URL -i ~/$NETWORKNAME-keypair.pem
 ```
 
@@ -169,8 +169,8 @@ this, remember to rerun the statements under Pre-requisites above.
 To run the script:
 
 ```
-cd ~/sitigrid-blockchain/ngo-rest-api
-./ngo-load-workshop.sh
+cd ~/sitigrid-blockchain/sitigrid-rest-api
+./sitigrid-load-workshop.sh
 ```
 
 # Testing
@@ -185,9 +185,9 @@ using a command such as `pm2 start app.js`, which will keep the app running. The
 ## Move on to Part 4
 The workshop instructions can be found in the README files in parts 1-4:
 
-* [Part 1:](../ngo-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
-* [Part 2:](../ngo-chaincode/README.md) Deploy the non-profit chaincode. 
-* [Part 3:](../ngo-rest-api/README.md) Run the RESTful API server. 
-* [Part 4:](../ngo-ui/README.md) Run the application. 
+* [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
+* [Part 2:](../sitigrid-chaincode/README.md) Deploy the non-profit chaincode. 
+* [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server. 
+* [Part 4:](../sitigrid-ui/README.md) Run the application. 
 * [Part 5:](../new-member/README.md) Add a new member to the network.
-* [Part 6:](../ngo-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
+* [Part 6:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.

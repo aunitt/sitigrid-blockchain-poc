@@ -32,7 +32,7 @@ import { SignupComponent } from './ui/signup/signup.component';
 import { DonateComponent } from './ui/donate/donate.component';
 import { HttpClientModule } from '@angular/common/http';
 import { NgosListComponent } from './ui/ngos-list/ngos-list.component';
-import { NgoDetailsComponent } from './ui/ngo-details/ngo-details.component';
+import { NgoDetailsComponent } from './ui/sitigrid-details/sitigrid-details.component';
 
 // Custom Componants
 import { RatingComponent, RatingService } from './ui/components/rating/rating.component';

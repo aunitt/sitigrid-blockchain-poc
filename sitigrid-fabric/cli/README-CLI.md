@@ -30,14 +30,14 @@ You may need to edit this file and add in the `NETWORKID` and `NETWORKMEMBERID`,
 already created the Fabric network.
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 vi 0-exports.sh
 ```
 
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 source ./0-exports.sh
 ```
 
@@ -47,19 +47,19 @@ Create the Fabric network.
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 ./1-fabric-network.sh
 ```
 
 ## Step 2 - in Cloud9
 Create the Fabric client node, which will host the Fabric CLI. You will use the CLI to administer
 the Fabric network. The Fabric client node will be created in its own VPC, with VPC endpoints 
-pointing to the Fabric network you created in [Part 1](../ngo-fabric/README.md)
+pointing to the Fabric network you created in [Part 1](../sitigrid-fabric/README.md)
 
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 ./2-vpc-client-node.sh
 ```
 
@@ -85,7 +85,7 @@ git clone https://github.com/aunitt/sitigrid-blockchain.git
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 ./3a-client-node-setup.sh
 ```
 
@@ -94,7 +94,7 @@ Now exit your SSH session and reconnect.
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 ./3b-client-node-setup.sh
 ```
 
@@ -108,7 +108,7 @@ Create the Fabric peer.
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 ./4-fabric-peer.sh
 ```
 
@@ -146,7 +146,7 @@ In the Fabric client node.
 SSH into the client node. Edit the peer export file:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 vi peer-exports.sh
 ```
 
@@ -161,6 +161,6 @@ Generate the configtx channel configuration
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/sitigrid-fabric
 ./5-configtx.sh
 ```

@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ngo-blockchain": {
+    "sitigrid-blockchain": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ngo-blockchain",
+            "outputPath": "dist/sitigrid-blockchain",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ngo-blockchain:build"
+            "browserTarget": "sitigrid-blockchain:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ngo-blockchain:build:production"
+              "browserTarget": "sitigrid-blockchain:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ngo-blockchain:build"
+            "browserTarget": "sitigrid-blockchain:build"
           }
         },
         "test": {
@@ -111,7 +111,7 @@
         }
       }
     },
-    "ngo-blockchain-e2e": {
+    "sitigrid-blockchain-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "prefix": "",
@@ -120,11 +120,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ngo-blockchain:serve"
+            "devServerTarget": "sitigrid-blockchain:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ngo-blockchain:serve:production"
+              "devServerTarget": "sitigrid-blockchain:serve:production"
             }
           }
         },
@@ -140,5 +140,5 @@
       }
     }
   },
-  "defaultProject": "ngo-blockchain"
+  "defaultProject": "sitigrid-blockchain"
 }

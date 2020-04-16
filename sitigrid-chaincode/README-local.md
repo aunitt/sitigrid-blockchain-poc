@@ -67,7 +67,7 @@ In your terminal window, change to the directory containing the chaincode:
 
 ```
 cd ~
-cd sitigrid-blockchain/ngo-chaincode
+cd sitigrid-blockchain/sitigrid-chaincode
 ```
 
 Update the REPODIR variable in the statements below to match the location of your fabric-samples repo, and
@@ -76,7 +76,7 @@ then execute all the commands in your terminal window:
 If installing on Mac:
 
 ```
-cd ~/Documents/apps/sitigrid-blockchain/ngo-chaincode
+cd ~/Documents/apps/sitigrid-blockchain/sitigrid-chaincode
 REPODIR=/Users/edgema/Documents/apps/fabric-samples
 rm $REPODIR/chaincode/ngo/*
 mkdir -p $REPODIR/chaincode/ngo
@@ -87,7 +87,7 @@ cp src/ngo.js $REPODIR/chaincode/ngo
 If installing on an EC2 instance:
 
 ```
-cd ~/sitigrid-blockchain/ngo-chaincode
+cd ~/sitigrid-blockchain/sitigrid-chaincode
 REPODIR=/home/ubuntu/fabric-samples
 rm $REPODIR/chaincode/ngo/*
 mkdir -p $REPODIR/chaincode/ngo
