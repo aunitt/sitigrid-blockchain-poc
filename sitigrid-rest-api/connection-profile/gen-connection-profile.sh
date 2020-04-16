@@ -15,7 +15,7 @@
 
 # REPODIR points to this repo
 # LOCALCA points to the location of the TLS cert
-REPODIR=~/non-profit-blockchain
+REPODIR=~/sitigrid-blockchain
 LOCALCA=/home/ec2-user/managedblockchain-tls-chain.pem 
 
 #copy the connection profiles

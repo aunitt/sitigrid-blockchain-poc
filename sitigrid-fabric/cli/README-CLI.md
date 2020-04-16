@@ -14,7 +14,7 @@ In the Cloud9 console, click 'Create Environment'
 
 ```
 cd
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 ## Step 0 - in Cloud9
@@ -30,14 +30,14 @@ You may need to edit this file and add in the `NETWORKID` and `NETWORKMEMBERID`,
 already created the Fabric network.
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 vi 0-exports.sh
 ```
 
 Execute the following script:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 source ./0-exports.sh
 ```
 
@@ -47,7 +47,7 @@ Create the Fabric network.
 Execute the following script:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./1-fabric-network.sh
 ```
 
@@ -59,7 +59,7 @@ pointing to the Fabric network you created in [Part 1](../ngo-fabric/README.md)
 Execute the following script:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./2-vpc-client-node.sh
 ```
 
@@ -79,13 +79,13 @@ Clone the repo:
 
 ```
 cd
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 Execute the following script:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./3a-client-node-setup.sh
 ```
 
@@ -94,7 +94,7 @@ Now exit your SSH session and reconnect.
 Execute the following script:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./3b-client-node-setup.sh
 ```
 
@@ -108,7 +108,7 @@ Create the Fabric peer.
 Execute the following script:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./4-fabric-peer.sh
 ```
 
@@ -146,7 +146,7 @@ In the Fabric client node.
 SSH into the client node. Edit the peer export file:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 vi peer-exports.sh
 ```
 
@@ -161,6 +161,6 @@ Generate the configtx channel configuration
 Execute the following script:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./5-configtx.sh
 ```

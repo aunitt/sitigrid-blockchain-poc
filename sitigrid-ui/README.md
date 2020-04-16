@@ -34,7 +34,7 @@ You should have already cloned this repo in [Part 1](../ngo-fabric/README.md)
 
 ```
 cd ~
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 ## Step 1 - Install Node
@@ -55,7 +55,7 @@ nvm use lts/carbon
 ## Step 2 - Install dependencies
 
 ```
-cd ~/non-profit-blockchain/ngo-ui
+cd ~/sitigrid-blockchain/ngo-ui
 npm i
 ```
 
@@ -76,7 +76,7 @@ sed -i "s|__ELBURL__|$ELBURL|g" src/environments/environment.ts
 ## Step 4 - Start the application
 
 ```
-cd ~/non-profit-blockchain/ngo-ui
+cd ~/sitigrid-blockchain/ngo-ui
 nvm use lts/carbon
 npm start &
 ```
@@ -143,14 +143,14 @@ npm install pm2 -g
 For Cloud9:
 
 ```
-cd ~/non-profit-blockchain/ngo-ui
+cd ~/sitigrid-blockchain/ngo-ui
 pm2 start npm -- start
 ```
 
 For the Fabric client node:
 
 ```
-cd ~/non-profit-blockchain/ngo-rest-api
+cd ~/sitigrid-blockchain/ngo-rest-api
 pm2 start app.js
 ```
 

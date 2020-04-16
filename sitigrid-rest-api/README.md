@@ -19,7 +19,7 @@ You should have already cloned this repo in [Part 1](../ngo-fabric/README.md)
 
 ```
 cd ~
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 You will need to set the context before carrying out any Fabric CLI commands. We do this 
@@ -31,7 +31,7 @@ will print out the values of the key ENV variables. Make sure they are all popul
 they are not, follow Step 4 in [Part 1](../ngo-fabric/README.md) to repopulate them:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 source fabric-exports.sh
 ```
 
@@ -60,7 +60,7 @@ sudo yum install gcc-c++ -y
 On the Fabric client node.
 
 ```
-cd ~/non-profit-blockchain/ngo-rest-api
+cd ~/sitigrid-blockchain/ngo-rest-api
 npm install
 ```
 
@@ -74,12 +74,12 @@ Fabric network. The instructions below will auto-generate a connection profile.
 Generate the connection profile using the script below and check that the connection profile contains 
 URL endpoints for the peer, ordering service and CA, an 'mspid', a 'caName', and that the admin username and password
 match those you entered when creating the Fabric network. If they do not match, edit the connection profile
-and update them. The connection profile can be found here: `~/non-profit-blockchain/tmp/connection-profile/ngo-connection-profile.yaml`
+and update them. The connection profile can be found here: `~/sitigrid-blockchain/tmp/connection-profile/ngo-connection-profile.yaml`
 
 ```
-cd ~/non-profit-blockchain/ngo-rest-api/connection-profile
+cd ~/sitigrid-blockchain/ngo-rest-api/connection-profile
 ./gen-connection-profile.sh
-cd ~/non-profit-blockchain/tmp/connection-profile/
+cd ~/sitigrid-blockchain/tmp/connection-profile/
 cat ngo-connection-profile.yaml
 ```
 
@@ -89,7 +89,7 @@ On the Fabric client node.
 Run the app:
 
 ```
-cd ~/non-profit-blockchain/ngo-rest-api
+cd ~/sitigrid-blockchain/ngo-rest-api
 nvm use lts/carbon
 node app.js 
 ```
@@ -169,7 +169,7 @@ this, remember to rerun the statements under Pre-requisites above.
 To run the script:
 
 ```
-cd ~/non-profit-blockchain/ngo-rest-api
+cd ~/sitigrid-blockchain/ngo-rest-api
 ./ngo-load-workshop.sh
 ```
 

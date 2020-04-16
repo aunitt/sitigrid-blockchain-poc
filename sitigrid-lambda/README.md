@@ -15,7 +15,7 @@ You should have already cloned this repo in [Part 1](../ngo-fabric/README.md).
 
 ```
 cd ~
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 You will need to set the context before carrying out any Fabric CLI commands. You do this 
@@ -27,7 +27,7 @@ will print out the values of the key ENV variables. Make sure they are all popul
 they are not, follow Step 4 in [Part 1](../ngo-fabric/README.md) to repopulate them:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 source fabric-exports.sh
 source ~/peer-exports.sh 
 ```
@@ -60,7 +60,7 @@ export FABRICUSERPASSWORD=Welcome123
 Execute this script to register and enroll the Fabric user, and upload the credentials to AWS Secrets Manager.
 
 ```
-~/non-profit-blockchain/ngo-lambda/createFabricUser.sh
+~/sitigrid-blockchain/ngo-lambda/createFabricUser.sh
 ```
 
 ## Step 2 - Deploy the Lambda function and API Gateway
@@ -74,7 +74,7 @@ Execute the following commands to create the Lambda function, VPC Endpoint and t
 ```
 export BUCKETNAME=`echo "ngo-fabric-lambda-$(date +%N)" | tr '[:upper:]' '[:lower:]'`
 export LAMBDANAME=`echo "$NETWORKNAME-fabric-lambda" | tr '[:upper:]' '[:lower:]'`
-~/non-profit-blockchain/ngo-lambda/createLambda.sh
+~/sitigrid-blockchain/ngo-lambda/createLambda.sh
 ```
 
 If this is successful you should see a message indicating:

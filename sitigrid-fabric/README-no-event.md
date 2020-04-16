@@ -21,7 +21,7 @@ In the Cloud9 console, click 'Create Environment'. Using 'us-east-1' for the reg
 
 ```
 cd ~
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 Update your AWS CLI to the latest version.
@@ -38,7 +38,7 @@ In your Cloud9 terminal window:
 ```
 export REGION=us-east-1
 export STACKNAME=non-profit-amb
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./amb.sh
 ```
 
@@ -79,7 +79,7 @@ In Cloud9:
 
 ```
 export REGION=us-east-1
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./vpc-client-node.sh
 ```
 
@@ -109,7 +109,7 @@ Clone the repo:
 
 ```
 cd ~
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 In future steps you will need to refer to different configuration values in your Fabric network. In this step
@@ -119,7 +119,7 @@ to your current session. If you exit the SSH session and re-connect, you'll need
 
 ```
 export REGION=us-east-1
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 cp templates/exports-template.sh fabric-exports.sh
 source fabric-exports.sh
 source ~/peer-exports.sh 
@@ -167,7 +167,7 @@ Some final copying of the certificates is necessary:
 ```
 mkdir -p /home/ec2-user/admin-msp/admincerts
 cp ~/admin-msp/signcerts/* ~/admin-msp/admincerts/
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ```
 
 ## Step 5 - Update the configtx channel configuration
@@ -176,7 +176,7 @@ On the Fabric client node.
 Update the configtx channel configuration. The Name and ID fields should be updated with the member ID from Managed Blockchain.
 
 ```
-cp ~/non-profit-blockchain/ngo-fabric/configtx.yaml ~
+cp ~/sitigrid-blockchain/ngo-fabric/configtx.yaml ~
 sed -i "s|__MEMBERID__|$MEMBERID|g" ~/configtx.yaml
 ```
 

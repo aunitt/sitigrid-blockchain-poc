@@ -58,7 +58,7 @@ You should have already cloned this repo in [Part 1](../ngo-fabric/README.md)
 
 ```
 cd ~
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 You will need to set the context before carrying out any Fabric CLI commands. We do this 
@@ -70,7 +70,7 @@ will print out the values of the key ENV variables. Make sure they are all popul
 they are not, follow Step 4 in [Part 1](../ngo-fabric/README.md) to repopulate them:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 source fabric-exports.sh
 ```
 
@@ -97,7 +97,7 @@ In the Cloud9 console, click 'Create Environment'. Using 'us-east-1' for the reg
 
 ```
 cd ~
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 Update your AWS CLI to the latest version.
@@ -157,7 +157,7 @@ will check whether the keypair exists before creating it. I don't want to overwr
 keypairs you have, so just ignore this error and let the script continue:
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 ./vpc-client-node.sh
 ```
 
@@ -187,13 +187,13 @@ Clone the repo:
 
 ```
 cd ~
-git clone https://github.com/aws-samples/non-profit-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain.git
 ```
 
 Create the file that includes the ENV export values that define your Fabric network configuration.
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 cp templates/exports-template.sh fabric-exports.sh
 vi fabric-exports.sh
 ```
@@ -206,7 +206,7 @@ Source the file, so the exports are applied to your current session. If you exit
 session and re-connect, you'll need to source the file again.
 
 ```
-cd ~/non-profit-blockchain/ngo-fabric
+cd ~/sitigrid-blockchain/ngo-fabric
 source fabric-exports.sh
 ```
 
@@ -270,14 +270,14 @@ Information will be shared via S3. Account B will copy the certs to S3, and Acco
 Update the region and member ID in the following script. The member ID is the ID of the new member in Account B:
 
 ```
-cd ~/non-profit-blockchain
+cd ~/sitigrid-blockchain
 vi new-member/s3-handler.sh 
 ```
 
 Copy the Account B public keys to S3:
 
 ```bash
-cd ~/non-profit-blockchain
+cd ~/sitigrid-blockchain
 ./new-member/s3-handler.sh createS3BucketForNewMember
 ./new-member/s3-handler.sh copyCertsToS3
 ```
@@ -291,14 +291,14 @@ Update the region and member ID in the following script. The member ID is the ID
 file should look identical to the one created in the previous step:
 
 ```
-cd ~/non-profit-blockchain
+cd ~/sitigrid-blockchain
 vi new-member/s3-handler.sh 
 ```
 
 Copy the Account B public keys from S3 to the MSP directory on the Fabric client node in Account A:
 
 ```
-cd ~/non-profit-blockchain
+cd ~/sitigrid-blockchain
 ./new-member/s3-handler.sh copyCertsFromS3
 ```
 
@@ -559,7 +559,7 @@ ls -lt /home/ec2-user/fabric-samples/chaincode/hyperledger/fabric/peer
 We will use a bash script to create an updated channel config since the process involves quite a few steps. We need to execute the bash script in the CLI container, so we copy it to the home directory on the Fabric client node, as this is mounted into the CLI container.
 
 ```
-cd ~/non-profit-blockchain/new-member
+cd ~/sitigrid-blockchain/new-member
 cp create-config-update.sh ~
 ```
 
@@ -675,7 +675,7 @@ Before the peer node in Account B joins the channel, it must be able to connect 
 On the Fabric client node in Account A, copy the channel genesis from from Account A to S3:
 
 ```bash
-cd ~/non-profit-blockchain
+cd ~/sitigrid-blockchain
 ./new-member/s3-handler.sh createS3BucketForCreator
 ./new-member/s3-handler.sh copyChannelGenesisToS3
 ```
@@ -683,7 +683,7 @@ cd ~/non-profit-blockchain
 On the Fabric client node in Account B.
 
 ```bash
-cd ~/non-profit-blockchain
+cd ~/sitigrid-blockchain
 ./new-member/s3-handler.sh copyChannelGenesisFromS3
 ls -l /home/ec2-user/fabric-samples/chaincode/hyperledger/fabric/peer/mychannel.block
 ```
