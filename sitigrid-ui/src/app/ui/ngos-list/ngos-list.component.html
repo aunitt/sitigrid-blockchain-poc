@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-sm-4 h-95 display-inline-grid">
             <div class="shadow-sm donors-list container-dynamic-height">
-                <div *ngFor="let ngo of ngolist; let i = index" [class]="selectedNGO.id===ngo.id?'active':''" (click)="onNGOSelect(ngo)">
+                <div *ngFor="let ngo of ngolist; let i = index" [class]="selectedSitigrid.id===ngo.id?'active':''" (click)="onSitigridSelect(ngo)">
                     <div class="mr-3"><img src={{ngo.ngo_icon_url}} class="img-fluid">
                         <app-star-rating class="text-center" class.disabled [rating]='ngo.ngo_rating' [itemId]='ngo.id+ngo.ngo_rating'></app-star-rating>
                     </div>
@@ -46,15 +46,15 @@
                 <div class="d-flex flex-row justify-content-between mb-4 ">
                     <div class="d-flex">
                         <div class="d-flex flex-column align-items-center mr-3">
-                            <img src={{selectedNGO.ngo_icon_url}} class="img-fluid wdth-150">
+                            <img src={{selectedSitigrid.ngo_icon_url}} class="img-fluid wdth-150">
                             <div class="text-center mt-2">
-                                <app-star-rating class.disabled [rating]='selectedNGO.ngo_rating' [itemId]='selectedNGO.ngo_rating+selectedNGO.id'
+                                <app-star-rating class.disabled [rating]='selectedSitigrid.ngo_rating' [itemId]='selectedSitigrid.ngo_rating+selectedSitigrid.id'
                                     data-toggle="modal" data-target="#rating"></app-star-rating>
                             </div>
                         </div>
                         <div>
-                            <h5 class="m-0">{{selectedNGO.ngo_name}}</h5>
-                            <p class="m-0">Regn. No. {{selectedNGO.ngo_reg_no}}<br>{{selectedNGO.ngo_address}}<br>{{selectedNGO.ngo_phone}}<br>{{selectedNGO.ngo_email}},</p>
+                            <h5 class="m-0">{{selectedSitigrid.ngo_name}}</h5>
+                            <p class="m-0">Regn. No. {{selectedSitigrid.ngo_reg_no}}<br>{{selectedSitigrid.ngo_address}}<br>{{selectedSitigrid.ngo_phone}}<br>{{selectedSitigrid.ngo_email}},</p>
 
                         </div>
                     </div>
@@ -63,15 +63,15 @@
                         <div>
                             <ul class="d-inline-flex list-unstyled border rounded">
                                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2">
-                                    <span>Total Donations</span><span><strong>{{selectedNGO.ngo_donations |
+                                    <span>Total Donations</span><span><strong>{{selectedSitigrid.ngo_donations |
                                             currency:'USD':'symbol':'1.2-2'}}</strong></span>
                                 </li>
                                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2 border-left border-right bg-gray-200">
                                     <span>Utilized fund</span><span> <a href="#" data-toggle="modal" data-target="#funds-utilized">
-                                            {{selectedNGO.ngo_fund_utilized | currency:'USD':'symbol':'1.2-2'}}</a></span>
+                                            {{selectedSitigrid.ngo_fund_utilized | currency:'USD':'symbol':'1.2-2'}}</a></span>
                                 </li>
                                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2 bg-light">
-                                    <span>My donations</span><span>{{selectedNGO.ngo_user_donations |
+                                    <span>My donations</span><span>{{selectedSitigrid.ngo_user_donations |
                                         currency:'USD':'symbol':'1.2-2'}}</span>
                                 </li>
                             </ul>
@@ -79,10 +79,10 @@
                         <div>
                             <ul class="d-inline-flex list-unstyled border rounded">
                                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2">
-                                    <span>Total Projects</span><span><strong>{{selectedNGO.ngo_projects}}</strong></span>
+                                    <span>Total Projects</span><span><strong>{{selectedSitigrid.ngo_projects}}</strong></span>
                                 </li>
                                 <li class="d-flex flex-column justify-content-center border-left align-items-center p-1 text-nowrap pl-2 pr-2">
-                                    <span>Total no.of donors</span><span><a href="#" data-toggle="modal" data-target="#donors">{{selectedNGO.ngo_Donors}}</a></span>
+                                    <span>Total no.of donors</span><span><a href="#" data-toggle="modal" data-target="#donors">{{selectedSitigrid.ngo_Donors}}</a></span>
                                 </li>
                             </ul>
                         </div>
@@ -96,7 +96,7 @@
                     <div class="clear-both pt-3 pb-3">
                         <h4 class="border-bottom">About</h4>
                         <div class="about-content pr-4">
-                            <p class="about-content">{{selectedNGO.ngo_about}}</p>
+                            <p class="about-content">{{selectedSitigrid.ngo_about}}</p>
                         </div>
                         <div class="mt-5">
                             <form class="justify-content-start align-items-center" [formGroup]="donateForm">
@@ -122,7 +122,7 @@
     </div>
 </div>
 
-<app-gallery [itemId]='selectedNGO.ngo_reg_no'></app-gallery>
+<app-gallery [itemId]='selectedSitigrid.ngo_reg_no'></app-gallery>
 
 <div class="modal fade" role="dialog" tabindex="-1" id="funds-utilized">
     <div class="modal-dialog" role="document">
@@ -143,7 +143,7 @@
                         </tr>
                     </thead>
                     <tbody class="overflow-y-auto max-height-200">
-                        <tr *ngFor="let spendDetails of selectedNGO.ngo_spend_details; let i = index">
+                        <tr *ngFor="let spendDetails of selectedSitigrid.ngo_spend_details; let i = index">
                             <td class="pl-4">{{i+1}}</td>
                             <td>{{spendDetails.spendDescription}}</td>
                             <td class="text-right pr-4" data-dismiss="modal" data-toggle="modal" (click)='renderGraph(spendDetails.spendId,spendDetails.spendAmount)'
@@ -205,7 +205,7 @@
                             <tr *ngFor="let ngo of getNgoDonorsAmountKeys(); let i = index">
                                 <td class="pl-4">{{i+1}}</td>
                                 <td>{{ngo}}</td>
-                                <td class="text-right pr-4">{{selectedNGO.ngo_donor_details.get(ngo) |
+                                <td class="text-right pr-4">{{selectedSitigrid.ngo_donor_details.get(ngo) |
                                     currency:'USD':'symbol':'1.2-2'}}</td>
                             </tr>
                         </tbody>
@@ -216,11 +216,11 @@
     </div>
 </div>
 
-<div *ngIf='selectedNGO.ngo_user_rating===0' class="modal fade" role="dialog" tabindex="-1" id="rating">
+<div *ngIf='selectedSitigrid.ngo_user_rating===0' class="modal fade" role="dialog" tabindex="-1" id="rating">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header pt-3 pb-3">
-                <h4 class="modal-title">Rating for <strong>{{selectedNGO.ngo_name}}</strong></h4>
+                <h4 class="modal-title">Rating for <strong>{{selectedSitigrid.ngo_name}}</strong></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -229,13 +229,13 @@
                 <div class="row h-100">
                     <div class="col- col-sm-6 text-center my-auto">
                         <p>My rating</p>
-                        <app-star-rating class="pop-rating" [iseditable]='selectedNGO.ngo_user_rating===0' [rating]='selectedNGO.ngo_user_rating'
+                        <app-star-rating class="pop-rating" [iseditable]='selectedSitigrid.ngo_user_rating===0' [rating]='selectedSitigrid.ngo_user_rating'
                             [itemId]='userRating.transactionId' data-dismiss="modal"></app-star-rating>
                     </div>
                     <div class="col- col-sm-6 text-center my-auto">
                         <div class="rounded-circle border align-middle d-block mx-auto pop-overall-rating">
                             <p class="mt-5">Overall rating</p>
-                            <app-star-rating class="pop-rating" [rating]='selectedNGO.ngo_rating' [itemId]='selectedNGO.id'></app-star-rating>
+                            <app-star-rating class="pop-rating" [rating]='selectedSitigrid.ngo_rating' [itemId]='selectedSitigrid.id'></app-star-rating>
                         </div>
                     </div>
                 </div>

@@ -13,7 +13,7 @@
 
 name: "sitigrid-org1"
 x-type: "hlfv1"
-description: "NGO client definition for Org1"
+description: "Sitigrid client definition for Org1"
 version: "1.0"
 client:
   organization: Org1

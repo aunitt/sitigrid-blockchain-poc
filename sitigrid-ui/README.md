@@ -1,7 +1,7 @@
 # Part 4: The User Interface
 
 The UI is a Node.js / AngularJS application and will run on your AWS Cloud9 instance.
-The instructions in this README will help you to install the NGO User Interface application,
+The instructions in this README will help you to install the Sitigrid User Interface application,
 and connect it to the REST API you created in [Part 3:](../sitigrid-rest-api/README.md).
 
 All steps are carried out on the Cloud9 instance you created in [Part 1](../sitigrid-fabric/README.md).
@@ -116,7 +116,7 @@ how they are spending the funds.
 
 Behind the scenes is a function that automatically and randomly spends the donations. As donations are spent,
 new 'spend' transactions are created in Fabric, which result in new blocks added to the Fabric network. You
-will see the blocks appearing in the 'Blockchain Events' on the main NGO list. Hovering your mouse over the
+will see the blocks appearing in the 'Blockchain Events' on the main Sitigrid list. Hovering your mouse over the
 block will show you the transaction ID's of all transactions appearing in that block. Blocks will also be created
 as you donate funds to a non-profit.
 

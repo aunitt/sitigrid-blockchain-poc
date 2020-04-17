@@ -1,4 +1,4 @@
-# NGO on Hyperledger Fabric
+# Sitigrid on Hyperledger Fabric
 
 The chaincode in ngo.js supports donors donating funds to an NGO (i.e. non-profit), while tracking 
 the spending of those funds and the allocation of the spending records against each donation. Donors

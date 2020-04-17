@@ -1,6 +1,6 @@
-# Part 2: Non-profit (NGO) Chaincode
+# Part 2: Non-profit (Sitigrid) Chaincode
 
-The instructions in this README will help you to install the NGO chaincode on the
+The instructions in this README will help you to install the Sitigrid chaincode on the
 Fabric network you created in [Part 1](../sitigrid-fabric/README.md)
 
 All steps are carried out on the Fabric client node you created in [Part 1](../sitigrid-fabric/README.md)

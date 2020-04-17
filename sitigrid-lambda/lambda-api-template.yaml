@@ -68,7 +68,7 @@ Resources:
       ManagedPolicyArns:
         - !Ref SecretsManagerReadPolicy
         - arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole
-  NGOLambdaFunction:
+  SitigridLambdaFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: index.handler
@@ -99,19 +99,19 @@ Resources:
           Properties:
             Path: /donors
             Method: get
-            RestApiId: !Ref NGOAPIGateway
+            RestApiId: !Ref SitigridAPIGateway
         CreateDonor:
           Type: Api
           Properties:
             Path: /donors
             Method: post
-            RestApiId: !Ref NGOAPIGateway
+            RestApiId: !Ref SitigridAPIGateway
         GetDonor:
           Type: Api
           Properties:
             Path: /donors/{donorUserName}
             Method: get
-            RestApiId: !Ref NGOAPIGateway
+            RestApiId: !Ref SitigridAPIGateway
   SecretsManagerVPCE:
     Type: 'AWS::EC2::VPCEndpoint'
     Properties:
@@ -123,10 +123,10 @@ Resources:
       VpcId: !Ref VPCID
       ServiceName: com.amazonaws.us-east-1.secretsmanager
       PrivateDnsEnabled: true
-  NGOAPIGateway:
+  SitigridAPIGateway:
     Type: 'AWS::Serverless::Api'
     Properties:
-      Name: NGO API
+      Name: Sitigrid API
       StageName: dev
       DefinitionBody: # Can't use uri: https://github.com/awslabs/serverless-application-model/issues/305
         swagger: "2.0"
@@ -147,7 +147,7 @@ Resources:
                     $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
                 uri:
-                  Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NGOLambdaFunction.Arn}/invocations"
+                  Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SitigridLambdaFunction.Arn}/invocations"
                 responses:
                   default:
                     statusCode: "200"
@@ -171,7 +171,7 @@ Resources:
                     $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
                 uri:
-                  Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NGOLambdaFunction.Arn}/invocations"
+                  Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SitigridLambdaFunction.Arn}/invocations"
                 responses:
                   default:
                     statusCode: "200"
@@ -203,7 +203,7 @@ Resources:
                     $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
                 uri:
-                  Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${NGOLambdaFunction.Arn}/invocations"
+                  Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${SitigridLambdaFunction.Arn}/invocations"
                 responses:
                   default:
                     statusCode: "200"
@@ -223,4 +223,4 @@ Resources:
 Outputs:
   APIGatewayURL:
     Description: "API Gateway endpoint URL for Dev stage"
-    Value: !Sub "https://${NGOAPIGateway}.execute-api.${AWS::Region}.amazonaws.com/dev"
+    Value: !Sub "https://${SitigridAPIGateway}.execute-api.${AWS::Region}.amazonaws.com/dev"

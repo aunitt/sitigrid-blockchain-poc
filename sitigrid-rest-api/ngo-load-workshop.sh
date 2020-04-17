@@ -15,7 +15,7 @@
 # permissions and limitations under the License.
 #
 
-# Script for loading the NGOs and other data used in the workshop, via the REST API
+# Script for loading the Sitigrids and other data used in the workshop, via the REST API
 # Set the exports below to point to the REST API hostname/port and run the script
 
 # The export statements below can be used to point to either localhost or to an ELB endpoint, 
@@ -41,10 +41,10 @@ echo $response
 echo Response should be: {"success":true,"secret":"","message":"$USERID enrolled Successfully"}
 
 echo '---------------------------------------'
-echo NGOs
+echo Sitigrids
 echo '---------------------------------------'
 
-echo 'Creating NGO - 1101'
+echo 'Creating Sitigrid - 1101'
 echo
 
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{
@@ -58,7 +58,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: appli
 
 echo "Transaction ID is $TRX_ID"
 
-echo 'Creating NGO - 1102'
+echo 'Creating Sitigrid - 1102'
 echo
 
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{
@@ -73,7 +73,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: appli
 echo "Transaction ID is $TRX_ID"
 
 
-echo 'Creating NGO - 1103'
+echo 'Creating Sitigrid - 1103'
 echo
 
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{
@@ -87,7 +87,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: appli
 
 echo "Transaction ID is $TRX_ID"
 
-echo 'Creating NGO - 1104'
+echo 'Creating Sitigrid - 1104'
 echo
 
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{
@@ -101,7 +101,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: appli
 
 echo "Transaction ID is $TRX_ID"
 
-echo 'Creating NGO - 1105'
+echo 'Creating Sitigrid - 1105'
 echo
 
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{
@@ -117,11 +117,11 @@ echo "Transaction ID is $TRX_ID"
 
 echo 'Checking that the data has been loaded'
 
-echo 'Query all NGOs'
+echo 'Query all Sitigrids'
 echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json'
 echo
-echo 'Query specific NGOs - looking for NGO 1103'
+echo 'Query specific Sitigrids - looking for Sitigrid 1103'
 echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/1103 -H 'content-type: application/json'
 

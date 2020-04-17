@@ -27,38 +27,38 @@ export class NgoService {
 
   }
 
-  getNGOs() {
+  getSitigrids() {
     const path = 'ngos';
     return this.apiService.get(path).pipe(map(data => this.ngoJsonAdopter(data)));
   }
 
-  getNGO(ngo_id) {
+  getSitigrid(ngo_id) {
     const path = `ngos/${ngo_id}`;
     return this.apiService.get(path).pipe(map(data => this.ngoJsonAdopter(data)));
   }
-  getNGOSpend(ngo_id) {
+  getSitigridSpend(ngo_id) {
     const path = `ngos/${ngo_id}/spend`;
     return this.apiService.get(path);
   }
 
-  getNGORating(ngo_id) {
+  getSitigridRating(ngo_id) {
     const path = `ngos/${ngo_id}/ratings`;
     return this.apiService.get(path);
   }
 
-  getDonorNGORating(ngo_id, donor_id) {
+  getDonorSitigridRating(ngo_id, donor_id) {
     const path = `ratings/${ngo_id}/${donor_id}`;
     return this.apiService.get(path);
   }
 
-  updateDonorNGORating(rating_id, userRating, Donor_name, ngo_id) {
+  updateDonorSitigridRating(rating_id, userRating, Donor_name, ngo_id) {
     const rating = new Rating().set(userRating, Donor_name, ngo_id);
     rating.transactionId = rating_id;
     const path = `ratings`;
     return this.apiService.put(path, rating);
   }
 
-  createDonorNGORating(userRating, Donor_name, ngo_id) {
+  createDonorSitigridRating(userRating, Donor_name, ngo_id) {
     const rating = new Rating().set(userRating, Donor_name, ngo_id);
     const path = `ratings`;
     return this.apiService.post(path, rating);

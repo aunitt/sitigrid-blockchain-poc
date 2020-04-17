@@ -13,7 +13,7 @@
 
 name: "ngo"
 x-type: "hlfv1"
-description: "NGO Donation and Spend Tracking Network"
+description: "Sitigrid Donation and Spend Tracking Network"
 version: "1.0"
 
 channels:

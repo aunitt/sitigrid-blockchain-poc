@@ -37,7 +37,7 @@ export class DashboardService {
     return this.apiService.get(path).pipe(map(data => this.userDonationsJsonAdopter(data)));
   }
 
-  getDonationsByNGO(ngo_id) {
+  getDonationsBySitigrid(ngo_id) {
     const path = `ngos/${ngo_id}/donations`;
     return this.apiService.get(path).pipe(map(data => data));
   }
@@ -47,8 +47,8 @@ export class DashboardService {
     return this.apiService.get(path).pipe(map(data => data));
   }
 
-  getNGONameById(nog_id: string) {
-    const data = this.ngoService.getNGO(nog_id);
+  getSitigridNameById(nog_id: string) {
+    const data = this.ngoService.getSitigrid(nog_id);
     if (data[0] !== undefined) {
       return data[0].ngo_name;
     }

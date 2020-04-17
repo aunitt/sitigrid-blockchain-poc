@@ -34,7 +34,7 @@ export class NgosListComponent implements OnInit {
 
   ngolist: Array<Ngo> = [];
   ngoProjects: Array<Project> = null;
-  selectedNGO: Ngo = new Ngo();
+  selectedSitigrid: Ngo = new Ngo();
   donateForm: FormGroup = null;
   submitted = false;
   error: String = null;
@@ -63,23 +63,23 @@ export class NgosListComponent implements OnInit {
     this.ratingService.ratingClick.subscribe(
       (data: any) => {
         const currentDonor = SessionService.getUser().name;
-        this.selectedNGO.ngo_user_rating = data.rating;
-        this.ngoService.createDonorNGORating(data.rating, currentDonor, this.selectedNGO.ngo_reg_no).subscribe(
+        this.selectedSitigrid.ngo_user_rating = data.rating;
+        this.ngoService.createDonorSitigridRating(data.rating, currentDonor, this.selectedSitigrid.ngo_reg_no).subscribe(
           resp => { }
         );
       });
   }
 
   ngOnInit() {
-    this.ngoService.getNGOs().subscribe(data => {
+    this.ngoService.getSitigrids().subscribe(data => {
       this.ngolist = data;
       this.ngolist.forEach(element => {
         this.setRatings(element);
-        this.getNGOFundsDetails(element);
-        this.getNGOSpendData(element);
+        this.getSitigridFundsDetails(element);
+        this.getSitigridSpendData(element);
         this.ngoMap.set(element.id, element);
       });
-      this.selectedNGO = this.ngolist.length > 0 ? this.ngoMap.get(this.ngolist[0].id) : new Ngo();
+      this.selectedSitigrid = this.ngolist.length > 0 ? this.ngoMap.get(this.ngolist[0].id) : new Ngo();
       setTimeout(() => {
         const ngo_data = UtilsService.mapToJson(this.ngoMap);
         SessionService.setValue('ngos', ngo_data);
@@ -98,8 +98,8 @@ export class NgosListComponent implements OnInit {
 
   }
 
-  getNGOFundsDetails(ngo: Ngo) {
-    this.dashboardService.getDonationsByNGO(ngo.id).subscribe(ngo_data => {
+  getSitigridFundsDetails(ngo: Ngo) {
+    this.dashboardService.getDonationsBySitigrid(ngo.id).subscribe(ngo_data => {
       let ngo_total_donation = 0.00;
       const ngo_total_donors_set = new Set();
       const ngo_donors_amounts = new Map();
@@ -127,11 +127,11 @@ export class NgosListComponent implements OnInit {
   }
 
   getNgoDonorsAmountKeys() {
-    return Array.from(this.selectedNGO.ngo_donor_details.keys());
+    return Array.from(this.selectedSitigrid.ngo_donor_details.keys());
   }
 
-  getNGOSpendData(ngo: Ngo) {
-    this.ngoService.getNGOSpend(ngo.id).subscribe(ngospenddata => {
+  getSitigridSpendData(ngo: Ngo) {
+    this.ngoService.getSitigridSpend(ngo.id).subscribe(ngospenddata => {
       let ngo_spend_amount = 0;
       const ngo_spend_data = [];
       for (const i in ngospenddata) {
@@ -151,7 +151,7 @@ export class NgosListComponent implements OnInit {
   }
 
   setRatings(ngo: Ngo) {
-    this.ngoService.getNGORating(ngo.id).subscribe(
+    this.ngoService.getSitigridRating(ngo.id).subscribe(
       data => {
         let rating = 0;
         for (const i in data) {
@@ -168,11 +168,11 @@ export class NgosListComponent implements OnInit {
         ngo.ngo_rating = Math.ceil(rating);
       });
   }
-  onNGOSelect(ngo) {
-    this.selectedNGO = ngo;
+  onSitigridSelect(ngo) {
+    this.selectedSitigrid = ngo;
     this.setRatings(ngo);
-    this.getNGOFundsDetails(ngo);
-    this.getNGOSpendData(ngo);
+    this.getSitigridFundsDetails(ngo);
+    this.getSitigridSpendData(ngo);
     return;
   }
 
@@ -185,7 +185,7 @@ export class NgosListComponent implements OnInit {
     if (this.donateForm.invalid) {
       return;
     }
-    this.donateService.makeDonation(this.selectedNGO.ngo_reg_no, SessionService.getUser().name, this.donateForm.value.donationAmount)
+    this.donateService.makeDonation(this.selectedSitigrid.ngo_reg_no, SessionService.getUser().name, this.donateForm.value.donationAmount)
       .subscribe(
         data => {
           this.router.navigate([`donate/${data.donationId}`]);

@@ -15,7 +15,7 @@
 
 name: "ngo"
 x-type: "hlfv1"
-description: "NGO Network"
+description: "Sitigrid Network"
 version: "1.0"
 
 channels:

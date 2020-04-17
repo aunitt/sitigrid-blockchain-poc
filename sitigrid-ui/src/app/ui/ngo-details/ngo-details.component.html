@@ -18,7 +18,7 @@
 <div class="container extra-margin-top">
   <div class="row mb-2">
     <div class="col">
-      <h5 class="font-weight-light">NGO Details</h5>
+      <h5 class="font-weight-light">Sitigrid Details</h5>
     </div>
   </div>
   <div class="row">
@@ -27,14 +27,14 @@
         <div class="d-flex flex-row justify-content-between mb-4">
           <div class="d-flex">
             <div class="d-flex flex-column align-items-center mr-4">
-              <img [src]='selectedNGO.ngo_icon_url' class="img-fluid wdth-250">
+              <img [src]='selectedSitigrid.ngo_icon_url' class="img-fluid wdth-250">
               <div class="text-center mt-2">
-                <app-star-rating [rating]='selectedNGO.ngo_rating' [itemId]='selectedNGO.id+selectedNGO.ngo_rating'></app-star-rating>
+                <app-star-rating [rating]='selectedSitigrid.ngo_rating' [itemId]='selectedSitigrid.id+selectedSitigrid.ngo_rating'></app-star-rating>
               </div>
             </div>
             <div>
-              <h4 class="m-0">{{selectedNGO.ngo_name}}</h4>
-              <p class="m-0">Regn. No. {{selectedNGO.ngo_reg_no}}<br>{{selectedNGO.ngo_address}}<br>{{selectedNGO.ngo_phone}}<br>{{selectedNGO.ngo_email}}</p>
+              <h4 class="m-0">{{selectedSitigrid.ngo_name}}</h4>
+              <p class="m-0">Regn. No. {{selectedSitigrid.ngo_reg_no}}<br>{{selectedSitigrid.ngo_address}}<br>{{selectedSitigrid.ngo_phone}}<br>{{selectedSitigrid.ngo_email}}</p>
             </div>
           </div>
           <div class="d-flex flex-column align-items-end">
@@ -42,24 +42,24 @@
               <ul class="d-inline-flex list-unstyled border rounded">
                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-3 pr-3">
                   <span>Total Donations</span>
-                  <span><strong> {{selectedNGO.ngo_donations | currency:'USD':'symbol':'1.2-2'}}</strong></span>
+                  <span><strong> {{selectedSitigrid.ngo_donations | currency:'USD':'symbol':'1.2-2'}}</strong></span>
                 </li>
                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-3 pr-3 border-left border-right bg-gray-200">
-                  <span>Utilized fund</span><span><a href="#" data-toggle="modal" data-target="#funds-utilized">{{selectedNGO.ngo_fund_utilized
+                  <span>Utilized fund</span><span><a href="#" data-toggle="modal" data-target="#funds-utilized">{{selectedSitigrid.ngo_fund_utilized
                       | currency:'USD':'symbol':'1.2-2'}}</a></span>
                 </li>
                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-3 pr-3 bg-light">
-                  <span>My donations</span><span> {{selectedNGO.ngo_user_donations | currency:'USD':'symbol':'1.2-2'}}</span>
+                  <span>My donations</span><span> {{selectedSitigrid.ngo_user_donations | currency:'USD':'symbol':'1.2-2'}}</span>
                 </li>
               </ul>
             </div>
             <div>
               <ul class="d-inline-flex list-unstyled border rounded">
                 <li class="d-flex flex-column justify-content-center align-items-center p-1 text-nowrap pl-2 pr-2">
-                  <span>Total Projects</span><span><strong>{{selectedNGO.ngo_projects}}</strong></span>
+                  <span>Total Projects</span><span><strong>{{selectedSitigrid.ngo_projects}}</strong></span>
                 </li>
                 <li class="d-flex flex-column justify-content-center border-left align-items-center p-1 text-nowrap pl-2 pr-2">
-                  <span>Total no. of donors</span><span><a href="#" data-toggle="modal" data-target="#donors">{{selectedNGO.ngo_Donors}}</a></span>
+                  <span>Total no. of donors</span><span><a href="#" data-toggle="modal" data-target="#donors">{{selectedSitigrid.ngo_Donors}}</a></span>
                 </li>
               </ul>
             </div>
@@ -73,7 +73,7 @@
           <div class="clear-both pt-3 pb-3">
             <h4 class="border-bottom">About</h4>
             <div class="about-content pr-4">
-              <p class="pr-4">{{selectedNGO.ngo_about}}</p>
+              <p class="pr-4">{{selectedSitigrid.ngo_about}}</p>
               <p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of
                 classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin
                 professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words,
@@ -150,7 +150,7 @@
             </tr>
           </thead>
           <tbody class="overflow-y-auto max-height-200">
-            <tr *ngFor="let spendDetails of selectedNGO.ngo_spend_details; let i = index">
+            <tr *ngFor="let spendDetails of selectedSitigrid.ngo_spend_details; let i = index">
               <td class="pl-4">{{i+1}}</td>
               <td>{{spendDetails.spendDescription}}</td>
               <td class="text-right pr-4" data-dismiss="modal" data-toggle="modal" (click)='renderGraph(spendDetails.spendId,spendDetails.spendAmount)'
@@ -206,7 +206,7 @@
               <tr *ngFor="let donor of getNgoDonorsAmountKeys(); let i = index">
                 <td class="pl-4">{{i+1}}</td>
                 <td>{{donor}}</td>
-                <td class="text-right pr-4">{{selectedNGO.ngo_donor_details.get(donor) |
+                <td class="text-right pr-4">{{selectedSitigrid.ngo_donor_details.get(donor) |
                   currency:'USD':'symbol':'1.2-2'}}</td>
               </tr>
             </tbody>

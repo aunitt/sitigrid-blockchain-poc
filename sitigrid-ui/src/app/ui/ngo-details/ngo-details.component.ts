@@ -33,7 +33,7 @@ export class NgoDetailsComponent implements OnInit {
   @ViewChild('graphcontainer', { read: ViewContainerRef }) viewContainer: ViewContainerRef;
 
   ngoProjects: Array<Project> = null;
-  selectedNGO: Ngo = new Ngo();
+  selectedSitigrid: Ngo = new Ngo();
   donateForm: FormGroup = null;
   submitted = false;
   ngo_my_donation = 0.00;
@@ -74,11 +74,11 @@ export class NgoDetailsComponent implements OnInit {
       donationAmount: new FormControl('', [Validators.required])
     });
 
-    this.ngoService.getNGO(this.ngo_id).subscribe(data => {
-      this.selectedNGO = data.length > 0 ? data[0] : new Ngo();
-      this.getNGOSpendData(this.selectedNGO);
-      this.getNGOFundsDetails(this.selectedNGO);
-      this.setRatings(this.selectedNGO);
+    this.ngoService.getSitigrid(this.ngo_id).subscribe(data => {
+      this.selectedSitigrid = data.length > 0 ? data[0] : new Ngo();
+      this.getSitigridSpendData(this.selectedSitigrid);
+      this.getSitigridFundsDetails(this.selectedSitigrid);
+      this.setRatings(this.selectedSitigrid);
     },
       err => {
         console.error(err);
@@ -87,8 +87,8 @@ export class NgoDetailsComponent implements OnInit {
 
   }
 
-  getNGOFundsDetails(ngo: Ngo) {
-    this.dashboardService.getDonationsByNGO(ngo.id).subscribe(ngo_data => {
+  getSitigridFundsDetails(ngo: Ngo) {
+    this.dashboardService.getDonationsBySitigrid(ngo.id).subscribe(ngo_data => {
       let ngo_total_donation = 0.00;
       const ngo_total_donors_set = new Set();
       const ngo_donors_amounts = new Map();
@@ -116,11 +116,11 @@ export class NgoDetailsComponent implements OnInit {
   }
 
   getNgoDonorsAmountKeys() {
-    return Array.from(this.selectedNGO.ngo_donor_details.keys());
+    return Array.from(this.selectedSitigrid.ngo_donor_details.keys());
   }
 
-  getNGOSpendData(ngo: Ngo) {
-    this.ngoService.getNGOSpend(ngo.id).subscribe(ngospenddata => {
+  getSitigridSpendData(ngo: Ngo) {
+    this.ngoService.getSitigridSpend(ngo.id).subscribe(ngospenddata => {
       let ngo_spend_amount = 0;
       const ngo_spend_data = [];
       for (const i in ngospenddata) {
@@ -140,7 +140,7 @@ export class NgoDetailsComponent implements OnInit {
   }
 
   setRatings(ngo: Ngo) {
-    this.ngoService.getNGORating(ngo.id).subscribe(
+    this.ngoService.getSitigridRating(ngo.id).subscribe(
       data => {
         let rating = 0;
         for (const i in data) {
@@ -153,7 +153,7 @@ export class NgoDetailsComponent implements OnInit {
         }
         ngo.ngo_rating = Math.ceil(rating);
       });
-    this.ngoService.getDonorNGORating(ngo.id, SessionService.getUser().name).subscribe(
+    this.ngoService.getDonorSitigridRating(ngo.id, SessionService.getUser().name).subscribe(
       data => {
         this.userRating = new Rating();
         if (data[0]) {
@@ -170,7 +170,7 @@ export class NgoDetailsComponent implements OnInit {
     if (this.donateForm.invalid) {
       return;
     }
-    this.donateService.makeDonation(this.selectedNGO.ngo_reg_no, SessionService.getUser().name, this.donateForm.value.donationAmount)
+    this.donateService.makeDonation(this.selectedSitigrid.ngo_reg_no, SessionService.getUser().name, this.donateForm.value.donationAmount)
       .subscribe(
         data => {
           this.router.navigate([`donate/${data.donationId}`]);

@@ -93,13 +93,13 @@ else
 fi
 echo
 echo '---------------------------------------'
-echo NGO
+echo Sitigrid
 echo '---------------------------------------'
-echo 'Create NGO'
+echo 'Create Sitigrid'
 echo
-NGO1=$(uuidgen)
+Sitigrid1=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{ 
-    "ngoRegistrationNumber": "'"${NGO1}"'", 
+    "ngoRegistrationNumber": "'"${Sitigrid1}"'", 
     "ngoName": "Pets In Need",
     "ngoDescription": "We help pets in need",
     "address": "1 Pet street",
@@ -108,11 +108,11 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: appli
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-echo 'Create NGO'
+echo 'Create Sitigrid'
 echo
-NGO2=$(uuidgen)
+Sitigrid2=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{ 
-    "ngoRegistrationNumber": "'"${NGO2}"'", 
+    "ngoRegistrationNumber": "'"${Sitigrid2}"'", 
     "ngoName": "Pets In Need",
     "ngoDescription": "We help pets in need",
     "address": "1 Pet street",
@@ -121,13 +121,13 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: appli
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-echo 'Query all NGOs'
+echo 'Query all Sitigrids'
 echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json'
 echo
-echo 'Query specific NGOs'
+echo 'Query specific Sitigrids'
 echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${NGO1} -H 'content-type: application/json')
+response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${Sitigrid1} -H 'content-type: application/json')
 echo $response
 echo
 ret=$(echo $response | jq '.[].docType' | jq 'contains("ngo")')
@@ -145,7 +145,7 @@ echo
 RATING1=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ratings -H 'content-type: application/json' -d '{ 
    "donorUserName": "'"${DONOR1}"'", 
-   "ngoRegistrationNumber": "'"${NGO2}"'", 
+   "ngoRegistrationNumber": "'"${Sitigrid2}"'", 
    "rating": 1
 }')
 echo "Transaction ID is $TRX_ID"
@@ -153,18 +153,18 @@ echo
 RATING2=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ratings -H 'content-type: application/json' -d '{ 
    "donorUserName": "'"${DONOR2}"'", 
-   "ngoRegistrationNumber": "'"${NGO2}"'", 
+   "ngoRegistrationNumber": "'"${Sitigrid2}"'", 
    "rating": 3
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 echo 'Query specific ratings'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/ratings/${NGO2}/${DONOR1}/ -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/ratings/${Sitigrid2}/${DONOR1}/ -H 'content-type: application/json'
 echo
-echo 'Query ratings for an NGO'
+echo 'Query ratings for an Sitigrid'
 echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${NGO2}/ratings -H 'content-type: application/json')
+response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${Sitigrid2}/ratings -H 'content-type: application/json')
 echo $response
 echo
 ret=$(echo $response | jq '.[].docType' | jq 'contains("rating")')
@@ -187,7 +187,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 100,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR1}"'",
-        "ngoRegistrationNumber": "'"${NGO1}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -197,7 +197,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 999,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR2}"'",
-        "ngoRegistrationNumber": "'"${NGO1}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -207,7 +207,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 75,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR1}"'",
-        "ngoRegistrationNumber": "'"${NGO2}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -223,9 +223,9 @@ echo 'Query Donations for a donor'
 echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/donors/${DONOR1}/donations/ -H 'content-type: application/json'
 echo
-echo 'Query Donations for an NGO'
+echo 'Query Donations for an Sitigrid'
 echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${NGO1}/donations/ -H 'content-type: application/json')
+response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${Sitigrid1}/donations/ -H 'content-type: application/json')
 echo $response
 echo
 ret=$(echo $response | jq '.[].docType' | jq 'contains("donation")')
@@ -243,7 +243,7 @@ echo 'Create Spend'
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO1}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -253,7 +253,7 @@ echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO2}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid2}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -263,7 +263,7 @@ echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO1}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -273,7 +273,7 @@ echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO1}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -283,7 +283,7 @@ echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO1}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -301,9 +301,9 @@ sleep 2
 echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/spend/${SPENDID} -H 'content-type: application/json'
 echo
-echo 'Query Spend by NGO'
+echo 'Query Spend by Sitigrid'
 echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${NGO1}/spend -H 'content-type: application/json')
+response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${Sitigrid1}/spend -H 'content-type: application/json')
 echo $response
 echo
 ret=$(echo $response | jq '.[].docType' | jq 'contains("spend")')
@@ -356,7 +356,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 111,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR1}"'", 
-        "ngoRegistrationNumber": "'"${NGO1}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -366,7 +366,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 222,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR2}"'", 
-        "ngoRegistrationNumber": "'"${NGO1}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -376,13 +376,13 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 222,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR1}"'", 
-        "ngoRegistrationNumber": "'"${NGO2}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO1}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -392,7 +392,7 @@ echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO1}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -402,7 +402,7 @@ echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO2}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid2}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -412,7 +412,7 @@ echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO2}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid2}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -426,7 +426,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 875,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR2}"'", 
-        "ngoRegistrationNumber": "'"${NGO1}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -436,13 +436,13 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 1,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR1}"'", 
-        "ngoRegistrationNumber": "'"${NGO2}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 SPENDID=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${NGO2}"'",
+        "ngoRegistrationNumber": "'"${Sitigrid2}"'",
         "spendId": "'"${SPENDID}"'",
         "spendDescription": "Peter Pipers Poulty Portions for Pets",
         "spendDate": "2018-09-20T12:41:59.582Z",
@@ -456,7 +456,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationAmount": 0,
         "donationDate": "2018-09-20T12:41:59.582Z",
         "donorUserName": "'"${DONOR1}"'", 
-        "ngoRegistrationNumber": "'"${NGO2}"'"
+        "ngoRegistrationNumber": "'"${Sitigrid2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
