@@ -1,6 +1,6 @@
 # Sitigrid on Hyperledger Fabric
 
-The chaincode in ngo.js supports donors donating funds to an NGO (i.e. non-profit), while tracking 
+The chaincode in sitigrid.js supports donors donating funds to an NGO (i.e. non-profit), while tracking 
 the spending of those funds and the allocation of the spending records against each donation. Donors
 are therefore able to track how their donations are being spent. The Fabric Chaincode is written in Node.js.
 
@@ -78,10 +78,10 @@ If installing on Mac:
 ```
 cd ~/Documents/apps/sitigrid-blockchain-poc/sitigrid-chaincode
 REPODIR=/Users/edgema/Documents/apps/fabric-samples
-rm $REPODIR/chaincode/ngo/*
-mkdir -p $REPODIR/chaincode/ngo
-cp src/package.json $REPODIR/chaincode/ngo
-cp src/ngo.js $REPODIR/chaincode/ngo
+rm $REPODIR/chaincode/sitigrid/*
+mkdir -p $REPODIR/chaincode/sitigrid
+cp src/package.json $REPODIR/chaincode/sitigrid
+cp src/sitigrid.js $REPODIR/chaincode/sitigrid
 ```
 
 If installing on an EC2 instance:
@@ -89,10 +89,10 @@ If installing on an EC2 instance:
 ```
 cd ~/sitigrid-blockchain-poc/sitigrid-chaincode
 REPODIR=/home/ubuntu/fabric-samples
-rm $REPODIR/chaincode/ngo/*
-mkdir -p $REPODIR/chaincode/ngo
-cp src/package.json $REPODIR/chaincode/ngo
-cp src/ngo.js $REPODIR/chaincode/ngo
+rm $REPODIR/chaincode/sitigrid/*
+mkdir -p $REPODIR/chaincode/sitigrid
+cp src/package.json $REPODIR/chaincode/sitigrid
+cp src/sitigrid.js $REPODIR/chaincode/sitigrid
 ```
 
 To confirm that this is now visible inside your CLI container, exec into the container:
@@ -104,8 +104,8 @@ docker exec -it cli bash
 Inside the CLI container:
 
 ```
-# ls /opt/gopath/src/github.com/chaincode/ngo
-package.json  ngo.js
+# ls /opt/gopath/src/github.com/chaincode/sitigrid
+package.json  sitigrid.js
 ```
 
 You can repeat this process whenever you update the chaincode.
@@ -123,25 +123,25 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID="Org1MSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/ngo
+peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/sitigrid
 
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 export CORE_PEER_ADDRESS=peer1.org1.example.com:7051
 export CORE_PEER_LOCALMSPID="Org1MSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt
-peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/ngo
+peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/sitigrid
 
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
 export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
 export CORE_PEER_LOCALMSPID="Org2MSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/ngo
+peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/sitigrid
 
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
 export CORE_PEER_ADDRESS=peer1.org2.example.com:7051
 export CORE_PEER_LOCALMSPID="Org2MSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
-peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/ngo
+peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/sitigrid
 
 export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
@@ -157,7 +157,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 export CORE_PEER_ADDRESS=peer0.org1.example.com:7051
 export CORE_PEER_LOCALMSPID="Org1MSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt
-peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/ngo
+peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/sitigrid
 ```
 
 ### peer1.org1
@@ -167,7 +167,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 export CORE_PEER_ADDRESS=peer1.org1.example.com:7051
 export CORE_PEER_LOCALMSPID="Org1MSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt
-peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/ngo
+peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/sitigrid
 ```
 
 ### peer0.org2
@@ -177,7 +177,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 export CORE_PEER_ADDRESS=peer0.org2.example.com:7051
 export CORE_PEER_LOCALMSPID="Org2MSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
-peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/ngo
+peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/sitigrid
 ```
 
 ### peer1.org2
@@ -187,7 +187,7 @@ export CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/pee
 export CORE_PEER_ADDRESS=peer1.org2.example.com:7051
 export CORE_PEER_LOCALMSPID="Org2MSP"
 export CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt
-peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/ngo
+peer chaincode install -n sitigrid -v 7.0 -l node -p /opt/gopath/src/github.com/chaincode/sitigrid
 ```
 
 ## Instantiate the chaincode
@@ -223,7 +223,7 @@ Check that the chaincode was instantiated on the channel. You can run this after
 # peer chaincode list --instantiated -C mychannel -o orderer.example.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/example.com/orderers/orderer.example.com/msp/tlscacerts/tlsca.example.com-cert.pem 
 Get instantiated chaincodes on channel mychannel:
 Name: mycc, Version: 7.0, Path: /opt/gopath/src/github.com/chaincode/chaincode_example02/node/, Escc: escc, Vscc: vscc
-Name: ngo, Version: 7.0, Path: /opt/gopath/src/github.com/chaincode/ngo, Escc: escc, Vscc: vscc
+Name: ngo, Version: 7.0, Path: /opt/gopath/src/github.com/chaincode/sitigrid, Escc: escc, Vscc: vscc
 ```
 
 ## Invoke transactions to add participants in the network
