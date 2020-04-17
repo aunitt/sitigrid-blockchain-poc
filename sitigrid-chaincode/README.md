@@ -1,4 +1,4 @@
-# Part 2: Non-profit (Sitigrid) Chaincode
+# Part 2: Sitigrid Chaincode
 
 The instructions in this README will help you to install the Sitigrid chaincode on the
 Fabric network you created in [Part 1](../sitigrid-fabric/README.md)
@@ -52,8 +52,8 @@ chaincode into this folder will make it accessible inside the Fabric CLI contain
 
 ```
 cd ~
-mkdir -p ./fabric-samples/chaincode/ngo
-cp ./sitigrid-blockchain-poc/sitigrid-chaincode/src/* ./fabric-samples/chaincode/ngo
+mkdir -p ./fabric-samples/chaincode/sitigrid
+cp ./sitigrid-blockchain-poc/sitigrid-chaincode/src/* ./fabric-samples/chaincode/sitigrid
 ```
 
 ## Step 2 - Install the chaincode on your peer
@@ -67,7 +67,7 @@ Notice we are using the `-l node` flag, as our chaincode is written in Node.js.
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" -e "CORE_PEER_ADDRESS=$PEER"  \
-    cli peer chaincode install -n ngo -l node -v v0 -p /opt/gopath/src/github.com/ngo
+    cli peer chaincode install -n sitigrid -l node -v v0 -p /opt/gopath/src/github.com/sitigrid
 ```
 
 Expected response:
@@ -75,7 +75,7 @@ Expected response:
 ```
 2018-11-15 06:39:47.625 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 001 Using default escc
 2018-11-15 06:39:47.625 UTC [chaincodeCmd] checkChaincodeCmdParams -> INFO 002 Using default vscc
-2018-11-15 06:39:47.625 UTC [container] WriteFolderToTarPackage -> INFO 003 rootDirectory = /opt/gopath/src/github.com/ngo
+2018-11-15 06:39:47.625 UTC [container] WriteFolderToTarPackage -> INFO 003 rootDirectory = /opt/gopath/src/github.com/sitigrid
 2018-11-15 06:39:47.636 UTC [chaincodeCmd] install -> INFO 004 Installed remotely response:<status:200 payload:"OK" >
 ```
 
@@ -92,7 +92,7 @@ It can take up to 30 seconds to instantiate chaincode on the channel.
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" -e "CORE_PEER_ADDRESS=$PEER"  \
-    cli peer chaincode instantiate -o $ORDERER -C mychannel -n ngo -v v0 -c '{"Args":["init"]}' --cafile /opt/home/managedblockchain-tls-chain.pem --tls
+    cli peer chaincode instantiate -o $ORDERER -C mychannel -n sitigrid -v v0 -c '{"Args":["init"]}' --cafile /opt/home/managedblockchain-tls-chain.pem --tls
 ```
 
 Expected response:
@@ -110,7 +110,7 @@ Query all donors
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n ngo -c '{"Args":["queryAllDonors"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllDonors"]}'
 ```
 
 Expected response:
@@ -127,12 +127,12 @@ Let's add a couple of donors to Fabric. Execute both of these transactions below
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode invoke -C mychannel -n ngo \
+    cli peer chaincode invoke -C mychannel -n sitigrid \
     -c  '{"Args":["createDonor","{\"donorUserName\": \"edge\", \"email\": \"edge@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode invoke -C mychannel -n ngo \
+    cli peer chaincode invoke -C mychannel -n sitigrid \
     -c  '{"Args":["createDonor","{\"donorUserName\": \"braendle\", \"email\": \"braendle@def.com\", \"registeredDate\": \"2018-11-05T14:31:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
 ```
 
@@ -142,14 +142,14 @@ Query all donors
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n ngo -c '{"Args":["queryAllDonors"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllDonors"]}'
 ```
 
 Query a specific donor
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n ngo -c '{"Args":["queryDonor","{\"donorUserName\": \"edge\"}"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryDonor","{\"donorUserName\": \"edge\"}"]}'
 ```
 
 ## Move on to Part 3

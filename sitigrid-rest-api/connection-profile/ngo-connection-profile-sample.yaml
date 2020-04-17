@@ -13,7 +13,7 @@
 
 # Sample connection profile for an Amazon Managed Blockchain Fabric network
 
-name: "ngo"
+name: "sitigrid"
 x-type: "hlfv1"
 description: "Sitigrid Network"
 version: "1.0"
