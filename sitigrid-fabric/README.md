@@ -109,7 +109,7 @@ Clone the repo:
 
 ```
 cd ~
-git clone https://github.com/aunitt/sitigrid-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain-poc.git
 ```
 
 In future steps you will need to refer to different configuration values in your Fabric network. In this step
