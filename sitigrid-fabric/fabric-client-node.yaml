@@ -1,4 +1,4 @@
-# Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+# Copyright 2020 Sitigrid. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License").
 # You may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ Parameters:
     Description:                                  Name of the Blockchain VPC Endpoint. Obtained from running 'aws managedblockchain get-network'
  
 Resources:
-  BlockchainWorkshopRootRole:
+  SitigridExampleRootRole:
     Type:                                         "AWS::IAM::Role"
     Properties:
       AssumeRolePolicyDocument:
@@ -51,15 +51,15 @@ Resources:
                 Action:                           "*"
                 Resource:                         "*"
  
-  BlockchainWorkshopRootInstanceProfile:
+  SitigridExampleRootInstanceProfile:
     Type:                                         "AWS::IAM::InstanceProfile"
     Properties:
       Path:                                       "/"
       Roles:
         -
-          Ref:                                    "BlockchainWorkshopRootRole"
+          Ref:                                    "SitigridExampleRootRole"
  
-  BlockchainWorkshopVPC:
+  SitigridExampleVPC:
     Type:                                         AWS::EC2::VPC
     Properties:
       CidrBlock:                                  10.0.0.0/16
@@ -67,24 +67,24 @@ Resources:
       EnableDnsHostnames:                         True
       InstanceTenancy:                            default
       Tags:
-        - Key:                                    ReInventBlockchainWorkshop
+        - Key:                                    ReInventSitigridExample
           Value:                                  VPC
  
-  BlockchainWorkshopPublicSubnet:
+  SitigridExamplePublicSubnet:
     Type:                                         AWS::EC2::Subnet
     Properties:
-        VpcId:                                    !Ref BlockchainWorkshopVPC
+        VpcId:                                    !Ref SitigridExampleVPC
         MapPublicIpOnLaunch:                      false
         CidrBlock:                                10.0.0.0/16
         Tags:
-        - Key:                                    ReInventBlockchainWorkshop
+        - Key:                                    ReInventSitigridExample
           Value:                                  PublicSubnet
  
-  BlockchainWorkshopSecurityGroupBase:
+  SitigridExampleSecurityGroupBase:
         Type:                                     AWS::EC2::SecurityGroup
         Properties:
           GroupDescription:                       Base Security Group
-          VpcId:                                  !Ref BlockchainWorkshopVPC
+          VpcId:                                  !Ref SitigridExampleVPC
           SecurityGroupIngress:
           - IpProtocol:                           tcp
             CidrIp:                               0.0.0.0/0
@@ -95,88 +95,88 @@ Resources:
             FromPort:                             0
             ToPort:                               65535
           Tags:
-          - Key:                                  ReInventBlockchainWorkshop
+          - Key:                                  ReInventSitigridExample
             Value:                                BaseSecurityGroup
  
-  BlockchainWorkshopSecurityGroupBaseIngress:
+  SitigridExampleSecurityGroupBaseIngress:
     Type:                                         AWS::EC2::SecurityGroupIngress
     Properties:
       IpProtocol:                                 -1
       FromPort:                                   -1
-      GroupId:                                    !GetAtt BlockchainWorkshopSecurityGroupBase.GroupId
+      GroupId:                                    !GetAtt SitigridExampleSecurityGroupBase.GroupId
       ToPort:                                     -1
-      SourceSecurityGroupId:                      !GetAtt BlockchainWorkshopSecurityGroupBase.GroupId
+      SourceSecurityGroupId:                      !GetAtt SitigridExampleSecurityGroupBase.GroupId
       Tags:
-      - Key:                                      ReInventBlockchainWorkshop
+      - Key:                                      ReInventSitigridExample
         Value:                                    BaseSecurityGroupIngress
  
-  BlockchainWorkshopInternetGateway:
+  SitigridExampleInternetGateway:
     Type:                                         "AWS::EC2::InternetGateway"
     Properties:
       Tags:
-      - Key:                                      ReInventBlockchainWorkshop
+      - Key:                                      ReInventSitigridExample
         Value:                                    InternetGateway
  
-  BlockchainWorkshopAttachGateway:
+  SitigridExampleAttachGateway:
     Type:                                         AWS::EC2::VPCGatewayAttachment
     Properties:
-       VpcId:                                     !Ref BlockchainWorkshopVPC
-       InternetGatewayId:                         !Ref BlockchainWorkshopInternetGateway
+       VpcId:                                     !Ref SitigridExampleVPC
+       InternetGatewayId:                         !Ref SitigridExampleInternetGateway
  
-  BlockchainWorkshopRouteTable:
+  SitigridExampleRouteTable:
     Type:                                         AWS::EC2::RouteTable
     Properties:
-        VpcId:                                    !Ref BlockchainWorkshopVPC
+        VpcId:                                    !Ref SitigridExampleVPC
         Tags:
-          - Key:                                  ReInventBlockchainWorkshop
+          - Key:                                  ReInventSitigridExample
             Value:                                RouteTable
  
-  BlockchainWorkshopRoute:
+  SitigridExampleRoute:
     Type:                                         AWS::EC2::Route
     Properties:
-        RouteTableId:                             !Ref BlockchainWorkshopRouteTable
+        RouteTableId:                             !Ref SitigridExampleRouteTable
         DestinationCidrBlock:                     0.0.0.0/0
-        GatewayId:                                !Ref BlockchainWorkshopInternetGateway
+        GatewayId:                                !Ref SitigridExampleInternetGateway
  
-  BlockchainWorkshopSubnetRouteTableAssociation:
+  SitigridExampleSubnetRouteTableAssociation:
     Type:                                         AWS::EC2::SubnetRouteTableAssociation
     Properties:
-        SubnetId:                                 !Ref BlockchainWorkshopPublicSubnet
-        RouteTableId:                             !Ref BlockchainWorkshopRouteTable
+        SubnetId:                                 !Ref SitigridExamplePublicSubnet
+        RouteTableId:                             !Ref SitigridExampleRouteTable
  
-  BlockchainWorkshopVPCEndpoint:
+  SitigridExampleVPCEndpoint:
     Type:                                         AWS::EC2::VPCEndpoint
     Properties:
-        VpcId:                                    !Ref BlockchainWorkshopVPC
+        VpcId:                                    !Ref SitigridExampleVPC
         PrivateDnsEnabled:                        True
         ServiceName:                              !Ref BlockchainVpcEndpointServiceName
         VpcEndpointType:                          Interface
-        SubnetIds:                                [!Ref BlockchainWorkshopPublicSubnet]
-        SecurityGroupIds:                         [!Ref BlockchainWorkshopSecurityGroupBase]
+        SubnetIds:                                [!Ref SitigridExamplePublicSubnet]
+        SecurityGroupIds:                         [!Ref SitigridExampleSecurityGroupBase]
  
-  BlockchainWorkshopEC2:
+  SitigridExampleEC2:
     Type:                                         AWS::EC2::Instance
     Properties:
         KeyName:                                  !Ref KeyName
         ImageId:                                  'ami-0434d5878c6ad6d4c'
         InstanceType:                             't2.small'
-        IamInstanceProfile:                       !Ref BlockchainWorkshopRootInstanceProfile
+        IamInstanceProfile:                       !Ref SitigridExampleRootInstanceProfile
         NetworkInterfaces:
         - AssociatePublicIpAddress:               true
           DeviceIndex:                            0
-          GroupSet:                               [!Ref BlockchainWorkshopSecurityGroupBase]
-          SubnetId:                               !Ref BlockchainWorkshopPublicSubnet
+          GroupSet:                               [!Ref SitigridExampleSecurityGroupBase]
+          SubnetId:                               !Ref SitigridExamplePublicSubnet
         Tags:
           - Key:                                  Name
-            Value:                                ManagedBlockchainWorkshopEC2ClientInstance
+            Value:                                ManagedSitigridExampleEC2ClientInstance
  
-  BlockchainWorkshopELB:
+  SitigridExampleELB:
     Type:                                         AWS::ElasticLoadBalancing::LoadBalancer
     Properties:
-      SecurityGroups:                             [!Ref BlockchainWorkshopSecurityGroupBase]
-      Subnets:                                    [!Ref BlockchainWorkshopPublicSubnet]
+      SecurityGroups:                             [!Ref SitigridExampleSecurityGroupBase]
+      Subnets:                                    [!Ref SitigridExamplePublicSubnet]
       Instances:
-        - !Ref                                    BlockchainWorkshopEC2
+        - !Ref                                    SitigridExampleEC2
       Listeners:
         - LoadBalancerPort:                       '80'
           InstancePort:                           '3000'
@@ -195,24 +195,24 @@ Outputs:
   VPCID:
     Description:                                  VPC ID
     Value:
-      !Ref                                        BlockchainWorkshopVPC
+      !Ref                                        SitigridExampleVPC
   PublicSubnetID:
     Description:                                  Public Subnet ID
     Value:
-      !Ref                                        BlockchainWorkshopPublicSubnet
+      !Ref                                        SitigridExamplePublicSubnet
   SecurityGroupID:
     Description:                                  Security Group ID
     Value:
-      !GetAtt                                     BlockchainWorkshopSecurityGroupBase.GroupId
+      !GetAtt                                     SitigridExampleSecurityGroupBase.GroupId
   EC2URL:
     Description:                                  Public DNS of the EC2 instance
     Value:
-      !GetAtt                                     BlockchainWorkshopEC2.PublicDnsName
+      !GetAtt                                     SitigridExampleEC2.PublicDnsName
   ELBDNS:
     Description:                                  Public DNS of the ELB
     Value:
-      !GetAtt                                     BlockchainWorkshopELB.DNSName
+      !GetAtt                                     SitigridExampleELB.DNSName
   BlockchainVPCEndpoint:
     Description:                                  VPC Endpoint ID
     Value:
-      !Ref                                        BlockchainWorkshopVPCEndpoint
+      !Ref                                        SitigridExampleVPCEndpoint
