@@ -76,7 +76,7 @@ then execute all the commands in your terminal window:
 If installing on Mac:
 
 ```
-cd ~/Documents/apps/sitigrid-blockchain/sitigrid-chaincode
+cd ~/Documents/apps/sitigrid-blockchain-poc/sitigrid-chaincode
 REPODIR=/Users/edgema/Documents/apps/fabric-samples
 rm $REPODIR/chaincode/ngo/*
 mkdir -p $REPODIR/chaincode/ngo
@@ -87,7 +87,7 @@ cp src/ngo.js $REPODIR/chaincode/ngo
 If installing on an EC2 instance:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-chaincode
+cd ~/sitigrid-blockchain-poc/sitigrid-chaincode
 REPODIR=/home/ubuntu/fabric-samples
 rm $REPODIR/chaincode/ngo/*
 mkdir -p $REPODIR/chaincode/ngo

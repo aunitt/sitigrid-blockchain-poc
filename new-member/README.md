@@ -58,7 +58,7 @@ You should have already cloned this repo in [Part 1](../sitigrid-fabric/README.m
 
 ```
 cd ~
-git clone https://github.com/aunitt/sitigrid-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain-poc.git
 ```
 
 You will need to set the context before carrying out any Fabric CLI commands. We do this 
@@ -70,7 +70,7 @@ will print out the values of the key ENV variables. Make sure they are all popul
 they are not, follow Step 4 in [Part 1](../sitigrid-fabric/README.md) to repopulate them:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 source fabric-exports.sh
 ```
 
@@ -97,7 +97,7 @@ In the Cloud9 console, click 'Create Environment'. Using 'us-east-1' for the reg
 
 ```
 cd ~
-git clone https://github.com/aunitt/sitigrid-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain-poc.git
 ```
 
 Update your AWS CLI to the latest version.
@@ -157,7 +157,7 @@ will check whether the keypair exists before creating it. I don't want to overwr
 keypairs you have, so just ignore this error and let the script continue:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./vpc-client-node.sh
 ```
 
@@ -187,13 +187,13 @@ Clone the repo:
 
 ```
 cd ~
-git clone https://github.com/aunitt/sitigrid-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain-poc.git
 ```
 
 Create the file that includes the ENV export values that define your Fabric network configuration.
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 cp templates/exports-template.sh fabric-exports.sh
 vi fabric-exports.sh
 ```
@@ -206,7 +206,7 @@ Source the file, so the exports are applied to your current session. If you exit
 session and re-connect, you'll need to source the file again.
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 source fabric-exports.sh
 ```
 
@@ -559,7 +559,7 @@ ls -lt /home/ec2-user/fabric-samples/chaincode/hyperledger/fabric/peer
 We will use a bash script to create an updated channel config since the process involves quite a few steps. We need to execute the bash script in the CLI container, so we copy it to the home directory on the Fabric client node, as this is mounted into the CLI container.
 
 ```
-cd ~/sitigrid-blockchain/new-member
+cd ~/sitigrid-blockchain-poc/new-member
 cp create-config-update.sh ~
 ```
 

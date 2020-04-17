@@ -55,7 +55,7 @@ nvm use lts/carbon
 ## Step 2 - Install dependencies
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-ui
+cd ~/sitigrid-blockchain-poc/sitigrid-ui
 npm i
 ```
 
@@ -76,7 +76,7 @@ sed -i "s|__ELBURL__|$ELBURL|g" src/environments/environment.ts
 ## Step 4 - Start the application
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-ui
+cd ~/sitigrid-blockchain-poc/sitigrid-ui
 nvm use lts/carbon
 npm start &
 ```
@@ -143,14 +143,14 @@ npm install pm2 -g
 For Cloud9:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-ui
+cd ~/sitigrid-blockchain-poc/sitigrid-ui
 pm2 start npm -- start
 ```
 
 For the Fabric client node:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-rest-api
+cd ~/sitigrid-blockchain-poc/sitigrid-rest-api
 pm2 start app.js
 ```
 

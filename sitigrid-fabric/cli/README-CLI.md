@@ -30,14 +30,14 @@ You may need to edit this file and add in the `NETWORKID` and `NETWORKMEMBERID`,
 already created the Fabric network.
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 vi 0-exports.sh
 ```
 
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 source ./0-exports.sh
 ```
 
@@ -47,7 +47,7 @@ Create the Fabric network.
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./1-fabric-network.sh
 ```
 
@@ -59,7 +59,7 @@ pointing to the Fabric network you created in [Part 1](../sitigrid-fabric/README
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./2-vpc-client-node.sh
 ```
 
@@ -85,7 +85,7 @@ git clone https://github.com/aunitt/sitigrid-blockchain.git
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./3a-client-node-setup.sh
 ```
 
@@ -94,7 +94,7 @@ Now exit your SSH session and reconnect.
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./3b-client-node-setup.sh
 ```
 
@@ -108,7 +108,7 @@ Create the Fabric peer.
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./4-fabric-peer.sh
 ```
 
@@ -146,7 +146,7 @@ In the Fabric client node.
 SSH into the client node. Edit the peer export file:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 vi peer-exports.sh
 ```
 
@@ -161,6 +161,6 @@ Generate the configtx channel configuration
 Execute the following script:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./5-configtx.sh
 ```

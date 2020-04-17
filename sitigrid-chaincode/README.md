@@ -31,7 +31,7 @@ will print out the values of the key ENV variables. Make sure they are all popul
 they are not, follow Step 4 in [Part 1](../sitigrid-fabric/README.md) to repopulate them.
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 source fabric-exports.sh
 source ~/peer-exports.sh 
 ```
@@ -53,7 +53,7 @@ chaincode into this folder will make it accessible inside the Fabric CLI contain
 ```
 cd ~
 mkdir -p ./fabric-samples/chaincode/ngo
-cp ./sitigrid-blockchain/sitigrid-chaincode/src/* ./fabric-samples/chaincode/ngo
+cp ./sitigrid-blockchain-poc/sitigrid-chaincode/src/* ./fabric-samples/chaincode/ngo
 ```
 
 ## Step 2 - Install the chaincode on your peer

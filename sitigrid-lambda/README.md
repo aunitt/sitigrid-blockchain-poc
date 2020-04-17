@@ -27,7 +27,7 @@ will print out the values of the key ENV variables. Make sure they are all popul
 they are not, follow Step 4 in [Part 1](../sitigrid-fabric/README.md) to repopulate them:
 
 ```
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 source fabric-exports.sh
 source ~/peer-exports.sh 
 ```
@@ -60,7 +60,7 @@ export FABRICUSERPASSWORD=Welcome123
 Execute this script to register and enroll the Fabric user, and upload the credentials to AWS Secrets Manager.
 
 ```
-~/sitigrid-blockchain/sitigrid-lambda/createFabricUser.sh
+~/sitigrid-blockchain-poc/sitigrid-lambda/createFabricUser.sh
 ```
 
 ## Step 2 - Deploy the Lambda function and API Gateway
@@ -74,7 +74,7 @@ Execute the following commands to create the Lambda function, VPC Endpoint and t
 ```
 export BUCKETNAME=`echo "sitigrid-fabric-lambda-$(date +%N)" | tr '[:upper:]' '[:lower:]'`
 export LAMBDANAME=`echo "$NETWORKNAME-fabric-lambda" | tr '[:upper:]' '[:lower:]'`
-~/sitigrid-blockchain/sitigrid-lambda/createLambda.sh
+~/sitigrid-blockchain-poc/sitigrid-lambda/createLambda.sh
 ```
 
 If this is successful you should see a message indicating:

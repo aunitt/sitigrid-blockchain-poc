@@ -21,7 +21,7 @@ In the Cloud9 console, click 'Create Environment'. Using 'us-east-1' for the reg
 
 ```
 cd ~
-git clone https://github.com/aunitt/sitigrid-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain-poc.git
 ```
 
 Update your AWS CLI to the latest version.
@@ -38,7 +38,7 @@ In your Cloud9 terminal window:
 ```
 export REGION=us-east-1
 export STACKNAME=sitigrid-amb
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./amb.sh
 ```
 
@@ -79,7 +79,7 @@ In Cloud9:
 
 ```
 export REGION=us-east-1
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ./vpc-client-node.sh
 ```
 
@@ -119,7 +119,7 @@ to your current session. If you exit the SSH session and re-connect, you'll need
 
 ```
 export REGION=us-east-1
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 cp templates/exports-template.sh fabric-exports.sh
 source fabric-exports.sh
 source ~/peer-exports.sh 
@@ -167,7 +167,7 @@ Some final copying of the certificates is necessary:
 ```
 mkdir -p /home/ec2-user/admin-msp/admincerts
 cp ~/admin-msp/signcerts/* ~/admin-msp/admincerts/
-cd ~/sitigrid-blockchain/sitigrid-fabric
+cd ~/sitigrid-blockchain-poc/sitigrid-fabric
 ```
 
 ## Step 5 - Update the configtx channel configuration
@@ -176,7 +176,7 @@ On the Fabric client node.
 Update the configtx channel configuration. The Name and ID fields should be updated with the member ID from Managed Blockchain.
 
 ```
-cp ~/sitigrid-blockchain/sitigrid-fabric/configtx.yaml ~
+cp ~/sitigrid-blockchain-poc/sitigrid-fabric/configtx.yaml ~
 sed -i "s|__MEMBERID__|$MEMBERID|g" ~/configtx.yaml
 ```
 
