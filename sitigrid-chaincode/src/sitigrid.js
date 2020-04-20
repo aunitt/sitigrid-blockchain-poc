@@ -626,10 +626,10 @@ let Chaincode = class {
       throw new Error('##### createDonation - Cannot create donation as the NGO does not exist: ' + json['ngoRegistrationNumber']);
     }
 
-    // Confirm the donor exists
-    let donorKey = 'donor' + json['userName'];
-    let donorQuery = await stub.getState(donorKey);
-    if (!donorQuery.toString()) {
+    // Confirm the user exists
+    let userKey = 'user' + json['userName'];
+    let userQuery = await stub.getState(userKey);
+    if (!userQuery.toString()) {
       throw new Error('##### createDonation - Cannot create donation as the Donor does not exist: ' + json['userName']);
     }
 
