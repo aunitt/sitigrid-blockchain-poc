@@ -126,35 +126,6 @@ echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/1103 -H 'content-type: application/json'
 
 echo '---------------------------------------'
-echo Rating
-echo '---------------------------------------'
-echo 'Create Rating'
-echo
-RATING1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ratings -H 'content-type: application/json' -d '{ 
-   "userName": "'"${DONOR1}"'", 
-   "ngoRegistrationNumber": "1103", 
-   "rating": 4
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-RATING2=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ratings -H 'content-type: application/json' -d '{ 
-   "userName": "'"${DONOR2}"'", 
-   "ngoRegistrationNumber": "1101", 
-   "rating": 5
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-RATING3=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ratings -H 'content-type: application/json' -d '{ 
-   "userName": "'"${DONOR2}"'", 
-   "ngoRegistrationNumber": "1105", 
-   "rating": 3
-}')
-echo "Transaction ID is $TRX_ID"
-
-echo '---------------------------------------'
 echo Donors
 echo '---------------------------------------'
 echo 'Create Donor'

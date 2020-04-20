@@ -137,43 +137,6 @@ if $ret ; then
 else
         echo -e ${RED} ERROR - test case failed - query specific ngo does not match expected result. Result is: $response ${RESTORE}
 fi
-echo '---------------------------------------'
-echo Rating
-echo '---------------------------------------'
-echo 'Create Rating'
-echo
-RATING1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ratings -H 'content-type: application/json' -d '{ 
-   "userName": "'"${DONOR1}"'", 
-   "ngoRegistrationNumber": "'"${Sitigrid2}"'", 
-   "rating": 1
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-RATING2=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ratings -H 'content-type: application/json' -d '{ 
-   "userName": "'"${DONOR2}"'", 
-   "ngoRegistrationNumber": "'"${Sitigrid2}"'", 
-   "rating": 3
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-echo 'Query specific ratings'
-echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/ratings/${Sitigrid2}/${DONOR1}/ -H 'content-type: application/json'
-echo
-echo 'Query ratings for an Sitigrid'
-echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${Sitigrid2}/ratings -H 'content-type: application/json')
-echo $response
-echo
-ret=$(echo $response | jq '.[].docType' | jq 'contains("rating")')
-echo $ret
-if $ret ; then
-        echo test case passed
-else
-        echo -e ${RED} ERROR - test case failed - query specific rating does not match expected result. Result is: $response ${RESTORE}
-fi
 echo
 echo '---------------------------------------'
 echo Donation
@@ -313,38 +276,6 @@ if $ret ; then
 else
         echo -e ${RED} ERROR - test case failed - query specific spend does not match expected result. Result is: $response ${RESTORE}
 fi
-echo
-echo 'Query SpendAllocations by donation'
-echo
-echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/donations/${DONATION1}/spendallocations -H 'content-type: application/json')
-echo $response
-echo
-ret=$(echo $response | jq '.[].docType' | jq 'contains("spendAllocation")')
-echo $ret
-if $ret ; then
-        echo test case passed
-else
-        echo -e ${RED} ERROR - test case failed - query specific spendallocation does not match expected result. Result is: $response ${RESTORE}
-fi
-echo
-echo 'Query SpendAllocations by spend'
-echo
-echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/spend/${SPENDID}/spendallocations -H 'content-type: application/json')
-echo $response
-echo
-ret=$(echo $response | jq '.[].docType' | jq 'contains("spendAllocation")')
-echo $ret
-if $ret ; then
-        echo test case passed
-else
-        echo -e ${RED} ERROR - test case failed - query specific spendallocation does not match expected result. Result is: $response ${RESTORE}
-fi
-echo
-echo 'Query all SpendAllocations'
-echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/spendallocations -H 'content-type: application/json'
 echo
 echo 'Send a mixture of donations and spends'
 echo
