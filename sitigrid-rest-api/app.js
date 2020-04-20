@@ -218,116 +218,116 @@ app.post('/donors', awaitHandler(async (req, res) => {
 }));
 
 /************************************************************************************
- * Sitigrid methods
+ * NGO methods
  ************************************************************************************/
 
-// GET Sitigrid
+// GET NGO
 app.get('/ngos', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Sitigrid');
+	logger.info('================ GET on NGO');
 	let args = {};
-	let fcn = "queryAllSitigrids";
+	let fcn = "queryAllNGOs";
 
-    logger.info('##### GET on Sitigrid - username : ' + username);
-	logger.info('##### GET on Sitigrid - userOrg : ' + orgName);
-	logger.info('##### GET on Sitigrid - channelName : ' + channelName);
-	logger.info('##### GET on Sitigrid - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Sitigrid - fcn : ' + fcn);
-	logger.info('##### GET on Sitigrid - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Sitigrid - peers : ' + peers);
+    logger.info('##### GET on NGO - username : ' + username);
+	logger.info('##### GET on NGO - userOrg : ' + orgName);
+	logger.info('##### GET on NGO - channelName : ' + channelName);
+	logger.info('##### GET on NGO - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on NGO - fcn : ' + fcn);
+	logger.info('##### GET on NGO - args : ' + JSON.stringify(args));
+	logger.info('##### GET on NGO - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET a specific Sitigrid
+// GET a specific NGO
 app.get('/ngos/:ngoRegistrationNumber', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Sitigrid by ID');
-	logger.info('Sitigrid ngoRegistrationNumber : ' + req.params);
+	logger.info('================ GET on NGO by ID');
+	logger.info('NGO ngoRegistrationNumber : ' + req.params);
 	let args = req.params;
-	let fcn = "querySitigrid";
+	let fcn = "queryNGO";
 
-    logger.info('##### GET on Sitigrid - username : ' + username);
-	logger.info('##### GET on Sitigrid - userOrg : ' + orgName);
-	logger.info('##### GET on Sitigrid - channelName : ' + channelName);
-	logger.info('##### GET on Sitigrid - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Sitigrid - fcn : ' + fcn);
-	logger.info('##### GET on Sitigrid - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Sitigrid - peers : ' + peers);
+    logger.info('##### GET on NGO - username : ' + username);
+	logger.info('##### GET on NGO - userOrg : ' + orgName);
+	logger.info('##### GET on NGO - channelName : ' + channelName);
+	logger.info('##### GET on NGO - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on NGO - fcn : ' + fcn);
+	logger.info('##### GET on NGO - args : ' + JSON.stringify(args));
+	logger.info('##### GET on NGO - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET the Donations for a specific Sitigrid
+// GET the Donations for a specific NGO
 app.get('/ngos/:ngoRegistrationNumber/donations', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Donations for Sitigrid');
-	logger.info('Sitigrid ngoRegistrationNumber : ' + req.params);
+	logger.info('================ GET on Donations for NGO');
+	logger.info('NGO ngoRegistrationNumber : ' + req.params);
 	let args = req.params;
-	let fcn = "queryDonationsForSitigrid";
+	let fcn = "queryDonationsForNGO";
 
-    logger.info('##### GET on Donations for Sitigrid - username : ' + username);
-	logger.info('##### GET on Donations for Sitigrid - userOrg : ' + orgName);
-	logger.info('##### GET on Donations for Sitigrid - channelName : ' + channelName);
-	logger.info('##### GET on Donations for Sitigrid - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Donations for Sitigrid - fcn : ' + fcn);
-	logger.info('##### GET on Donations for Sitigrid - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Donations for Sitigrid - peers : ' + peers);
+    logger.info('##### GET on Donations for NGO - username : ' + username);
+	logger.info('##### GET on Donations for NGO - userOrg : ' + orgName);
+	logger.info('##### GET on Donations for NGO - channelName : ' + channelName);
+	logger.info('##### GET on Donations for NGO - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on Donations for NGO - fcn : ' + fcn);
+	logger.info('##### GET on Donations for NGO - args : ' + JSON.stringify(args));
+	logger.info('##### GET on Donations for NGO - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET the Spend for a specific Sitigrid
+// GET the Spend for a specific NGO
 app.get('/ngos/:ngoRegistrationNumber/spend', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Spend for Sitigrid');
-	logger.info('Sitigrid ngoRegistrationNumber : ' + req.params);
+	logger.info('================ GET on Spend for NGO');
+	logger.info('NGO ngoRegistrationNumber : ' + req.params);
 	let args = req.params;
-	let fcn = "querySpendForSitigrid";
+	let fcn = "querySpendForNGO";
 
-    logger.info('##### GET on Spend for Sitigrid - username : ' + username);
-	logger.info('##### GET on Spend for Sitigrid - userOrg : ' + orgName);
-	logger.info('##### GET on Spend for Sitigrid - channelName : ' + channelName);
-	logger.info('##### GET on Spend for Sitigrid - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Spend for Sitigrid - fcn : ' + fcn);
-	logger.info('##### GET on Spend for Sitigrid - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Spend for Sitigrid - peers : ' + peers);
+    logger.info('##### GET on Spend for NGO - username : ' + username);
+	logger.info('##### GET on Spend for NGO - userOrg : ' + orgName);
+	logger.info('##### GET on Spend for NGO - channelName : ' + channelName);
+	logger.info('##### GET on Spend for NGO - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on Spend for NGO - fcn : ' + fcn);
+	logger.info('##### GET on Spend for NGO - args : ' + JSON.stringify(args));
+	logger.info('##### GET on Spend for NGO - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET the Ratings for a specific Sitigrid
+// GET the Ratings for a specific NGO
 app.get('/ngos/:ngoRegistrationNumber/ratings', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Ratings for Sitigrid');
-	logger.info('Sitigrid ngoRegistrationNumber : ' + req.params);
+	logger.info('================ GET on Ratings for NGO');
+	logger.info('NGO ngoRegistrationNumber : ' + req.params);
 	let args = req.params;
-	let fcn = "queryRatingsForSitigrid";
+	let fcn = "queryRatingsForNGO";
 
-    logger.info('##### GET on Ratings for Sitigrid - username : ' + username);
-	logger.info('##### GET on Ratings for Sitigrid - userOrg : ' + orgName);
-	logger.info('##### GET on Ratings for Sitigrid - channelName : ' + channelName);
-	logger.info('##### GET on Ratings for Sitigrid - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Ratings for Sitigrid - fcn : ' + fcn);
-	logger.info('##### GET on Ratings for Sitigrid - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Ratings for Sitigrid - peers : ' + peers);
+    logger.info('##### GET on Ratings for NGO - username : ' + username);
+	logger.info('##### GET on Ratings for NGO - userOrg : ' + orgName);
+	logger.info('##### GET on Ratings for NGO - channelName : ' + channelName);
+	logger.info('##### GET on Ratings for NGO - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on Ratings for NGO - fcn : ' + fcn);
+	logger.info('##### GET on Ratings for NGO - args : ' + JSON.stringify(args));
+	logger.info('##### GET on Ratings for NGO - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// POST Sitigrid
+// POST NGO
 app.post('/ngos', awaitHandler(async (req, res) => {
-	logger.info('================ POST on Sitigrid');
+	logger.info('================ POST on NGO');
 	var args = req.body;
-	var fcn = "createSitigrid";
+	var fcn = "createNGO";
 
-    logger.info('##### POST on Sitigrid - username : ' + username);
-	logger.info('##### POST on Sitigrid - userOrg : ' + orgName);
-	logger.info('##### POST on Sitigrid - channelName : ' + channelName);
-	logger.info('##### POST on Sitigrid - chaincodeName : ' + chaincodeName);
-	logger.info('##### POST on Sitigrid - fcn : ' + fcn);
-	logger.info('##### POST on Sitigrid - args : ' + JSON.stringify(args));
-	logger.info('##### POST on Sitigrid - peers : ' + peers);
+    logger.info('##### POST on NGO - username : ' + username);
+	logger.info('##### POST on NGO - userOrg : ' + orgName);
+	logger.info('##### POST on NGO - channelName : ' + channelName);
+	logger.info('##### POST on NGO - chaincodeName : ' + chaincodeName);
+	logger.info('##### POST on NGO - fcn : ' + fcn);
+	logger.info('##### POST on NGO - args : ' + JSON.stringify(args));
+	logger.info('##### POST on NGO - peers : ' + peers);
 
 	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
 	res.send(message);
@@ -539,7 +539,7 @@ app.get('/ratings/:ngoRegistrationNumber/:donorUserName', awaitHandler(async (re
 	logger.info('================ GET on Rating by ID');
 	logger.info('Rating ID : ' + util.inspect(req.params));
 	let args = req.params;
-	let fcn = "queryDonorRatingsForSitigrid";
+	let fcn = "queryDonorRatingsForNGO";
 
     logger.info('##### GET on Rating - username : ' + username);
 	logger.info('##### GET on Rating - userOrg : ' + orgName);
@@ -580,7 +580,7 @@ app.get('/blockinfos/:docType/keys/:key', awaitHandler(async (req, res) => {
 
 
 /************************************************************************************
- * Utility function for creating dummy spend records. Mimics the behaviour of an Sitigrid
+ * Utility function for creating dummy spend records. Mimics the behaviour of an NGO
  * spending funds, which are allocated against donations
  ************************************************************************************/
 
@@ -615,7 +615,7 @@ async function dummySpend() {
 	let ngo = message[ran]['ngoRegistrationNumber'];
 	logger.info('##### dummySpend - randomly selected ngo: ' + ngo);
 
-	// then we create a spend record for the Sitigrid that received the donation
+	// then we create a spend record for the NGO that received the donation
 	fcn = "createSpend";
 	let spendId = uuidv4();
 	let spendAmt = Math.floor(Math.random() * 100) + 1;
