@@ -58,7 +58,7 @@ export class NgoService {
     return this.apiService.put(path, rating);
   }
 
-  createDonorSitigridRating(userRating, Donor_name, ngo_id) {
+  createUserSitigridRating(userRating, Donor_name, ngo_id) {
     const rating = new Rating().set(userRating, Donor_name, ngo_id);
     const path = `ratings`;
     return this.apiService.post(path, rating);

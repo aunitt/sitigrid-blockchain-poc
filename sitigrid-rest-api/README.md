@@ -132,7 +132,7 @@ response:
 request:
 ```
 curl -s -X POST "http://localhost:3000/donors" -H "content-type: application/json" -d '{ 
-   "donorUserName": "edge2", 
+   "userName": "edge2", 
    "email": "edge2@def.com", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
 }'
@@ -155,7 +155,7 @@ curl -s -X GET   "http://localhost:3000/donors" -H "content-type: application/js
 response:
 ```
 [
-    {"docType":"donor","donorUserName":"edge","email":"edge@def.com","registeredDate":"2018-10-22T11:52:20.182Z"}
+    {"docType":"donor","userName":"edge","email":"edge@def.com","registeredDate":"2018-10-22T11:52:20.182Z"}
 ]
 ```
 ## Step 6 - Load the workshop test data

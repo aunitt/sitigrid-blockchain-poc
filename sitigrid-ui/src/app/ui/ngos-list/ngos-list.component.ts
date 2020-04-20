@@ -64,7 +64,7 @@ export class NgosListComponent implements OnInit {
       (data: any) => {
         const currentDonor = SessionService.getUser().name;
         this.selectedSitigrid.ngo_user_rating = data.rating;
-        this.ngoService.createDonorSitigridRating(data.rating, currentDonor, this.selectedSitigrid.ngo_reg_no).subscribe(
+        this.ngoService.createUserSitigridRating(data.rating, currentDonor, this.selectedSitigrid.ngo_reg_no).subscribe(
           resp => { }
         );
       });
@@ -106,10 +106,10 @@ export class NgosListComponent implements OnInit {
       for (const i in ngo_data) {
         if (ngo_data[i]) {
           ngo_total_donation = ngo_total_donation + ngo_data[i].donationAmount;
-          if (!ngo_total_donors_set.has(ngo_data[i].donorUserName)) {
-            ngo_total_donors_set.add(ngo_data[i].donorUserName);
+          if (!ngo_total_donors_set.has(ngo_data[i].userName)) {
+            ngo_total_donors_set.add(ngo_data[i].userName);
           }
-          const donor_name = ngo_data[i].donorUserName;
+          const donor_name = ngo_data[i].userName;
           if (!ngo_donors_amounts.has(donor_name)) {
             ngo_donors_amounts.set(donor_name, ngo_data[i].donationAmount);
           } else {
@@ -157,7 +157,7 @@ export class NgosListComponent implements OnInit {
         for (const i in data) {
           if (data[i]) {
             rating = rating + data[i].rating;
-            if (SessionService.getUser().name === data[i].donorUserName) {
+            if (SessionService.getUser().name === data[i].userName) {
               ngo.ngo_user_rating = data[i].rating;
             }
           }

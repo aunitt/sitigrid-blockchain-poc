@@ -162,7 +162,7 @@ app.get('/donors', awaitHandler(async (req, res) => {
 }));
 
 // GET a specific Donor
-app.get('/donors/:donorUserName', awaitHandler(async (req, res) => {
+app.get('/donors/:userName', awaitHandler(async (req, res) => {
 	logger.info('================ GET on Donor by ID');
 	logger.info('Donor username : ' + req.params);
 	let args = req.params;
@@ -181,7 +181,7 @@ app.get('/donors/:donorUserName', awaitHandler(async (req, res) => {
 }));
 
 // GET the Donations for a specific Donor
-app.get('/donors/:donorUserName/donations', awaitHandler(async (req, res) => {
+app.get('/donors/:userName/donations', awaitHandler(async (req, res) => {
 	logger.info('================ GET on Donations for Donor');
 	logger.info('Donor username : ' + req.params);
 	let args = req.params;
@@ -203,7 +203,7 @@ app.get('/donors/:donorUserName/donations', awaitHandler(async (req, res) => {
 app.post('/donors', awaitHandler(async (req, res) => {
 	logger.info('================ POST on Donor');
 	var args = req.body;
-	var fcn = "createDonor";
+	var fcn = "createUser";
 
     logger.info('##### POST on Donor - username : ' + username);
 	logger.info('##### POST on Donor - userOrg : ' + orgName);
@@ -535,7 +535,7 @@ app.post('/ratings', awaitHandler(async (req, res) => {
 }));
 
 // GET a specific Rating
-app.get('/ratings/:ngoRegistrationNumber/:donorUserName', awaitHandler(async (req, res) => {
+app.get('/ratings/:ngoRegistrationNumber/:userName', awaitHandler(async (req, res) => {
 	logger.info('================ GET on Rating by ID');
 	logger.info('Rating ID : ' + util.inspect(req.params));
 	let args = req.params;

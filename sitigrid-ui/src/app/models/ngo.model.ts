@@ -47,7 +47,7 @@ class Ngo {
 class Rating {
     ratingId: string = null;
     rating = 0;
-    donorUserName: string = null;
+    userName: string = null;
     ngoRegistrationNumber: string = null;
     ratingDate = new Date();
     transactionId: string = null;
@@ -57,7 +57,7 @@ class Rating {
     }
 
     set(rating: number, donor: string, ngo: string) {
-        this.donorUserName = `${donor}`;
+        this.userName = `${donor}`;
         this.ngoRegistrationNumber = `${ngo}`;
         this.rating = rating;
         this.ratingId = uuid.v4();

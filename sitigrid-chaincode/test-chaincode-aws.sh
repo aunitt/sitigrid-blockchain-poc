@@ -23,12 +23,12 @@ echo Add Donors
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createDonor","{\"donorUserName\": \"edge\", \"email\": \"edge@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
+-c '{"Args":["createUser","{\"userName\": \"edge\", \"email\": \"edge@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createDonor","{\"donorUserName\": \"braendle\", \"email\": \"braendle@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
+-c '{"Args":["createUser","{\"userName\": \"braendle\", \"email\": \"braendle@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
 
 echo Add Sitigrids
 
@@ -48,27 +48,27 @@ echo Add Donation
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" 
 \ -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" 
 \ cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME 
-\ -c '{"Args":["createDonation","{\"donationId\": \"2211\", \"donationAmount\": 100, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"donorUserName\": \"edge\", \"ngoRegistrationNumber\": \"6322\"}"]}'
+\ -c '{"Args":["createDonation","{\"donationId\": \"2211\", \"donationAmount\": 100, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"userName\": \"edge\", \"ngoRegistrationNumber\": \"6322\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createDonation","{\"donationId\": \"2212\", \"donationAmount\": 733, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"donorUserName\": \"braendle\", \"ngoRegistrationNumber\": \"6322\"}"]}'
+-c '{"Args":["createDonation","{\"donationId\": \"2212\", \"donationAmount\": 733, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"userName\": \"braendle\", \"ngoRegistrationNumber\": \"6322\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createDonation","{\"donationId\": \"2230\", \"donationAmount\": 450, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"donorUserName\": \"edge\", \"ngoRegistrationNumber\": \"6323\"}"]}'
+-c '{"Args":["createDonation","{\"donationId\": \"2230\", \"donationAmount\": 450, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"userName\": \"edge\", \"ngoRegistrationNumber\": \"6323\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createDonation","{\"donationId\": \"2231\", \"donationAmount\": 29, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"donorUserName\": \"braendle\", \"ngoRegistrationNumber\": \"6323\"}"]}'
+-c '{"Args":["createDonation","{\"donationId\": \"2231\", \"donationAmount\": 29, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"userName\": \"braendle\", \"ngoRegistrationNumber\": \"6323\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createDonation","{\"donationId\": \"2232\", \"donationAmount\": 98, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"donorUserName\": \"braendle\", \"ngoRegistrationNumber\": \"6323\"}"]}'
+-c '{"Args":["createDonation","{\"donationId\": \"2232\", \"donationAmount\": 98, \"donationDate\": \"2018-09-20T12:41:59.582Z\", \"userName\": \"braendle\", \"ngoRegistrationNumber\": \"6323\"}"]}'
 
 echo Add Spend
 
@@ -107,7 +107,7 @@ echo Query specific donor
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryDonor","{\"donorUserName\": \"edge\"}"]}'
+cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryDonor","{\"userName\": \"edge\"}"]}'
 
 echo Query all Sitigrids
 

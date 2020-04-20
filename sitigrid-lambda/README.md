@@ -92,15 +92,15 @@ You can test the Lambda function from the [Lambda console](https://console.aws.a
 
 To test from the cli, you will execute the commands below.  The output of each command is in the file specified in the last argument, and is displayed via `cat`.
 
-First, call the `createDonor` chaincode function to create the donor "melissa".
+First, call the `createUser` chaincode function to create the donor "melissa".
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createDonor\",\"chaincodeFunctionArgs\":{\"donorUserName\":\"melissa\",\"email\":\"melissa@melissasngo.org\"}}" --region $REGION /tmp/lambda-output-createDonor.txt
-cat /tmp/lambda-output-createDonor.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createUser\",\"chaincodeFunctionArgs\":{\"userName\":\"melissa\",\"email\":\"melissa@melissasngo.org\"}}" --region $REGION /tmp/lambda-output-createUser.txt
+cat /tmp/lambda-output-createUser.txt
 ```
 
 Next, call the `queryDonor` function to view the details of the donor we just created.
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryDonor\",\"chaincodeFunctionArgs\":{\"donorUserName\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryDonor.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryDonor\",\"chaincodeFunctionArgs\":{\"userName\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryDonor.txt
 cat /tmp/lambda-output-queryDonor.txt
 ```
 
@@ -118,11 +118,11 @@ You can test the API Gateway from the [API Gateway console](https://console.aws.
 
 To test from the cli, you will execute the commands below.  
 
-First, call the `POST /donors` endpoint which will execute the `createDonor` chaincode function to create the donor "rachel".
+First, call the `POST /donors` endpoint which will execute the `createUser` chaincode function to create the donor "rachel".
 
 ```
 export APIURL=$(aws cloudformation describe-stacks --stack-name fabric-lambda-stack --query "Stacks[0].Outputs[?OutputKey=='APIGatewayURL'].OutputValue" --output text --region $REGION)
-curl -s -X POST "$APIURL/donors" -H "content-type: application/json" -d '{"donorUserName":"rachel","email":"rachel@donor.org"}'
+curl -s -X POST "$APIURL/donors" -H "content-type: application/json" -d '{"userName":"rachel","email":"rachel@donor.org"}'
 ```
 
 Second, call the `GET /donors/{donorName}` endpoint which will execute the `queryDonor` chaincode function to query the donor "rachel".

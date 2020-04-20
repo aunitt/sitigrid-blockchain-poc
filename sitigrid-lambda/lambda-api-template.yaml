@@ -100,7 +100,7 @@ Resources:
             Path: /donors
             Method: get
             RestApiId: !Ref SitigridAPIGateway
-        CreateDonor:
+        CreateUser:
           Type: Api
           Properties:
             Path: /donors
@@ -109,7 +109,7 @@ Resources:
         GetDonor:
           Type: Api
           Properties:
-            Path: /donors/{donorUserName}
+            Path: /donors/{userName}
             Method: get
             RestApiId: !Ref SitigridAPIGateway
   SecretsManagerVPCE:
@@ -177,22 +177,22 @@ Resources:
                     statusCode: "200"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
-                    : \"createDonor\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
-                    \ = $util.parseJson($input.body) )\n      \"donorUserName\": \"$body.donorUserName\"\
+                    : \"createUser\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
+                    \ = $util.parseJson($input.body) )\n      \"userName\": \"$body.userName\"\
                     ,\n      \"email\": \"$body.email\",\n      \"registeredDate\":\"$context.requestTime\"\
                     \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
                 passthroughBehavior: "when_no_templates"
                 httpMethod: "POST"
                 contentHandling: "CONVERT_TO_TEXT"
                 type: "aws"
-          /donors/{donorUserName}:
+          /donors/{userName}:
             get:
               consumes:
               - "application/json"
               produces:
               - "application/json"
               parameters:
-              - name: "donorUserName"
+              - name: "userName"
                 in: "path"
                 required: true
                 type: "string"
@@ -209,8 +209,8 @@ Resources:
                     statusCode: "200"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-                    : \"queryDonor\",\n  \"chaincodeFunctionArgs\": {\n      \"donorUserName\"\
-                    : \"$input.params('donorUserName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
+                    : \"queryDonor\",\n  \"chaincodeFunctionArgs\": {\n      \"userName\"\
+                    : \"$input.params('userName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
                     \n}"
                 passthroughBehavior: "when_no_templates"
                 httpMethod: "POST"
