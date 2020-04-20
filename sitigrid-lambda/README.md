@@ -104,10 +104,10 @@ aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$
 cat /tmp/lambda-output-queryDonor.txt
 ```
 
-Finally, call the `queryAllDonors` function to view all the donors.
+Finally, call the `queryAllUsers` function to view all the donors.
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryAllDonors\",\"chaincodeFunctionArgs\":{}}" --region $REGION /tmp/lambda-output-queryAllDonors.txt
-cat /tmp/lambda-output-queryAllDonors.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryAllUsers\",\"chaincodeFunctionArgs\":{}}" --region $REGION /tmp/lambda-output-queryAllUsers.txt
+cat /tmp/lambda-output-queryAllUsers.txt
 ```
 
 You have deployed a Lambda function that is invoking chaincode transactions and running queries in Managed Blockchain. Next we'll test using API Gateway to call this Lambda for each of its routes.
@@ -131,7 +131,7 @@ Second, call the `GET /donors/{donorName}` endpoint which will execute the `quer
 curl -s -X GET "$APIURL/donors/rachel" 
 ```
 
-Finally, call the `GET /donors` endpoint which will execute the `queryAllDonors` chaincode function to view all the donors.
+Finally, call the `GET /donors` endpoint which will execute the `queryAllUsers` chaincode function to view all the donors.
 
 ```
 curl -s -X GET "$APIURL/donors" 

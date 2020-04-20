@@ -448,7 +448,7 @@ let Chaincode = class {
 
   /************************************************************************************************
    * 
-   * Donor functions 
+   * User functions 
    * 
    ************************************************************************************************/
 
@@ -470,7 +470,7 @@ let Chaincode = class {
     // args is passed as a JSON string
     let json = JSON.parse(args);
     let key = 'user' + json['userName'];
-    json['docType'] = 'donor';
+    json['docType'] = 'user';
 
     console.log('##### createUser payload: ' + JSON.stringify(json));
 
@@ -485,19 +485,19 @@ let Chaincode = class {
   }
 
   /**
-   * Retrieves a specfic donor
+   * Retrieves a specfic user
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryDonor(stub, args) {
-    console.log('============= START : queryDonor ===========');
-    console.log('##### queryDonor arguments: ' + JSON.stringify(args));
+  async queryUser(stub, args) {
+    console.log('============= START : queryUser ===========');
+    console.log('##### queryUser arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'donor' + json['userName'];
-    console.log('##### queryDonor key: ' + key);
+    let key = 'user' + json['userName'];
+    console.log('##### queryUser key: ' + key);
 
     return queryByKey(stub, key);
   }
@@ -508,11 +508,11 @@ let Chaincode = class {
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryAllDonors(stub, args) {
-    console.log('============= START : queryAllDonors ===========');
-    console.log('##### queryAllDonors arguments: ' + JSON.stringify(args));
+  async queryAllUsers(stub, args) {
+    console.log('============= START : queryAllUsers ===========');
+    console.log('##### queryAllUsers arguments: ' + JSON.stringify(args));
  
-    let queryString = '{"selector": {"docType": "donor"}}';
+    let queryString = '{"selector": {"docType": "user"}}';
     return queryByString(stub, queryString);
   }
 

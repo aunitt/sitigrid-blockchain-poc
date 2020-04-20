@@ -110,7 +110,7 @@ Query all donors
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllDonors"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllUsers"]}'
 ```
 
 Expected response:
@@ -142,14 +142,14 @@ Query all donors
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllDonors"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllUsers"]}'
 ```
 
 Query a specific donor
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryDonor","{\"userName\": \"edge\"}"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryUser","{\"userName\": \"edge\"}"]}'
 ```
 
 ## Move on to Part 3

@@ -153,7 +153,7 @@ Resources:
                     statusCode: "200"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-                    : \"queryAllDonors\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+                    : \"queryAllUsers\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
                     : \"lambdaUser\"\n}"
                 passthroughBehavior: "when_no_templates"
                 httpMethod: "POST"

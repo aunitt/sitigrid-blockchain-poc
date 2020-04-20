@@ -101,13 +101,13 @@ echo Query all donors
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryAllDonors"]}'
+cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryAllUsers"]}'
 
 echo Query specific donor
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryDonor","{\"userName\": \"edge\"}"]}'
+cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryUser","{\"userName\": \"edge\"}"]}'
 
 echo Query all Sitigrids
 

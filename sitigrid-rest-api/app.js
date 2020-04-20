@@ -147,7 +147,7 @@ app.post('/users', awaitHandler(async (req, res) => {
 app.get('/donors', awaitHandler(async (req, res) => {
 	logger.info('================ GET on Donor');
 	let args = {};
-	let fcn = "queryAllDonors";
+	let fcn = "queryAllUsers";
 
     logger.info('##### GET on Donor - username : ' + username);
 	logger.info('##### GET on Donor - userOrg : ' + orgName);
