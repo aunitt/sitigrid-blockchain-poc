@@ -106,7 +106,7 @@ instantiated once on a channel)
 
 ## Step 4 - Query the chaincode
 
-Query all donors
+Query all users
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
@@ -114,7 +114,7 @@ docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt
 ```
 
 Expected response:
-This is correct as we do not have any donors in our network yet. We'll add one in the next step.
+This is correct as we do not have any users in our network yet. We'll add one in the next step.
 
 ```
 []
@@ -122,7 +122,7 @@ This is correct as we do not have any donors in our network yet. We'll add one i
 
 ## Step 5 - Invoke a transaction
 
-Let's add a couple of donors to Fabric. Execute both of these transactions below:
+Let's add a couple of users to Fabric. Execute both of these transactions below:
 
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
@@ -138,14 +138,14 @@ docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt
 
 ## Step 6 - Query the chaincode
 
-Query all donors
+Query all users
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
     cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllUsers"]}'
 ```
 
-Query a specific donor
+Query a specific users
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
