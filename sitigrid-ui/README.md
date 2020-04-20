@@ -34,7 +34,7 @@ You should have already cloned this repo in [Part 1](../sitigrid-fabric/README.m
 
 ```
 cd ~
-git clone https://github.com/aunitt/sitigrid-blockchain.git
+git clone https://github.com/aunitt/sitigrid-blockchain-poc.git
 ```
 
 ## Step 1 - Install Node

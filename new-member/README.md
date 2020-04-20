@@ -270,14 +270,14 @@ Information will be shared via S3. Account B will copy the certs to S3, and Acco
 Update the region and member ID in the following script. The member ID is the ID of the new member in Account B:
 
 ```
-cd ~/sitigrid-blockchain
+cd ~/sitigrid-blockchain-poc
 vi new-member/s3-handler.sh 
 ```
 
 Copy the Account B public keys to S3:
 
 ```bash
-cd ~/sitigrid-blockchain
+cd ~/sitigrid-blockchain-poc
 ./new-member/s3-handler.sh createS3BucketForNewMember
 ./new-member/s3-handler.sh copyCertsToS3
 ```
@@ -291,14 +291,14 @@ Update the region and member ID in the following script. The member ID is the ID
 file should look identical to the one created in the previous step:
 
 ```
-cd ~/sitigrid-blockchain
+cd ~/sitigrid-blockchain-poc
 vi new-member/s3-handler.sh 
 ```
 
 Copy the Account B public keys from S3 to the MSP directory on the Fabric client node in Account A:
 
 ```
-cd ~/sitigrid-blockchain
+cd ~/sitigrid-blockchain-poc
 ./new-member/s3-handler.sh copyCertsFromS3
 ```
 
@@ -675,7 +675,7 @@ Before the peer node in Account B joins the channel, it must be able to connect 
 On the Fabric client node in Account A, copy the channel genesis from from Account A to S3:
 
 ```bash
-cd ~/sitigrid-blockchain
+cd ~/sitigrid-blockchain-poc
 ./new-member/s3-handler.sh createS3BucketForCreator
 ./new-member/s3-handler.sh copyChannelGenesisToS3
 ```
@@ -683,7 +683,7 @@ cd ~/sitigrid-blockchain
 On the Fabric client node in Account B.
 
 ```bash
-cd ~/sitigrid-blockchain
+cd ~/sitigrid-blockchain-poc
 ./new-member/s3-handler.sh copyChannelGenesisFromS3
 ls -l /home/ec2-user/fabric-samples/chaincode/hyperledger/fabric/peer/mychannel.block
 ```
