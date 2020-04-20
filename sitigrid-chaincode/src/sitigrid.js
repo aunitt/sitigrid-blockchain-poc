@@ -503,7 +503,7 @@ let Chaincode = class {
   }
 
   /**
-   * Retrieves all donors
+   * Retrieves all users
    * 
    * @param {*} stub 
    * @param {*} args 

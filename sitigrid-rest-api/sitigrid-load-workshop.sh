@@ -159,14 +159,14 @@ echo Donors
 echo '---------------------------------------'
 echo 'Create Donor'
 echo
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donors -H 'content-type: application/json' -d '{ 
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json' -d '{ 
    "userName": "jane", 
    "email": "jane@abc.com", 
    "registeredDate": "2018-10-21T09:52:20.182Z" 
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donors -H 'content-type: application/json' -d '{ 
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json' -d '{ 
    "userName": "louisa", 
    "email": "louisa@hij.com", 
    "registeredDate": "2018-11-18T05:32:20.182Z" 
@@ -175,7 +175,7 @@ echo "Transaction ID is $TRX_ID"
 
 echo 'Query all donors'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/donors -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json'
 
 echo '---------------------------------------'
 echo Donation

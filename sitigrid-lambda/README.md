@@ -118,23 +118,23 @@ You can test the API Gateway from the [API Gateway console](https://console.aws.
 
 To test from the cli, you will execute the commands below.  
 
-First, call the `POST /donors` endpoint which will execute the `createUser` chaincode function to create the donor "rachel".
+First, call the `POST /users` endpoint which will execute the `createUser` chaincode function to create the donor "rachel".
 
 ```
 export APIURL=$(aws cloudformation describe-stacks --stack-name fabric-lambda-stack --query "Stacks[0].Outputs[?OutputKey=='APIGatewayURL'].OutputValue" --output text --region $REGION)
-curl -s -X POST "$APIURL/donors" -H "content-type: application/json" -d '{"userName":"rachel","email":"rachel@donor.org"}'
+curl -s -X POST "$APIURL/users" -H "content-type: application/json" -d '{"userName":"rachel","email":"rachel@donor.org"}'
 ```
 
-Second, call the `GET /donors/{donorName}` endpoint which will execute the `queryDonor` chaincode function to query the donor "rachel".
+Second, call the `GET /users/{donorName}` endpoint which will execute the `queryDonor` chaincode function to query the donor "rachel".
 
 ```
-curl -s -X GET "$APIURL/donors/rachel" 
+curl -s -X GET "$APIURL/users/rachel" 
 ```
 
-Finally, call the `GET /donors` endpoint which will execute the `queryAllUsers` chaincode function to view all the donors.
+Finally, call the `GET /users` endpoint which will execute the `queryAllUsers` chaincode function to view all the donors.
 
 ```
-curl -s -X GET "$APIURL/donors" 
+curl -s -X GET "$APIURL/users" 
 ```
 
 You now have a REST API managed by API Gateway that is invoking a Lambda function to execute transactions on the blockchain.  To expose additional chaincode functions within API Gateway, you would add API Gateway routes to support them, and continue routing to the same Lambda function.   

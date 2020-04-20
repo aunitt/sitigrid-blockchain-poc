@@ -97,19 +97,19 @@ Resources:
         GetDonors:
           Type: Api
           Properties:
-            Path: /donors
+            Path: /users
             Method: get
             RestApiId: !Ref SitigridAPIGateway
         CreateUser:
           Type: Api
           Properties:
-            Path: /donors
+            Path: /users
             Method: post
             RestApiId: !Ref SitigridAPIGateway
         GetDonor:
           Type: Api
           Properties:
-            Path: /donors/{userName}
+            Path: /users/{userName}
             Method: get
             RestApiId: !Ref SitigridAPIGateway
   SecretsManagerVPCE:
@@ -134,7 +134,7 @@ Resources:
           version: "2019-11-13T11:12:00Z"
           title: "Non Profit Blockchain"
         paths:
-          /donors:
+          /users:
             get:
               consumes:
               - "application/json"
@@ -185,7 +185,7 @@ Resources:
                 httpMethod: "POST"
                 contentHandling: "CONVERT_TO_TEXT"
                 type: "aws"
-          /donors/{userName}:
+          /users/{userName}:
             get:
               consumes:
               - "application/json"

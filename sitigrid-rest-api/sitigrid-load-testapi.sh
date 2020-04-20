@@ -60,7 +60,7 @@ echo '---------------------------------------'
 echo 'Create Donor'
 echo
 DONOR1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donors -H 'content-type: application/json' -d '{ 
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json' -d '{ 
    "userName": "'"${DONOR1}"'", 
    "email": "abc@def.com", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
@@ -68,7 +68,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donors -H 'content-type: app
 echo "Transaction ID is $TRX_ID"
 echo
 DONOR2=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donors -H 'content-type: application/json' -d '{ 
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json' -d '{ 
    "userName": "'"${DONOR2}"'", 
    "email": "abc@def.com", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
@@ -77,11 +77,11 @@ echo "Transaction ID is $TRX_ID"
 echo
 echo 'Query all donors'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/donors -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json'
 echo
 echo 'Query specific donors'
 echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/donors/${DONOR1} -H 'content-type: application/json')
+response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/users/${DONOR1} -H 'content-type: application/json')
 echo $response
 echo
 ret=$(echo $response | jq '.[].docType' | jq 'contains("donor")')
@@ -221,7 +221,7 @@ curl -s -X GET http://${ENDPOINT}:${PORT}/donations/${DONATION2} -H 'content-typ
 echo
 echo 'Query Donations for a donor'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/donors/${DONOR1}/donations/ -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/users/${DONOR1}/donations/ -H 'content-type: application/json'
 echo
 echo 'Query Donations for an Sitigrid'
 echo

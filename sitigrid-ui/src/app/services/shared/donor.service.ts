@@ -118,7 +118,7 @@ export class DonorService {
 
   attemptAuth(type, credentials): Observable<Donor> {
     const route = (type === 'login') ? '/login' : '';
-    return this.apiService.get(`/donors/${credentials.name}` + route).pipe(
+    return this.apiService.get(`/users/${credentials.name}` + route).pipe(
       map(data => {
         const donor = new Donor().get(data.name, data.email);
         this.setAuth(donor);
