@@ -199,86 +199,6 @@ else
         echo -e ${RED} ERROR - test case failed - query specific donation does not match expected result. Result is: $response ${RESTORE}
 fi
 echo
-echo '---------------------------------------'
-echo Spend
-echo '---------------------------------------'
-echo 'Create Spend'
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 33
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid2}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 100
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 123
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 1000
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 23
-}')
-echo "Transaction ID is $TRX_ID"
-echo ${SPENDID}
-echo
-echo 'Query all Spends'
-echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json'
-echo
-echo 'Query specific Spends'
-sleep 2
-echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/spend/${SPENDID} -H 'content-type: application/json'
-echo
-echo 'Query Spend by Sitigrid'
-echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${Sitigrid1}/spend -H 'content-type: application/json')
-echo $response
-echo
-ret=$(echo $response | jq '.[].docType' | jq 'contains("spend")')
-echo $ret
-if $ret ; then
-        echo test case passed
-else
-        echo -e ${RED} ERROR - test case failed - query specific spend does not match expected result. Result is: $response ${RESTORE}
-fi
-echo
-echo 'Send a mixture of donations and spends'
-echo
 echo 'Create Donations & Spends'
 echo
 DONATION1=$(uuidgen)
@@ -311,46 +231,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 666
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 227
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid2}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 1
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid2}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 77
-}')
-echo "Transaction ID is $TRX_ID"
-echo
+
 DONATION1=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
         "donationId": "'"${DONATION1}"'",
@@ -368,16 +249,6 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationDate": "2018-09-20T12:41:59.582Z",
         "userName": "'"${DONOR1}"'", 
         "ngoRegistrationNumber": "'"${Sitigrid2}"'"
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "'"${Sitigrid2}"'",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Peter Pipers Poulty Portions for Pets",
-        "spendDate": "2018-09-20T12:41:59.582Z",
-        "spendAmount": 0
 }')
 echo "Transaction ID is $TRX_ID"
 echo

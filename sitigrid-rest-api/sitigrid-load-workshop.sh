@@ -258,27 +258,4 @@ echo 'Query all Donations'
 echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json'
 
-echo '---------------------------------------'
-echo Spend
-echo '---------------------------------------'
-echo 'Create Spend'
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "1103",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Fees for hiring transport for animal delivery",
-        "spendDate": "2018-11-19T12:20:59.582Z",
-        "spendAmount": 125
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-SPENDID=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/spend -H 'content-type: application/json' -d '{ 
-        "ngoRegistrationNumber": "1105",
-        "spendId": "'"${SPENDID}"'",
-        "spendDescription": "Purchase test tubes",
-        "spendDate": "2018-09-10T22:41:59.582Z",
-        "spendAmount": 99
-}')
-echo "Transaction ID is $TRX_ID"
+
