@@ -101,11 +101,11 @@
                         <div class="mt-5">
                             <form class="justify-content-start align-items-center" [formGroup]="donateForm">
                                 <div class="form-group d-inline-flex m-0">
-                                    <input class="form-control font-size-1rem w-50" type="number" formControlName="donationAmount"
+                                    <input class="form-control font-size-1rem w-50" type="number" formControlName="productionAmount"
                                         placeholder="$ 150.00">
-                                    <div *ngIf="submitted && donation.donationAmount.errors" class="invalid-feedback"
-                                        [ngClass]="{ 'is-invalid': submitted && donation.donationAmount.errors}">
-                                        <div *ngIf="donation.donationAmount.errors.required">Donatoion amount is
+                                    <div *ngIf="submitted && donation.productionAmount.errors" class="invalid-feedback"
+                                        [ngClass]="{ 'is-invalid': submitted && donation.productionAmount.errors}">
+                                        <div *ngIf="donation.productionAmount.errors.required">Donatoion amount is
                                             required</div>
                                     </div>
                                     <a class="btn btn-warning ml-2 text-white" (click)='onDonate()' role="button">

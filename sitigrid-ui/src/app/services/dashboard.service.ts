@@ -33,12 +33,12 @@ export class DashboardService {
     private sessionService: SessionService) { }
 
   getUserDonations() {
-    const path = `donors/${SessionService.getUser().name}/donations`;
+    const path = `donors/${SessionService.getUser().name}/productions`;
     return this.apiService.get(path).pipe(map(data => this.userDonationsJsonAdopter(data)));
   }
 
   getDonationsBySitigrid(ngo_id) {
-    const path = `ngos/${ngo_id}/donations`;
+    const path = `ngos/${ngo_id}/productions`;
     return this.apiService.get(path).pipe(map(data => data));
   }
 
@@ -81,11 +81,11 @@ export class DashboardService {
         const data = userDonationsData[key];
         const userDonation: Donation = new Donation();
 
-        userDonation.id = data.donationId;
+        userDonation.id = data.productionId;
         userDonation.Donor_id = data.customerName;
         userDonation.ngo_id = data.ngoRegistrationNumber;
-        userDonation.date = new Date(data.donationDate);
-        userDonation.amount = data.donationAmount;
+        userDonation.date = new Date(data.productionDate);
+        userDonation.amount = data.productionAmount;
         if (this.ngoMap.get(userDonation.ngo_id)) {
           userDonation.ngo_name = this.ngoMap.get(userDonation.ngo_id).ngo_name;
           userDonation.project_id = this.ngoMap.get(userDonation.ngo_id).ngo_about;

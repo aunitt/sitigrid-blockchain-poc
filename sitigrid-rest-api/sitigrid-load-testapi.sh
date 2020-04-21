@@ -91,174 +91,116 @@ if $ret ; then
 else
         echo -e ${RED} ERROR - test case failed - query specific donors does not match expected result. Result is: $ret ${RESTORE}
 fi
+
 echo
 echo '---------------------------------------'
-echo Sitigrid
-echo '---------------------------------------'
-echo 'Create Sitigrid'
-echo
-Sitigrid1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{ 
-    "ngoRegistrationNumber": "'"${Sitigrid1}"'", 
-    "ngoName": "Pets In Need",
-    "ngoDescription": "We help pets in need",
-    "address": "1 Pet street",
-    "contactNumber": "82372837",
-    "contactEmail": "pets@petco.com"
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-echo 'Create Sitigrid'
-echo
-Sitigrid2=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json' -d '{ 
-    "ngoRegistrationNumber": "'"${Sitigrid2}"'", 
-    "ngoName": "Pets In Need",
-    "ngoDescription": "We help pets in need",
-    "address": "1 Pet street",
-    "contactNumber": "82372837",
-    "contactEmail": "pets@petco.com"
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-echo 'Query all Sitigrids'
-echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/ngos -H 'content-type: application/json'
-echo
-echo 'Query specific Sitigrids'
-echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${Sitigrid1} -H 'content-type: application/json')
-echo $response
-echo
-ret=$(echo $response | jq '.[].docType' | jq 'contains("ngo")')
-echo $ret
-if $ret ; then
-        echo test case passed
-else
-        echo -e ${RED} ERROR - test case failed - query specific ngo does not match expected result. Result is: $response ${RESTORE}
-fi
-echo
-echo '---------------------------------------'
-echo Donation
+echo Production
 echo '---------------------------------------'
 echo
-echo 'Create Donation'
+echo 'Create Production'
 echo
 DONATION1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION1}"'",
-        "donationAmount": 100,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR1}"'",
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION1}"'",
+        "productionAmount": 100,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION2=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION2}"'",
-        "donationAmount": 999,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR2}"'",
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION2}"'",
+        "productionAmount": 999,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION3=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION3}"'",
-        "donationAmount": 75,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR1}"'",
-        "ngoRegistrationNumber": "'"${Sitigrid2}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION3}"'",
+        "productionAmount": 75,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-echo 'Query all Donations'
+echo 'Query all Productions'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json'
 echo
-echo 'Query specific Donations'
+echo 'Query specific Production'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/donations/${DONATION2} -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/productions/${DONATION2} -H 'content-type: application/json'
 echo
-echo 'Query Donations for a donor'
+echo 'Query Productions for a customer'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/customers/${DONOR1}/donations/ -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/customers/${DONOR1}/productions/ -H 'content-type: application/json'
 echo
-echo 'Query Donations for an Sitigrid'
-echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/ngos/${Sitigrid1}/donations/ -H 'content-type: application/json')
-echo $response
-echo
-ret=$(echo $response | jq '.[].docType' | jq 'contains("donation")')
+echo 'Query Productions for an Sitigrid'
+ret=$(echo $response | jq '.[].docType' | jq 'contains("production")')
 echo $ret
 if $ret ; then
         echo test case passed
 else
-        echo -e ${RED} ERROR - test case failed - query specific donation does not match expected result. Result is: $response ${RESTORE}
+        echo -e ${RED} ERROR - test case failed - query specific production does not match expected result. Result is: $response ${RESTORE}
 fi
 echo
-echo 'Create Donations & Spends'
+echo 'Create Productions'
 echo
 DONATION1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION1}"'",
-        "donationAmount": 111,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR1}"'", 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION1}"'",
+        "productionAmount": 111,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION1}"'",
-        "donationAmount": 222,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR2}"'", 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION1}"'",
+        "productionAmount": 222,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION1}"'",
-        "donationAmount": 222,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR1}"'", 
-        "ngoRegistrationNumber": "'"${Sitigrid2}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION1}"'",
+        "productionAmount": 222,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 
 DONATION1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION1}"'",
-        "donationAmount": 875,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR2}"'", 
-        "ngoRegistrationNumber": "'"${Sitigrid1}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION1}"'",
+        "productionAmount": 875,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION1}"'",
-        "donationAmount": 1,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR1}"'", 
-        "ngoRegistrationNumber": "'"${Sitigrid2}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION1}"'",
+        "productionAmount": 1,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: application/json' -d '{ 
-        "donationId": "'"${DONATION1}"'",
-        "donationAmount": 0,
-        "donationDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "'"${DONOR1}"'", 
-        "ngoRegistrationNumber": "'"${Sitigrid2}"'"
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
+        "productionId": "'"${DONATION1}"'",
+        "productionAmount": 0,
+        "productionDate": "2018-09-20T12:41:59.582Z",
+        "customerName": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo

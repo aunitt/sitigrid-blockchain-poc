@@ -180,20 +180,20 @@ app.get('/customers/:customerName', awaitHandler(async (req, res) => {
  	res.send(message);
 }));
 
-// GET the Donations for a specific customer
-app.get('/customers/:customerName/donations', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Donations for customer');
+// GET the productions for a specific customer
+app.get('/customers/:customerName/productions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on productions for customer');
 	logger.info('customer username : ' + req.params);
 	let args = req.params;
-	let fcn = "queryDonationsForCustomer";
+	let fcn = "queryProductionsForCustomer";
 
-    logger.info('##### GET on Donations for customer - username : ' + username);
-	logger.info('##### GET on Donations for customer - userOrg : ' + orgName);
-	logger.info('##### GET on Donations for customer - channelName : ' + channelName);
-	logger.info('##### GET on Donations for customer - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Donations for customer - fcn : ' + fcn);
-	logger.info('##### GET on Donations for customer - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Donations for customer - peers : ' + peers);
+    logger.info('##### GET on productions for customer - username : ' + username);
+	logger.info('##### GET on productions for customer - userOrg : ' + orgName);
+	logger.info('##### GET on productions for customer - channelName : ' + channelName);
+	logger.info('##### GET on productions for customer - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on productions for customer - fcn : ' + fcn);
+	logger.info('##### GET on productions for customer - args : ' + JSON.stringify(args));
+	logger.info('##### GET on productions for customer - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
@@ -218,59 +218,59 @@ app.post('/customers', awaitHandler(async (req, res) => {
 }));
 
 /************************************************************************************
- * Donation methods
+ * Production methods
  ************************************************************************************/
 
-// GET Donation
-app.get('/donations', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Donation');
+// GET production
+app.get('/productions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on production');
 	let args = {};
-	let fcn = "queryAllDonations";
+	let fcn = "queryAllProductions";
 
-    logger.info('##### GET on Donation - username : ' + username);
-	logger.info('##### GET on Donation - userOrg : ' + orgName);
-	logger.info('##### GET on Donation - channelName : ' + channelName);
-	logger.info('##### GET on Donation - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Donation - fcn : ' + fcn);
-	logger.info('##### GET on Donation - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Donation - peers : ' + peers);
+    logger.info('##### GET on production - username : ' + username);
+	logger.info('##### GET on production - userOrg : ' + orgName);
+	logger.info('##### GET on production - channelName : ' + channelName);
+	logger.info('##### GET on production - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on production - fcn : ' + fcn);
+	logger.info('##### GET on production - args : ' + JSON.stringify(args));
+	logger.info('##### GET on production - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET a specific Donation
-app.get('/donations/:donationId', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Donation by ID');
-	logger.info('Donation ID : ' + req.params);
+// GET a specific production
+app.get('/productions/:productionId', awaitHandler(async (req, res) => {
+	logger.info('================ GET on production by ID');
+	logger.info('production ID : ' + req.params);
 	let args = req.params;
-	let fcn = "queryDonation";
+	let fcn = "queryProduction";
 
-    logger.info('##### GET on Donation - username : ' + username);
-	logger.info('##### GET on Donation - userOrg : ' + orgName);
-	logger.info('##### GET on Donation - channelName : ' + channelName);
-	logger.info('##### GET on Donation - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Donation - fcn : ' + fcn);
-	logger.info('##### GET on Donation - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Donation - peers : ' + peers);
+    logger.info('##### GET on production - username : ' + username);
+	logger.info('##### GET on production - userOrg : ' + orgName);
+	logger.info('##### GET on production - channelName : ' + channelName);
+	logger.info('##### GET on production - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on production - fcn : ' + fcn);
+	logger.info('##### GET on production - args : ' + JSON.stringify(args));
+	logger.info('##### GET on production - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// POST Donation
-app.post('/donations', awaitHandler(async (req, res) => {
-	logger.info('================ POST on Donation');
+// POST production
+app.post('/productions', awaitHandler(async (req, res) => {
+	logger.info('================ POST on production');
 	var args = req.body;
-	var fcn = "createDonation";
+	var fcn = "createProductionRecord";
 
-    logger.info('##### POST on Donation - username : ' + username);
-	logger.info('##### POST on Donation - userOrg : ' + orgName);
-	logger.info('##### POST on Donation - channelName : ' + channelName);
-	logger.info('##### POST on Donation - chaincodeName : ' + chaincodeName);
-	logger.info('##### POST on Donation - fcn : ' + fcn);
-	logger.info('##### POST on Donation - args : ' + JSON.stringify(args));
-	logger.info('##### POST on Donation - peers : ' + peers);
+    logger.info('##### POST on production - username : ' + username);
+	logger.info('##### POST on production - userOrg : ' + orgName);
+	logger.info('##### POST on production - channelName : ' + channelName);
+	logger.info('##### POST on production - chaincodeName : ' + chaincodeName);
+	logger.info('##### POST on production - fcn : ' + fcn);
+	logger.info('##### POST on production - args : ' + JSON.stringify(args));
+	logger.info('##### POST on production - peers : ' + peers);
 
 	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
 	res.send(message);
@@ -314,15 +314,15 @@ async function dummySpend() {
 	}
 	// first, we get a list of donations and randomly choose one
 	let args = {};
-	let fcn = "queryAllDonations";
+	let fcn = "queryAllProductions";
 
-    logger.info('##### dummySpend GET on Donation - username : ' + username);
-	logger.info('##### dummySpend GET on Donation - userOrg : ' + orgName);
-	logger.info('##### dummySpend GET on Donation - channelName : ' + channelName);
-	logger.info('##### dummySpend GET on Donation - chaincodeName : ' + chaincodeName);
-	logger.info('##### dummySpend GET on Donation - fcn : ' + fcn);
-	logger.info('##### dummySpend GET on Donation - args : ' + JSON.stringify(args));
-	logger.info('##### dummySpend GET on Donation - peers : ' + peers);
+    logger.info('##### dummySpend GET on production - username : ' + username);
+	logger.info('##### dummySpend GET on production - userOrg : ' + orgName);
+	logger.info('##### dummySpend GET on production - channelName : ' + channelName);
+	logger.info('##### dummySpend GET on production - chaincodeName : ' + chaincodeName);
+	logger.info('##### dummySpend GET on production - fcn : ' + fcn);
+	logger.info('##### dummySpend GET on production - args : ' + JSON.stringify(args));
+	logger.info('##### dummySpend GET on production - peers : ' + peers);
 
 	let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
 	let len = message.length;
@@ -336,8 +336,6 @@ async function dummySpend() {
 	let ran = Math.floor(Math.random() * len);
 	logger.info('##### dummySpend - randomly selected donation record number: ' + ran);
 	logger.info('##### dummySpend - randomly selected donation record: ' + JSON.stringify(message[ran]));
-	let ngo = message[ran]['ngoRegistrationNumber'];
-	logger.info('##### dummySpend - randomly selected ngo: ' + ngo);
 
 	// then we create a spend record for the NGO that received the donation
 	fcn = "createSpend";
@@ -345,7 +343,6 @@ async function dummySpend() {
 	let spendAmt = Math.floor(Math.random() * 100) + 1;
 
 	args = {};
-	args["ngoRegistrationNumber"] = ngo;
 	args["spendId"] = spendId;
 	args["spendDescription"] = "Peter Pipers Poulty Portions for Pets";
 	args["spendDate"] = "2018-09-20T12:41:59.582Z";

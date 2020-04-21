@@ -188,10 +188,10 @@ export class DonorchartComponent implements OnInit, OnChanges {
   }
 
   updateSlices = (newData: Array<any>): Array<any> => {
-    // const queriesByDonation = _.groupBy(_.sortBy(newData, 'donation'), 'donationId');
-    // const queriesByDonation = _.sortBy(newData, 'donation');
+    // const queriesByDonation = _.groupBy(_.sortBy(newData, 'production'), 'productionId');
+    // const queriesByDonation = _.sortBy(newData, 'production');
     this.totalSpend = this.total;
-    return _.sortBy(newData, 'donation');
+    return _.sortBy(newData, 'production');
 
   }
 }

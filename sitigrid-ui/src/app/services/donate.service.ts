@@ -24,9 +24,9 @@ export class DonateService {
 
   constructor(private apiService: ApiService) { }
 
-  makeDonation(ngoName: string, DonorUserName: string, donationAmount: number) {
-    const donate = new Donate().set(donationAmount, DonorUserName, ngoName);
-    donate.donationDate = new Date().toISOString();
+  makeDonation(ngoName: string, DonorUserName: string, productionAmount: number) {
+    const donate = new Donate().set(productionAmount, DonorUserName, ngoName);
+    donate.productionDate = new Date().toISOString();
     const path = `donations`;
     return this.apiService.post(path, donate);
   }

@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
   currentUser: Donor = null;
 
   greetingMsg = 'Hello';
-  donationAmount = 0.00;
+  productionAmount = 0.00;
   actionButton = 'Logout';
 
   constructor(

@@ -259,94 +259,93 @@ let Chaincode = class {
 
   /************************************************************************************************
    * 
-   * Donation functions 
+   * Energy production functions 
    * 
    ************************************************************************************************/
 
   /**
-   * Creates a new Donation
+   * Creates a new energy production record
    * 
    * @param {*} stub 
    * @param {*} args - JSON as follows:
    * {
-   *    "donationId":"2211",
-   *    "donationAmount":100,
-   *    "donationDate":"2018-09-20T12:41:59.582Z",
-   *    "customerName":"edge",
-   *    "ngoRegistrationNumber":"6322"
+   *    "productionId":"2211",
+   *    "productionAmount":100,
+   *    "productionDate":"2018-09-20T12:41:59.582Z",
+   *    "customerName":"edge"
    * }
    */
-  async createDonation(stub, args) {
-    console.log('============= START : createDonation ===========');
-    console.log('##### createDonation arguments: ' + JSON.stringify(args));
+  async createProductionRecord(stub, args) {
+    console.log('============= START : createProductionRecord ===========');
+    console.log('##### createProductionRecord arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'donation' + json['donationId'];
-    json['docType'] = 'donation';
+    let key = 'production' + json['productionId'];
+    json['docType'] = 'production';
 
-    console.log('##### createDonation donation: ' + JSON.stringify(json));
+    console.log('##### createProductionRecord production: ' + JSON.stringify(json));
 
     // Confirm the customer exists
     let customerKey = 'customer' + json['customerName'];
     let customerQuery = await stub.getState(customerKey);
     if (!customerQuery.toString()) {
-      throw new Error('##### createDonation - Cannot create donation as the Donor does not exist: ' + json['customerName']);
+      throw new Error('##### createProductionRecord - Cannot create production as the Customer does not exist: ' + json['customerName']);
     }
 
-    // Check if the Donation already exists
-    let donationQuery = await stub.getState(key);
-    if (donationQuery.toString()) {
-      throw new Error('##### createDonation - This Donation already exists: ' + json['donationId']);
+    // Check if the Production already exists
+    let productionQuery = await stub.getState(key);
+    if (productionQuery.toString()) {
+      throw new Error('##### createProductionRecord - This production already exists: ' + json['productionId']);
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
-    console.log('============= END : createDonation ===========');
+    console.log('============= END : createProductionRecord ===========');
   }
 
   /**
-   * Retrieves a specfic donation
+   * Retrieves a specfic production
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryDonation(stub, args) {
-    console.log('============= START : queryDonation ===========');
-    console.log('##### queryDonation arguments: ' + JSON.stringify(args));
+  async queryProduction(stub, args) {
+    console.log('============= START : queryProduction ===========');
+    console.log('##### queryProduction arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'donation' + json['donationId'];
-    console.log('##### queryDonation key: ' + key);
+    let key = 'production' + json['productionId'];
+    console.log('##### queryProduction key: ' + key);
     return queryByKey(stub, key);
   }
 
   /**
-   * Retrieves donations for a specfic donor
+   * Retrieves productions for a specfic customer
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryDonationsForDonor(stub, args) {
-    console.log('============= START : queryDonationsForDonor ===========');
-    console.log('##### queryDonationsForDonor arguments: ' + JSON.stringify(args));
+  async queryProductionsForCustomer(stub, args) {
+    console.log('============= START : queryProductionsForCustomer ===========');
+    console.log('##### queryProductionsForCustomer arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "donation", "customerName": "' + json['customerName'] + '"}}';
+    let queryString = '{"selector": {"docType": "production", "customerName": "' + json['customerName'] + '"}}';
     return queryByString(stub, queryString);
   }
 
   /**
-   * Retrieves all donations
+   * Retrieves all productions
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryAllDonations(stub, args) {
-    console.log('============= START : queryAllDonations ===========');
-    console.log('##### queryAllDonations arguments: ' + JSON.stringify(args)); 
-    let queryString = '{"selector": {"docType": "donation"}}';
+  async queryAllProductions(stub, args) {
+    console.log('============= START : queryAllProductions ===========');
+    console.log('##### queryAllProductions arguments: ' + JSON.stringify(args)); 
+    let queryString = '{"selector": {"docType": "production"}}';
     return queryByString(stub, queryString);
   }
 

@@ -93,7 +93,7 @@ export class NgosListComponent implements OnInit {
       }
     );
     this.donateForm = this.formBuilder.group({
-      donationAmount: new FormControl('', [Validators.required])
+      productionAmount: new FormControl('', [Validators.required])
     });
 
   }
@@ -105,15 +105,15 @@ export class NgosListComponent implements OnInit {
       const ngo_donors_amounts = new Map();
       for (const i in ngo_data) {
         if (ngo_data[i]) {
-          ngo_total_donation = ngo_total_donation + ngo_data[i].donationAmount;
+          ngo_total_donation = ngo_total_donation + ngo_data[i].productionAmount;
           if (!ngo_total_donors_set.has(ngo_data[i].customerName)) {
             ngo_total_donors_set.add(ngo_data[i].customerName);
           }
           const donor_name = ngo_data[i].customerName;
           if (!ngo_donors_amounts.has(donor_name)) {
-            ngo_donors_amounts.set(donor_name, ngo_data[i].donationAmount);
+            ngo_donors_amounts.set(donor_name, ngo_data[i].productionAmount);
           } else {
-            ngo_donors_amounts.set(donor_name, ngo_data[i].donationAmount + ngo_donors_amounts.get(donor_name));
+            ngo_donors_amounts.set(donor_name, ngo_data[i].productionAmount + ngo_donors_amounts.get(donor_name));
           }
         }
       }
@@ -185,10 +185,10 @@ export class NgosListComponent implements OnInit {
     if (this.donateForm.invalid) {
       return;
     }
-    this.donateService.makeDonation(this.selectedSitigrid.ngo_reg_no, SessionService.getUser().name, this.donateForm.value.donationAmount)
+    this.donateService.makeDonation(this.selectedSitigrid.ngo_reg_no, SessionService.getUser().name, this.donateForm.value.productionAmount)
       .subscribe(
         data => {
-          this.router.navigate([`donate/${data.donationId}`]);
+          this.router.navigate([`donate/${data.productionId}`]);
         },
         err => {
           this.loading = false;

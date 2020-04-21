@@ -29,19 +29,19 @@ class Donation {
     date: Date = null;
 }
 class Donate {
-    donationId: string = null;
-    donationAmount: number = null;
-    donationDate: string = null;
+    productionId: string = null;
+    productionAmount: number = null;
+    productionDate: string = null;
     customerName: string = null;
     ngoRegistrationNumber: string = null;
     constructor() {
 
     }
 
-    set(donationAmount: number, donor: string, ngo: string) {
-        this.donationId = uuid.v4();
-        this.donationAmount = donationAmount;
-        this.donationDate = '';
+    set(productionAmount: number, donor: string, ngo: string) {
+        this.productionId = uuid.v4();
+        this.productionAmount = productionAmount;
+        this.productionDate = '';
         this.customerName = donor;
         this.ngoRegistrationNumber = ngo;
         return this;
