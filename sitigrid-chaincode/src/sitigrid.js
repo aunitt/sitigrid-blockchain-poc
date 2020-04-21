@@ -351,9 +351,10 @@ let Chaincode = class {
     let queryString = '{"selector": {"docType": "production", "customerName": "' + json['customerName'] + '"}}';
     let productions = await queryByString(stub, queryString);
     productions = JSON.parse(productions.toString());
-    console.log('#####  -queryTotalProductionsForCustomer productions as JSON: ' + productions);
+    console.log('#####  -queryTotalProductionsForCustomer productions as JSON: ' + JSON.stringify(productions));
 
     let totalProductions = 0;
+    console.log('#####  -queryTotalProductionsForCustomer number of productions: ' + productions.length);
     for (let n = 0; n < productions.length; n++) {
       let production = productions[n];
       console.log('##### queryTotalProductionsForCustomer - production: ' + JSON.stringify(production));
@@ -361,7 +362,8 @@ let Chaincode = class {
     }
     console.log('##### allocateSpend - Total productions for this customer are: ' + totalProductions.toString());
     
-    return totalProductions.toString();
+    let result = { 'totalProductions' : totalProductions };
+    return Buffer.from(JSON.stringify(result));
   }
 
   /**
