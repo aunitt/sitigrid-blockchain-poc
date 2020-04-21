@@ -337,6 +337,34 @@ let Chaincode = class {
   }
 
   /**
+   * Retrieves the sum of productions for a specfic customer
+   * 
+   * @param {*} stub 
+   * @param {*} args 
+   */
+  async queryTotalProductionsForCustomer(stub, args) {
+    console.log('============= START : queryTotalProductionsForCustomer ===========');
+    console.log('##### queryTotalProductionsForCustomer arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let queryString = '{"selector": {"docType": "production", "customerName": "' + json['customerName'] + '"}}';
+    let productions = await queryByString(stub, queryString);
+    productions = JSON.parse(productions.toString());
+    console.log('#####  -queryTotalProductionsForCustomer productions as JSON: ' + productions);
+
+    let totalProductions = 0;
+    for (let n = 0; n < productions.length; n++) {
+      let production = productions[n];
+      console.log('##### queryTotalProductionsForCustomer - production: ' + JSON.stringify(donation));
+      totalProductions += production['Record']['productionAmount'];
+    }
+    console.log('##### allocateSpend - Total productions for this customer are: ' + totalProductions.toString());
+    
+    return totalProductions.toString();
+  }
+
+  /**
    * Retrieves all productions
    * 
    * @param {*} stub 

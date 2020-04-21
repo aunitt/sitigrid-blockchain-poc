@@ -199,6 +199,25 @@ app.get('/customers/:customerName/productions', awaitHandler(async (req, res) =>
  	res.send(message);
 }));
 
+// GET total productions for a specific customer
+app.get('/customers/:customerName/totalproductions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on totalproductions for customer');
+	logger.info('customer username : ' + req.params);
+	let args = req.params;
+	let fcn = "queryTotalProductionsForCustomer";
+
+    logger.info('##### GET on productions for customer - username : ' + username);
+	logger.info('##### GET on productions for customer - userOrg : ' + orgName);
+	logger.info('##### GET on productions for customer - channelName : ' + channelName);
+	logger.info('##### GET on productions for customer - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on productions for customer - fcn : ' + fcn);
+	logger.info('##### GET on productions for customer - args : ' + JSON.stringify(args));
+	logger.info('##### GET on productions for customer - peers : ' + peers);
+
+    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+ 	res.send(message);
+}));
+
 // POST customer
 app.post('/customers', awaitHandler(async (req, res) => {
 	logger.info('================ POST on customer');
