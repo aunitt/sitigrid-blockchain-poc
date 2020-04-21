@@ -356,7 +356,7 @@ let Chaincode = class {
     let totalProductions = 0;
     for (let n = 0; n < productions.length; n++) {
       let production = productions[n];
-      console.log('##### queryTotalProductionsForCustomer - production: ' + JSON.stringify(donation));
+      console.log('##### queryTotalProductionsForCustomer - production: ' + JSON.stringify(production));
       totalProductions += production['Record']['productionAmount'];
     }
     console.log('##### allocateSpend - Total productions for this customer are: ' + totalProductions.toString());
