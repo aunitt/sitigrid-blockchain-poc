@@ -189,71 +189,71 @@ let Chaincode = class {
 
   /************************************************************************************************
    * 
-   * User functions 
+   * Customer functions 
    * 
    ************************************************************************************************/
 
    /**
-   * Creates a new user
+   * Creates a new customer
    * 
    * @param {*} stub 
    * @param {*} args - JSON as follows:
    * {
-   *    "userName":"edge",
+   *    "customerName":"edge",
    *    "email":"edge@abc.com",
    *    "registeredDate":"2018-10-22T11:52:20.182Z"
    * }
    */
-  async createUser(stub, args) {
-    console.log('============= START : createUser ===========');
-    console.log('##### createUser arguments: ' + JSON.stringify(args));
+  async createCustomer(stub, args) {
+    console.log('============= START : createCustomer ===========');
+    console.log('##### createCustomer arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'user' + json['userName'];
-    json['docType'] = 'user';
+    let key = 'customer' + json['customerName'];
+    json['docType'] = 'customer';
 
-    console.log('##### createUser payload: ' + JSON.stringify(json));
+    console.log('##### createCustomer payload: ' + JSON.stringify(json));
 
     // Check if the donor already exists
     let donorQuery = await stub.getState(key);
     if (donorQuery.toString()) {
-      throw new Error('##### createUser - This user already exists: ' + json['userName']);
+      throw new Error('##### createCustomer - This customer already exists: ' + json['customerName']);
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
-    console.log('============= END : createUser ===========');
+    console.log('============= END : createCustomer ===========');
   }
 
   /**
-   * Retrieves a specfic user
+   * Retrieves a specfic customer
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryUser(stub, args) {
-    console.log('============= START : queryUser ===========');
-    console.log('##### queryUser arguments: ' + JSON.stringify(args));
+  async queryCustomer(stub, args) {
+    console.log('============= START : queryCustomer ===========');
+    console.log('##### queryCustomer arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'user' + json['userName'];
-    console.log('##### queryUser key: ' + key);
+    let key = 'customer' + json['customerName'];
+    console.log('##### queryCustomer key: ' + key);
 
     return queryByKey(stub, key);
   }
 
   /**
-   * Retrieves all users
+   * Retrieves all customers
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryAllUsers(stub, args) {
-    console.log('============= START : queryAllUsers ===========');
-    console.log('##### queryAllUsers arguments: ' + JSON.stringify(args));
+  async queryAllCustomers(stub, args) {
+    console.log('============= START : queryAllCustomers ===========');
+    console.log('##### queryAllCustomers arguments: ' + JSON.stringify(args));
  
-    let queryString = '{"selector": {"docType": "user"}}';
+    let queryString = '{"selector": {"docType": "customer"}}';
     return queryByString(stub, queryString);
   }
 
@@ -272,7 +272,7 @@ let Chaincode = class {
    *    "donationId":"2211",
    *    "donationAmount":100,
    *    "donationDate":"2018-09-20T12:41:59.582Z",
-   *    "userName":"edge",
+   *    "customerName":"edge",
    *    "ngoRegistrationNumber":"6322"
    * }
    */
@@ -287,11 +287,11 @@ let Chaincode = class {
 
     console.log('##### createDonation donation: ' + JSON.stringify(json));
 
-    // Confirm the user exists
-    let userKey = 'user' + json['userName'];
-    let userQuery = await stub.getState(userKey);
-    if (!userQuery.toString()) {
-      throw new Error('##### createDonation - Cannot create donation as the Donor does not exist: ' + json['userName']);
+    // Confirm the customer exists
+    let customerKey = 'customer' + json['customerName'];
+    let customerQuery = await stub.getState(customerKey);
+    if (!customerQuery.toString()) {
+      throw new Error('##### createDonation - Cannot create donation as the Donor does not exist: ' + json['customerName']);
     }
 
     // Check if the Donation already exists
@@ -333,7 +333,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "donation", "userName": "' + json['userName'] + '"}}';
+    let queryString = '{"selector": {"docType": "donation", "customerName": "' + json['customerName'] + '"}}';
     return queryByString(stub, queryString);
   }
 

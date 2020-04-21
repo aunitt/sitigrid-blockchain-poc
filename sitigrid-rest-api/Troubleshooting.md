@@ -14,7 +14,7 @@
    ```
    {
       [...],
-      "userName":"michael",
+      "customerName":"michael",
       "orgName":"Org1",
       [...]
    }

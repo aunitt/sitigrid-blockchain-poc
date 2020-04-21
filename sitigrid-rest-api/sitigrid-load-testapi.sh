@@ -60,16 +60,16 @@ echo '---------------------------------------'
 echo 'Create Donor'
 echo
 DONOR1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json' -d '{ 
-   "userName": "'"${DONOR1}"'", 
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/customers -H 'content-type: application/json' -d '{ 
+   "customerName": "'"${DONOR1}"'", 
    "email": "abc@def.com", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONOR2=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json' -d '{ 
-   "userName": "'"${DONOR2}"'", 
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/customers -H 'content-type: application/json' -d '{ 
+   "customerName": "'"${DONOR2}"'", 
    "email": "abc@def.com", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
 }')
@@ -77,11 +77,11 @@ echo "Transaction ID is $TRX_ID"
 echo
 echo 'Query all donors'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/customers -H 'content-type: application/json'
 echo
 echo 'Query specific donors'
 echo
-response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/users/${DONOR1} -H 'content-type: application/json')
+response=$(curl -s -X GET http://${ENDPOINT}:${PORT}/customers/${DONOR1} -H 'content-type: application/json')
 echo $response
 echo
 ret=$(echo $response | jq '.[].docType' | jq 'contains("donor")')
@@ -149,7 +149,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION1}"'",
         "donationAmount": 100,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR1}"'",
+        "customerName": "'"${DONOR1}"'",
         "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -159,7 +159,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION2}"'",
         "donationAmount": 999,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR2}"'",
+        "customerName": "'"${DONOR2}"'",
         "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -169,7 +169,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION3}"'",
         "donationAmount": 75,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR1}"'",
+        "customerName": "'"${DONOR1}"'",
         "ngoRegistrationNumber": "'"${Sitigrid2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -184,7 +184,7 @@ curl -s -X GET http://${ENDPOINT}:${PORT}/donations/${DONATION2} -H 'content-typ
 echo
 echo 'Query Donations for a donor'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/users/${DONOR1}/donations/ -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/customers/${DONOR1}/donations/ -H 'content-type: application/json'
 echo
 echo 'Query Donations for an Sitigrid'
 echo
@@ -206,7 +206,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION1}"'",
         "donationAmount": 111,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR1}"'", 
+        "customerName": "'"${DONOR1}"'", 
         "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -216,7 +216,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION1}"'",
         "donationAmount": 222,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR2}"'", 
+        "customerName": "'"${DONOR2}"'", 
         "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -226,7 +226,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION1}"'",
         "donationAmount": 222,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR1}"'", 
+        "customerName": "'"${DONOR1}"'", 
         "ngoRegistrationNumber": "'"${Sitigrid2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -237,7 +237,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION1}"'",
         "donationAmount": 875,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR2}"'", 
+        "customerName": "'"${DONOR2}"'", 
         "ngoRegistrationNumber": "'"${Sitigrid1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -247,7 +247,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION1}"'",
         "donationAmount": 1,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR1}"'", 
+        "customerName": "'"${DONOR1}"'", 
         "ngoRegistrationNumber": "'"${Sitigrid2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -257,7 +257,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION1}"'",
         "donationAmount": 0,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "'"${DONOR1}"'", 
+        "customerName": "'"${DONOR1}"'", 
         "ngoRegistrationNumber": "'"${Sitigrid2}"'"
 }')
 echo "Transaction ID is $TRX_ID"

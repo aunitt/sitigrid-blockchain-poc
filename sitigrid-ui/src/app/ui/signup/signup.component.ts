@@ -62,7 +62,7 @@ export class SignupComponent implements OnInit {
       return;
     }
     const user = this.userForm.value;
-    this.userService.createUser(user).subscribe(
+    this.userService.createCustomer(user).subscribe(
       data => {
         if (data.success) {
           this.userService.signup(user).subscribe(

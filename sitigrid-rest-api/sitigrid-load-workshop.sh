@@ -131,14 +131,14 @@ echo '---------------------------------------'
 echo 'Create Donor'
 echo
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json' -d '{ 
-   "userName": "jane", 
+   "customerName": "jane", 
    "email": "jane@abc.com", 
    "registeredDate": "2018-10-21T09:52:20.182Z" 
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/users -H 'content-type: application/json' -d '{ 
-   "userName": "louisa", 
+   "customerName": "louisa", 
    "email": "louisa@hij.com", 
    "registeredDate": "2018-11-18T05:32:20.182Z" 
 }')
@@ -159,7 +159,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION1}"'",
         "donationAmount": 100,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "edge",
+        "customerName": "edge",
         "ngoRegistrationNumber": "1102"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -169,7 +169,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION2}"'",
         "donationAmount": 255,
         "donationDate": "2018-09-18T07:41:59.582Z",
-        "userName": "jane",
+        "customerName": "jane",
         "ngoRegistrationNumber": "1105"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -179,7 +179,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION3}"'",
         "donationAmount": 900,
         "donationDate": "2018-09-09T06:32:59.582Z",
-        "userName": "louisa",
+        "customerName": "louisa",
         "ngoRegistrationNumber": "1103"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -189,7 +189,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION4}"'",
         "donationAmount": 430,
         "donationDate": "2018-08-09T09:32:59.582Z",
-        "userName": "braendle",
+        "customerName": "braendle",
         "ngoRegistrationNumber": "1103"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -199,7 +199,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION5}"'",
         "donationAmount": 200,
         "donationDate": "2018-09-18T07:41:59.582Z",
-        "userName": "edge",
+        "customerName": "edge",
         "ngoRegistrationNumber": "1103"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -209,7 +209,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION6}"'",
         "donationAmount": 520,
         "donationDate": "2018-09-20T12:41:59.582Z",
-        "userName": "edge",
+        "customerName": "edge",
         "ngoRegistrationNumber": "1101"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -219,7 +219,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION7}"'",
         "donationAmount": 760,
         "donationDate": "2018-09-18T07:41:59.582Z",
-        "userName": "jane",
+        "customerName": "jane",
         "ngoRegistrationNumber": "1105"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -229,7 +229,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION8}"'",
         "donationAmount": 25,
         "donationDate": "2018-09-09T06:32:59.582Z",
-        "userName": "louisa",
+        "customerName": "louisa",
         "ngoRegistrationNumber": "1101"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -239,7 +239,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION9}"'",
         "donationAmount": 44,
         "donationDate": "2018-08-09T09:32:59.582Z",
-        "userName": "braendle",
+        "customerName": "braendle",
         "ngoRegistrationNumber": "1103"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -249,7 +249,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/donations -H 'content-type: 
         "donationId": "'"${DONATION10}"'",
         "donationAmount": 120,
         "donationDate": "2018-09-18T07:41:59.582Z",
-        "userName": "edge",
+        "customerName": "edge",
         "ngoRegistrationNumber": "1104"
 }')
 echo "Transaction ID is $TRX_ID"

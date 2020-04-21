@@ -97,19 +97,19 @@ Resources:
         GetDonors:
           Type: Api
           Properties:
-            Path: /users
+            Path: /customers
             Method: get
             RestApiId: !Ref SitigridAPIGateway
-        CreateUser:
+        createCustomer:
           Type: Api
           Properties:
-            Path: /users
+            Path: /customers
             Method: post
             RestApiId: !Ref SitigridAPIGateway
         GetDonor:
           Type: Api
           Properties:
-            Path: /users/{userName}
+            Path: /customers/{customerName}
             Method: get
             RestApiId: !Ref SitigridAPIGateway
   SecretsManagerVPCE:
@@ -134,7 +134,7 @@ Resources:
           version: "2019-11-13T11:12:00Z"
           title: "Non Profit Blockchain"
         paths:
-          /users:
+          /customers:
             get:
               consumes:
               - "application/json"
@@ -153,7 +153,7 @@ Resources:
                     statusCode: "200"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-                    : \"queryAllUsers\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+                    : \"queryAllCustomers\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
                     : \"lambdaUser\"\n}"
                 passthroughBehavior: "when_no_templates"
                 httpMethod: "POST"
@@ -177,22 +177,22 @@ Resources:
                     statusCode: "200"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
-                    : \"createUser\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
-                    \ = $util.parseJson($input.body) )\n      \"userName\": \"$body.userName\"\
+                    : \"createCustomer\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
+                    \ = $util.parseJson($input.body) )\n      \"customerName\": \"$body.customerName\"\
                     ,\n      \"email\": \"$body.email\",\n      \"registeredDate\":\"$context.requestTime\"\
                     \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
                 passthroughBehavior: "when_no_templates"
                 httpMethod: "POST"
                 contentHandling: "CONVERT_TO_TEXT"
                 type: "aws"
-          /users/{userName}:
+          /customers/{customerName}:
             get:
               consumes:
               - "application/json"
               produces:
               - "application/json"
               parameters:
-              - name: "userName"
+              - name: "customerName"
                 in: "path"
                 required: true
                 type: "string"
@@ -209,8 +209,8 @@ Resources:
                     statusCode: "200"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-                    : \"queryDonor\",\n  \"chaincodeFunctionArgs\": {\n      \"userName\"\
-                    : \"$input.params('userName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
+                    : \"queryDonor\",\n  \"chaincodeFunctionArgs\": {\n      \"customerName\"\
+                    : \"$input.params('customerName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
                     \n}"
                 passthroughBehavior: "when_no_templates"
                 httpMethod: "POST"

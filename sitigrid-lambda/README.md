@@ -92,22 +92,22 @@ You can test the Lambda function from the [Lambda console](https://console.aws.a
 
 To test from the cli, you will execute the commands below.  The output of each command is in the file specified in the last argument, and is displayed via `cat`.
 
-First, call the `createUser` chaincode function to create the donor "melissa".
+First, call the `createCustomer` chaincode function to create the donor "melissa".
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createUser\",\"chaincodeFunctionArgs\":{\"userName\":\"melissa\",\"email\":\"melissa@melissasngo.org\"}}" --region $REGION /tmp/lambda-output-createUser.txt
-cat /tmp/lambda-output-createUser.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createCustomer\",\"chaincodeFunctionArgs\":{\"customerName\":\"melissa\",\"email\":\"melissa@melissasngo.org\"}}" --region $REGION /tmp/lambda-output-createCustomer.txt
+cat /tmp/lambda-output-createCustomer.txt
 ```
 
 Next, call the `queryDonor` function to view the details of the donor we just created.
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryDonor\",\"chaincodeFunctionArgs\":{\"userName\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryDonor.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryDonor\",\"chaincodeFunctionArgs\":{\"customerName\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryDonor.txt
 cat /tmp/lambda-output-queryDonor.txt
 ```
 
-Finally, call the `queryAllUsers` function to view all the donors.
+Finally, call the `queryAllCustomers` function to view all the donors.
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryAllUsers\",\"chaincodeFunctionArgs\":{}}" --region $REGION /tmp/lambda-output-queryAllUsers.txt
-cat /tmp/lambda-output-queryAllUsers.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryAllCustomers\",\"chaincodeFunctionArgs\":{}}" --region $REGION /tmp/lambda-output-queryAllCustomers.txt
+cat /tmp/lambda-output-queryAllCustomers.txt
 ```
 
 You have deployed a Lambda function that is invoking chaincode transactions and running queries in Managed Blockchain. Next we'll test using API Gateway to call this Lambda for each of its routes.
@@ -118,11 +118,11 @@ You can test the API Gateway from the [API Gateway console](https://console.aws.
 
 To test from the cli, you will execute the commands below.  
 
-First, call the `POST /users` endpoint which will execute the `createUser` chaincode function to create the donor "rachel".
+First, call the `POST /users` endpoint which will execute the `createCustomer` chaincode function to create the donor "rachel".
 
 ```
 export APIURL=$(aws cloudformation describe-stacks --stack-name fabric-lambda-stack --query "Stacks[0].Outputs[?OutputKey=='APIGatewayURL'].OutputValue" --output text --region $REGION)
-curl -s -X POST "$APIURL/users" -H "content-type: application/json" -d '{"userName":"rachel","email":"rachel@donor.org"}'
+curl -s -X POST "$APIURL/users" -H "content-type: application/json" -d '{"customerName":"rachel","email":"rachel@donor.org"}'
 ```
 
 Second, call the `GET /users/{donorName}` endpoint which will execute the `queryDonor` chaincode function to query the donor "rachel".
@@ -131,7 +131,7 @@ Second, call the `GET /users/{donorName}` endpoint which will execute the `query
 curl -s -X GET "$APIURL/users/rachel" 
 ```
 
-Finally, call the `GET /users` endpoint which will execute the `queryAllUsers` chaincode function to view all the donors.
+Finally, call the `GET /users` endpoint which will execute the `queryAllCustomers` chaincode function to view all the donors.
 
 ```
 curl -s -X GET "$APIURL/users" 

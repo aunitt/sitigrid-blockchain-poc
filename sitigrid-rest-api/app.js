@@ -140,78 +140,78 @@ app.post('/users', awaitHandler(async (req, res) => {
 }));
 
 /************************************************************************************
- * User methods
+ * Customer methods
  ************************************************************************************/
 
-// GET User
-app.get('/users', awaitHandler(async (req, res) => {
-	logger.info('================ GET on User');
+// GET Customer
+app.get('/customers', awaitHandler(async (req, res) => {
+	logger.info('================ GET on customers');
 	let args = {};
-	let fcn = "queryAllUsers";
+	let fcn = "queryAllCustomers";
 
-    logger.info('##### GET on User - username : ' + username);
-	logger.info('##### GET on User - userOrg : ' + orgName);
-	logger.info('##### GET on User - channelName : ' + channelName);
-	logger.info('##### GET on User - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on User - fcn : ' + fcn);
-	logger.info('##### GET on User - args : ' + JSON.stringify(args));
-	logger.info('##### GET on User - peers : ' + peers);
+    logger.info('##### GET on customer - username : ' + username);
+	logger.info('##### GET on customer - userOrg : ' + orgName);
+	logger.info('##### GET on customer - channelName : ' + channelName);
+	logger.info('##### GET on customer - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on customer - fcn : ' + fcn);
+	logger.info('##### GET on customer - args : ' + JSON.stringify(args));
+	logger.info('##### GET on customer - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET a specific User
-app.get('/users/:userName', awaitHandler(async (req, res) => {
-	logger.info('================ GET on User by ID');
-	logger.info('User username : ' + req.params);
+// GET a specific customer
+app.get('/customers/:customerName', awaitHandler(async (req, res) => {
+	logger.info('================ GET on customer by ID');
+	logger.info('customer username : ' + req.params);
 	let args = req.params;
-	let fcn = "queryUser";
+	let fcn = "queryCustomer";
 
-    logger.info('##### GET on User by username - username : ' + username);
-	logger.info('##### GET on User by username - userOrg : ' + orgName);
-	logger.info('##### GET on User by username - channelName : ' + channelName);
-	logger.info('##### GET on User by username - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on User by username - fcn : ' + fcn);
-	logger.info('##### GET on User by username - args : ' + JSON.stringify(args));
-	logger.info('##### GET on User by username - peers : ' + peers);
+    logger.info('##### GET on customer by username - username : ' + username);
+	logger.info('##### GET on customer by username - userOrg : ' + orgName);
+	logger.info('##### GET on customer by username - channelName : ' + channelName);
+	logger.info('##### GET on customer by username - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on customer by username - fcn : ' + fcn);
+	logger.info('##### GET on customer by username - args : ' + JSON.stringify(args));
+	logger.info('##### GET on customer by username - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET the Donations for a specific User
-app.get('/users/:userName/donations', awaitHandler(async (req, res) => {
-	logger.info('================ GET on Donations for User');
-	logger.info('User username : ' + req.params);
+// GET the Donations for a specific customer
+app.get('/customers/:customerName/donations', awaitHandler(async (req, res) => {
+	logger.info('================ GET on Donations for customer');
+	logger.info('customer username : ' + req.params);
 	let args = req.params;
-	let fcn = "queryDonationsForUser";
+	let fcn = "queryDonationsForCustomer";
 
-    logger.info('##### GET on Donations for User - username : ' + username);
-	logger.info('##### GET on Donations for User - userOrg : ' + orgName);
-	logger.info('##### GET on Donations for User - channelName : ' + channelName);
-	logger.info('##### GET on Donations for User - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on Donations for User - fcn : ' + fcn);
-	logger.info('##### GET on Donations for User - args : ' + JSON.stringify(args));
-	logger.info('##### GET on Donations for User - peers : ' + peers);
+    logger.info('##### GET on Donations for customer - username : ' + username);
+	logger.info('##### GET on Donations for customer - userOrg : ' + orgName);
+	logger.info('##### GET on Donations for customer - channelName : ' + channelName);
+	logger.info('##### GET on Donations for customer - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on Donations for customer - fcn : ' + fcn);
+	logger.info('##### GET on Donations for customer - args : ' + JSON.stringify(args));
+	logger.info('##### GET on Donations for customer - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// POST User
-app.post('/users', awaitHandler(async (req, res) => {
-	logger.info('================ POST on User');
+// POST customer
+app.post('/customers', awaitHandler(async (req, res) => {
+	logger.info('================ POST on customer');
 	var args = req.body;
-	var fcn = "createUser";
+	var fcn = "createCustomer";
 
-    logger.info('##### POST on User - username : ' + username);
-	logger.info('##### POST on User - userOrg : ' + orgName);
-	logger.info('##### POST on User - channelName : ' + channelName);
-	logger.info('##### POST on User - chaincodeName : ' + chaincodeName);
-	logger.info('##### POST on User - fcn : ' + fcn);
-	logger.info('##### POST on User - args : ' + JSON.stringify(args));
-	logger.info('##### POST on User - peers : ' + peers);
+    logger.info('##### POST on customer - username : ' + username);
+	logger.info('##### POST on customer - userOrg : ' + orgName);
+	logger.info('##### POST on customer - channelName : ' + channelName);
+	logger.info('##### POST on customer - chaincodeName : ' + chaincodeName);
+	logger.info('##### POST on customer - fcn : ' + fcn);
+	logger.info('##### POST on customer - args : ' + JSON.stringify(args));
+	logger.info('##### POST on customer - peers : ' + peers);
 
 	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
 	res.send(message);

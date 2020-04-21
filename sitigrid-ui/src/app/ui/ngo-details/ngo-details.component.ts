@@ -95,10 +95,10 @@ export class NgoDetailsComponent implements OnInit {
       for (const i in ngo_data) {
         if (ngo_data[i]) {
           ngo_total_donation = ngo_total_donation + ngo_data[i].donationAmount;
-          if (!ngo_total_donors_set.has(ngo_data[i].userName)) {
-            ngo_total_donors_set.add(ngo_data[i].userName);
+          if (!ngo_total_donors_set.has(ngo_data[i].customerName)) {
+            ngo_total_donors_set.add(ngo_data[i].customerName);
           }
-          const donor_name = ngo_data[i].userName;
+          const donor_name = ngo_data[i].customerName;
           if (!ngo_donors_amounts.has(donor_name)) {
             ngo_donors_amounts.set(donor_name, ngo_data[i].donationAmount);
           } else {

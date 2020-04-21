@@ -82,7 +82,7 @@ export class DashboardService {
         const userDonation: Donation = new Donation();
 
         userDonation.id = data.donationId;
-        userDonation.Donor_id = data.userName;
+        userDonation.Donor_id = data.customerName;
         userDonation.ngo_id = data.ngoRegistrationNumber;
         userDonation.date = new Date(data.donationDate);
         userDonation.amount = data.donationAmount;

@@ -51,7 +51,7 @@ export class DonorService {
 
   }
 
-  createUser(userdata) {
+  createCustomer(userdata) {
     const userData = {
       username: userdata.username,
       orgName: 'Org1'
@@ -61,7 +61,7 @@ export class DonorService {
 
   signup(userdata) {
     const reqData = {
-      userName: userdata.username,
+      customerName: userdata.username,
       email: userdata.email,
       registeredDate: new Date().toISOString()
     };
@@ -82,7 +82,7 @@ export class DonorService {
           data => {
             if (data.length > 0) {
               const datum = data[0];
-              const donor = new Donor().get(datum.userName, datum.email);
+              const donor = new Donor().get(datum.customerName, datum.email);
               this.setAuth(donor);
               if (this.currentUrl !== '/' || this.currentUrl !== '/singin') {
                 this.route.navigate(['ngolist']);

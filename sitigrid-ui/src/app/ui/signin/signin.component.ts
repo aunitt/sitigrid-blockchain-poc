@@ -64,7 +64,7 @@ export class SigninComponent implements OnInit {
     const resp = this.userService.signin(user).subscribe(
       data => {
         const fistrecord = data[0];
-        const donor = new Donor().get(fistrecord.userName, fistrecord.email);
+        const donor = new Donor().get(fistrecord.customerName, fistrecord.email);
         this.userService.setAuth(donor);
         this.router.navigate(['ngolist']);
       },

@@ -32,7 +32,7 @@ class Donate {
     donationId: string = null;
     donationAmount: number = null;
     donationDate: string = null;
-    userName: string = null;
+    customerName: string = null;
     ngoRegistrationNumber: string = null;
     constructor() {
 
@@ -42,7 +42,7 @@ class Donate {
         this.donationId = uuid.v4();
         this.donationAmount = donationAmount;
         this.donationDate = '';
-        this.userName = donor;
+        this.customerName = donor;
         this.ngoRegistrationNumber = ngo;
         return this;
     }
