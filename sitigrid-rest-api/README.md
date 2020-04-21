@@ -127,7 +127,7 @@ response:
 
 **If you encounter an error such as `{"code":20,"message":"Authorization failure"}`, it is likely because the admin credentials in `config.json` above are incorrect.  Update those and restart the REST API server that is running in the other terminal.**
 
-### POST a User
+### POST a customer
 
 request:
 ```
@@ -145,7 +145,7 @@ A transaction ID, which can be ignored:
 {"transactionId":"2f3f3a85340bde09b505b0d37235d1d32a674e43a66229f9a205e7d8d5328ed1"}
 ```
 
-### Get all Users
+### Get all customers
 
 request:
 ```
