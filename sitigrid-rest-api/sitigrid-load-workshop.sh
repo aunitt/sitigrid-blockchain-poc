@@ -159,7 +159,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
 }')
 echo "Transaction ID is $TRX_ID"
 
-echo 'Query all Donations'
+echo 'Query all Productions'
 echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json'
 
