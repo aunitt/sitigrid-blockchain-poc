@@ -149,7 +149,7 @@ Query a specific customers
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryUser","{\"customerName\": \"edge\"}"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryCustomer","{\"customerName\": \"edge\"}"]}'
 ```
 
 ## Move on to Part 3
