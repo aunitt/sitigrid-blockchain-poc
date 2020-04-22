@@ -61,8 +61,8 @@ async function setupClient() {
 	fabric_client.setCryptoSuite(crypto_suite);
 
     const username = config.fabricUsername;
-    const privatePEM = await getSecret("pk1", username);
-    const signedPEM = await getSecret("signcert1", username);
+    const privatePEM = await getSecret("pk2", username);
+    const signedPEM = await getSecret("signcert2", username);
 
     logger.info("username = " + username);
     logger.info("privatePEM = " + privatePEM);
