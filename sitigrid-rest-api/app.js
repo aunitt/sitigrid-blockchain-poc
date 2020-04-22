@@ -218,6 +218,43 @@ app.get('/customers/:customerName/totalproductions', awaitHandler(async (req, re
  	res.send(message);
 }));
 
+// GET the consumptions for a specific customer
+app.get('/customers/:customerName/consumptions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on consumptions for customer');
+	logger.info('customer username : ' + req.params);
+	let args = req.params;
+	let fcn = "queryConsumptionsForCustomer";
+
+    logger.info('##### GET on consumptions for customer - username : ' + username);
+	logger.info('##### GET on consumptions for customer - userOrg : ' + orgName);
+	logger.info('##### GET on consumptions for customer - channelName : ' + channelName);
+	logger.info('##### GET on consumptions for customer - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on consumptions for customer - fcn : ' + fcn);
+	logger.info('##### GET on consumptions for customer - args : ' + JSON.stringify(args));
+	logger.info('##### GET on consumptions for customer - peers : ' + peers);
+
+    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+ 	res.send(message);
+}));
+
+// GET total consumptions for a specific customer
+app.get('/customers/:customerName/totalconsumptions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on totalconsumptions for customer');
+	logger.info('customer username : ' + req.params);
+	let args = req.params;
+	let fcn = "queryTotalConsumptionsForCustomer";
+
+    logger.info('##### GET on consumptions for customer - username : ' + username);
+	logger.info('##### GET on consumptions for customer - userOrg : ' + orgName);
+	logger.info('##### GET on consumptions for customer - channelName : ' + channelName);
+	logger.info('##### GET on consumptions for customer - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on consumptions for customer - fcn : ' + fcn);
+	logger.info('##### GET on consumptions for customer - args : ' + JSON.stringify(args));
+	logger.info('##### GET on consumptions for customer - peers : ' + peers);
+
+    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+ 	res.send(message);
+}));
 // POST customer
 app.post('/customers', awaitHandler(async (req, res) => {
 	logger.info('================ POST on customer');
@@ -294,6 +331,66 @@ app.post('/productions', awaitHandler(async (req, res) => {
 	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
 	res.send(message);
 }));
+
+/************************************************************************************
+ * Consumption methods
+ ************************************************************************************/
+
+// GET consumption
+app.get('/consumptions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on consumption');
+	let args = {};
+	let fcn = "queryAllConsumptions";
+
+    logger.info('##### GET on consumption - username : ' + username);
+	logger.info('##### GET on consumption - userOrg : ' + orgName);
+	logger.info('##### GET on consumption - channelName : ' + channelName);
+	logger.info('##### GET on consumption - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on consumption - fcn : ' + fcn);
+	logger.info('##### GET on consumption - args : ' + JSON.stringify(args));
+	logger.info('##### GET on consumption - peers : ' + peers);
+
+    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+ 	res.send(message);
+}));
+
+// GET a specific consumption
+app.get('/consumptions/:consumptionId', awaitHandler(async (req, res) => {
+	logger.info('================ GET on consumption by ID');
+	logger.info('consumption ID : ' + req.params);
+	let args = req.params;
+	let fcn = "queryConsumption";
+
+    logger.info('##### GET on consumption - username : ' + username);
+	logger.info('##### GET on consumption - userOrg : ' + orgName);
+	logger.info('##### GET on consumption - channelName : ' + channelName);
+	logger.info('##### GET on consumption - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on consumption - fcn : ' + fcn);
+	logger.info('##### GET on consumption - args : ' + JSON.stringify(args));
+	logger.info('##### GET on consumption - peers : ' + peers);
+
+    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+ 	res.send(message);
+}));
+
+// POST consumption
+app.post('/consumptions', awaitHandler(async (req, res) => {
+	logger.info('================ POST on consumption');
+	var args = req.body;
+	var fcn = "createConsumptionRecord";
+
+    logger.info('##### POST on consumption - username : ' + username);
+	logger.info('##### POST on consumption - userOrg : ' + orgName);
+	logger.info('##### POST on consumption - channelName : ' + channelName);
+	logger.info('##### POST on consumption - chaincodeName : ' + chaincodeName);
+	logger.info('##### POST on consumption - fcn : ' + fcn);
+	logger.info('##### POST on consumption - args : ' + JSON.stringify(args));
+	logger.info('##### POST on consumption - peers : ' + peers);
+
+	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+	res.send(message);
+}));
+
 
 
 /************************************************************************************

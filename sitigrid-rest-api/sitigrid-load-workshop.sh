@@ -64,100 +64,102 @@ echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/customers -H 'content-type: application/json'
 
 echo '---------------------------------------'
-echo Production
+echo Consumptions
 echo '---------------------------------------'
 echo
-echo 'Create Production'
+echo 'Create Consumption'
 echo
 DONATION1=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION1}"'",
-        "productionAmount": 100,
-        "productionDate": "2018-09-20T12:41:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION1}"'",
+        "consumptionAmount": 100,
+        "consumptionDate": "2018-09-20T12:41:59.582Z",
         "customerName": "edge"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION2=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION2}"'",
-        "productionAmount": 255,
-        "productionDate": "2018-09-18T07:41:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION2}"'",
+        "consumptionAmount": 144,
+        "consumptionDate": "2018-09-18T07:41:59.582Z",
         "customerName": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION3=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION3}"'",
-        "productionAmount": 900,
-        "productionDate": "2018-09-09T06:32:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION3}"'",
+        "consumptionAmount": 800,
+        "consumptionDate": "2018-09-09T06:32:59.582Z",
         "customerName": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION4=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION4}"'",
-        "productionAmount": 430,
-        "productionDate": "2018-08-09T09:32:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION4}"'",
+        "consumptionAmount": 420,
+        "consumptionDate": "2018-08-09T09:32:59.582Z",
         "customerName": "braendle"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION5=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION5}"'",
-        "productionAmount": 200,
-        "productionDate": "2018-09-18T07:41:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION5}"'",
+        "consumptionAmount": 201,
+        "consumptionDate": "2018-09-18T07:41:59.582Z",
         "customerName": "edge"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION6=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION6}"'",
-        "productionAmount": 520,
-        "productionDate": "2018-09-20T12:41:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION6}"'",
+        "consumptionAmount": 520,
+        "consumptionDate": "2018-09-20T12:41:59.582Z",
         "customerName": "edge"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION7=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION7}"'",
-        "productionAmount": 760,
-        "productionDate": "2018-09-18T07:41:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION7}"'",
+        "consumptionAmount": 760,
+        "consumptionDate": "2018-09-18T07:41:59.582Z",
         "customerName": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION8=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION8}"'",
-        "productionAmount": 25,
-        "productionDate": "2018-09-09T06:32:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION8}"'",
+        "consumptionAmount": 255,
+        "consumptionDate": "2018-09-09T06:32:59.582Z",
         "customerName": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION9=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION9}"'",
-        "productionAmount": 44,
-        "productionDate": "2018-08-09T09:32:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION9}"'",
+        "consumptionAmount": 36,
+        "consumptionDate": "2018-08-09T09:32:59.582Z",
         "customerName": "braendle"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONATION10=$(uuidgen)
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION10}"'",
-        "productionAmount": 120,
-        "productionDate": "2018-09-18T07:41:59.582Z",
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
+        "consumptionId": "'"${DONATION10}"'",
+        "consumptionAmount": 120,
+        "consumptionDate": "2018-09-18T07:41:59.582Z",
         "customerName": "edge"
 }')
 echo "Transaction ID is $TRX_ID"
+
+
 
 echo
 echo 'Query all Productions'
@@ -177,4 +179,15 @@ echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/totalproductions -H 'content-type: application/json'
 echo
 
+echo 
+echo 'Query consumption for one customer'
+echo
+curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/consumptions -H 'content-type: application/json'
+echo
+
+echo
+echo 'Total consumption for one customer'
+echo
+curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/totalconsumptions -H 'content-type: application/json'
+echo
 

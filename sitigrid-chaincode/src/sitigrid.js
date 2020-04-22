@@ -383,6 +383,130 @@ let Chaincode = class {
 
   /************************************************************************************************
    * 
+   * Energy consumption functions 
+   * 
+   ************************************************************************************************/
+
+  /**
+   * Creates a new energy consumption record
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "consumptionId":"433da889-777d-4f11-b9eb-a6610d8ba555",
+   *    "consumptionAmount":100,
+   *    "consumptionDate":"2018-09-20T12:41:59.582Z",
+   *    "customerName":"edge"
+   * }
+   */
+  async createConsumptionRecord(stub, args) {
+    console.log('============= START : createConsumptionRecord ===========');
+    console.log('##### createConsumptionRecord arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let key = 'consumption' + json['consumptionId'];
+    json['docType'] = 'consumption';
+
+    console.log('##### createConsumptionRecord consumption: ' + JSON.stringify(json));
+
+    // Confirm the customer exists
+    let customerKey = 'customer' + json['customerName'];
+    let customerQuery = await stub.getState(customerKey);
+    if (!customerQuery.toString()) {
+      throw new Error('##### createConsumptionRecord - Cannot create consumption as the Customer does not exist: ' + json['customerName']);
+    }
+
+    // Check if the Consumption already exists
+    let consumptionQuery = await stub.getState(key);
+    if (consumptionQuery.toString()) {
+      throw new Error('##### createConsumptionRecord - This consumption already exists: ' + json['consumptionId']);
+    }
+
+    await stub.putState(key, Buffer.from(JSON.stringify(json)));
+    console.log('============= END : createConsumptionRecord ===========');
+  }
+
+  /**
+   * Retrieves a specfic consumption
+   * 
+   * @param {*} stub 
+   * @param {*} args 
+   */
+  async queryConsumption(stub, args) {
+    console.log('============= START : queryConsumption ===========');
+    console.log('##### queryConsumption arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let key = 'consumption' + json['consumptionId'];
+    console.log('##### queryConsumption key: ' + key);
+    return queryByKey(stub, key);
+  }
+
+  /**
+   * Retrieves consumptions for a specfic customer
+   * 
+   * @param {*} stub 
+   * @param {*} args 
+   */
+  async queryConsumptionsForCustomer(stub, args) {
+    console.log('============= START : queryConsumptionsForCustomer ===========');
+    console.log('##### queryConsumptionsForCustomer arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let queryString = '{"selector": {"docType": "consumption", "customerName": "' + json['customerName'] + '"}}';
+    return queryByString(stub, queryString);
+  }
+
+  /**
+   * Retrieves the sum of consumptions for a specfic customer
+   * 
+   * @param {*} stub 
+   * @param {*} args 
+   */
+  async queryTotalConsumptionsForCustomer(stub, args) {
+    console.log('============= START : queryTotalConsumptionsForCustomer ===========');
+    console.log('##### queryTotalConsumptionsForCustomer arguments: ' + JSON.stringify(args));
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let queryString = '{"selector": {"docType": "consumption", "customerName": "' + json['customerName'] + '"}}';
+    let consumptions = await queryByString(stub, queryString);
+    consumptions = JSON.parse(consumptions.toString());
+    console.log('#####  -queryTotalConsumptionsForCustomer consumptions as JSON: ' + JSON.stringify(consumptions));
+
+    let totalConsumptions = 0;
+    console.log('#####  -queryTotalConsumptionsForCustomer number of consumptions: ' + consumptions.length);
+    for (let n = 0; n < consumptions.length; n++) {
+      let consumption = consumptions[n];
+      console.log('##### queryTotalConsumptionsForCustomer - consumption: ' + JSON.stringify(consumption));
+      totalConsumptions += consumption['Record']['consumptionAmount'];
+    }
+    console.log('##### allocateSpend - Total consumptions for this customer are: ' + totalConsumptions.toString());
+    
+    let result = { 'totalConsumptions' : totalConsumptions };
+    console.log('##### allocateSpend - Total result: ' + JSON.stringify(result));
+    
+    return Buffer.from(JSON.stringify(result));
+  }
+
+  /**
+   * Retrieves all consumptions
+   * 
+   * @param {*} stub 
+   * @param {*} args 
+   */
+  async queryAllConsumptions(stub, args) {
+    console.log('============= START : queryAllConsumptions ===========');
+    console.log('##### queryAllConsumptions arguments: ' + JSON.stringify(args)); 
+    let queryString = '{"selector": {"docType": "consumption"}}';
+    return queryByString(stub, queryString);
+  }
+
+  /************************************************************************************************
+   * 
    * Blockchain related functions 
    * 
    ************************************************************************************************/
