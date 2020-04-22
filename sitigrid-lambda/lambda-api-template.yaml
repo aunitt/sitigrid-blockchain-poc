@@ -132,7 +132,7 @@ Resources:
         swagger: "2.0"
         info:
           version: "2019-11-13T11:12:00Z"
-          title: "Non Profit Blockchain"
+          title: "Sitigrid Blockchain"
         paths:
           /customers:
             get:
@@ -209,7 +209,7 @@ Resources:
                     statusCode: "200"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-                    : \"queryDonor\",\n  \"chaincodeFunctionArgs\": {\n      \"customerName\"\
+                    : \"queryCustomer\",\n  \"chaincodeFunctionArgs\": {\n      \"customerName\"\
                     : \"$input.params('customerName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
                     \n}"
                 passthroughBehavior: "when_no_templates"
