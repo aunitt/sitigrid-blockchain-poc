@@ -92,19 +92,19 @@ You can test the Lambda function from the [Lambda console](https://console.aws.a
 
 To test from the cli, you will execute the commands below.  The output of each command is in the file specified in the last argument, and is displayed via `cat`.
 
-First, call the `createCustomer` chaincode function to create the donor "melissa".
+First, call the `createCustomer` chaincode function to create the customer "melissa".
 ```
 aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createCustomer\",\"chaincodeFunctionArgs\":{\"customerName\":\"melissa\",\"email\":\"melissa@melissasngo.org\"}}" --region $REGION /tmp/lambda-output-createCustomer.txt
 cat /tmp/lambda-output-createCustomer.txt
 ```
 
-Next, call the `queryDonor` function to view the details of the donor we just created.
+Next, call the `queryCustomer` function to view the details of the customer we just created.
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryDonor\",\"chaincodeFunctionArgs\":{\"customerName\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryDonor.txt
-cat /tmp/lambda-output-queryDonor.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryCustomer\",\"chaincodeFunctionArgs\":{\"customerName\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryCustomer.txt
+cat /tmp/lambda-output-queryCustomer.txt
 ```
 
-Finally, call the `queryAllCustomers` function to view all the donors.
+Finally, call the `queryAllCustomers` function to view all the customers.
 ```
 aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryAllCustomers\",\"chaincodeFunctionArgs\":{}}" --region $REGION /tmp/lambda-output-queryAllCustomers.txt
 cat /tmp/lambda-output-queryAllCustomers.txt
@@ -118,23 +118,23 @@ You can test the API Gateway from the [API Gateway console](https://console.aws.
 
 To test from the cli, you will execute the commands below.  
 
-First, call the `POST /users` endpoint which will execute the `createCustomer` chaincode function to create the donor "rachel".
+First, call the `POST /customers` endpoint which will execute the `createCustomer` chaincode function to create the customer "rachel".
 
 ```
 export APIURL=$(aws cloudformation describe-stacks --stack-name fabric-lambda-stack --query "Stacks[0].Outputs[?OutputKey=='APIGatewayURL'].OutputValue" --output text --region $REGION)
-curl -s -X POST "$APIURL/users" -H "content-type: application/json" -d '{"customerName":"rachel","email":"rachel@donor.org"}'
+curl -s -X POST "$APIURL/customers" -H "content-type: application/json" -d '{"customerName":"rachel","email":"rachel@customer.org"}'
 ```
 
-Second, call the `GET /users/{donorName}` endpoint which will execute the `queryDonor` chaincode function to query the donor "rachel".
+Second, call the `GET /customers/{customerName}` endpoint which will execute the `queryCustomer` chaincode function to query the customer "rachel".
 
 ```
-curl -s -X GET "$APIURL/users/rachel" 
+curl -s -X GET "$APIURL/customers/rachel" 
 ```
 
-Finally, call the `GET /users` endpoint which will execute the `queryAllCustomers` chaincode function to view all the donors.
+Finally, call the `GET /customers` endpoint which will execute the `queryAllCustomers` chaincode function to view all the customers.
 
 ```
-curl -s -X GET "$APIURL/users" 
+curl -s -X GET "$APIURL/customers" 
 ```
 
 You now have a REST API managed by API Gateway that is invoking a Lambda function to execute transactions on the blockchain.  To expose additional chaincode functions within API Gateway, you would add API Gateway routes to support them, and continue routing to the same Lambda function.   
