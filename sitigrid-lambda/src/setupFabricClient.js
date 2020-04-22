@@ -64,6 +64,10 @@ async function setupClient() {
     const privatePEM = await getSecret("pk", username);
     const signedPEM = await getSecret("signcert", username);
 
+    logger.info("username = " + username);
+    logger.info("privatePEM = " + privatePEM);
+    logger.info("signedPEM = " + signedPEM);
+
     fabricUser = await fabric_client.createUser({username, mspid: config.mspID, cryptoContent: {privateKeyPEM: privatePEM, signedCertPEM: signedPEM}, skipPersistence: true});
     fabric_client.setUserContext(fabricUser, true);
 
