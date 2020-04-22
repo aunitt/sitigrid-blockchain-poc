@@ -363,7 +363,7 @@ let Chaincode = class {
     console.log('##### allocateSpend - Total productions for this customer are: ' + totalProductions.toString());
     
     let result = { 'totalProductions' : totalProductions };
-    console.log('##### allocateSpend - Total result: ' + JSON.stringify(result);
+    console.log('##### allocateSpend - Total result: ' + JSON.stringify(result));
     
     return Buffer.from(JSON.stringify(result));
   }
