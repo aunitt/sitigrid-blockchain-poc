@@ -159,8 +159,22 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
 }')
 echo "Transaction ID is $TRX_ID"
 
+echo
 echo 'Query all Productions'
 echo
 curl -s -X GET http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json'
+echo
+
+echo 
+echo 'Query production for one customer'
+echo
+curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/productions -H 'content-type: application/json'
+echo
+
+echo
+echo 'Total production for one customer'
+echo
+curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/totalproductions -H 'content-type: application/json'
+echo
 
 
