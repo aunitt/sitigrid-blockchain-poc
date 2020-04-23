@@ -141,7 +141,7 @@ Resources:
             produces:
             - "application/json"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -165,7 +165,7 @@ Resources:
             produces:
             - "application/json"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -194,7 +194,7 @@ Resources:
             produces:
             - "application/json"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -217,7 +217,7 @@ Resources:
             produces:
             - "application/json"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -249,7 +249,7 @@ Resources:
               required: true
               type: "string"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -280,7 +280,7 @@ Resources:
               required: true
               type: "string"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -311,7 +311,7 @@ Resources:
               required: true
               type: "string"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -342,7 +342,7 @@ Resources:
               required: true
               type: "string"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -373,7 +373,7 @@ Resources:
               required: true
               type: "string"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -399,7 +399,7 @@ Resources:
             produces:
             - "application/json"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
@@ -423,7 +423,7 @@ Resources:
             produces:
             - "application/json"
             responses:
-              200:
+              "200":
                 description: "200 response"
                 schema:
                   $ref: "#/definitions/Empty"
