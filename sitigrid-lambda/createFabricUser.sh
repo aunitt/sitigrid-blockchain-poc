@@ -18,10 +18,22 @@
 export CERTS_FOLDER=/tmp/certs
 export PATH=$PATH:/home/ec2-user/go/src/github.com/hyperledger/fabric-ca/bin
 
+# Clean old version of the local certificates
+echo Cleaning old certificates
+rm -rf $CERTS_FOLDER/$FABRICUSER
+
 # Register and enroll
 fabric-ca-client register --id.name $FABRICUSER --id.affiliation $MEMBERNAME --tls.certfiles /home/ec2-user/managedblockchain-tls-chain.pem --id.type user --id.secret $FABRICUSERPASSWORD
 fabric-ca-client enroll -u https://$FABRICUSER:$FABRICUSERPASSWORD@$CASERVICEENDPOINT --tls.certfiles /home/ec2-user/managedblockchain-tls-chain.pem -M $CERTS_FOLDER/$FABRICUSER
 
 # Put the credentials on Secrets Manager
 aws secretsmanager create-secret --name "dev/fabricOrgs/$MEMBERNAME/$FABRICUSER/pk" --secret-string "`cat $CERTS_FOLDER/$FABRICUSER/keystore/*`" --region $REGION
+if [ $? -gt 0 ]; then
+    echo pk already exists - updating
+    aws secretsmanager update-secret --secret-id "dev/fabricOrgs/$MEMBERNAME/$FABRICUSER/pk" --secret-string "`cat $CERTS_FOLDER/$FABRICUSER/keystore/*`" --region $REGION
+fi
 aws secretsmanager create-secret --name "dev/fabricOrgs/$MEMBERNAME/$FABRICUSER/signcert" --secret-string "`cat $CERTS_FOLDER/$FABRICUSER/signcerts/*`" --region $REGION
+if [ $? -gt 0 ]; then
+    echo signcert already exists - updating
+    aws secretsmanager update-secret --secret-id "dev/fabricOrgs/$MEMBERNAME/$FABRICUSER/signcert" --secret-string "`cat $CERTS_FOLDER/$FABRICUSER/signcerts/*`" --region $REGION
+fi
