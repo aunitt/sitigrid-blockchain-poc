@@ -213,6 +213,21 @@ Resources:
                 contentHandling: "CONVERT_TO_TEXT"
                 type: "aws"
             post:
+              description: "Creates a new customer"
+              parameters:
+                - in: body
+                  name: consumer
+                  description: The customer to create.
+                  schema:
+                    type: object
+                    required:
+                      - customerName
+                      - email
+                    properties:
+                      customerName:
+                        type: string
+                      email:
+                        type: string
               consumes:
               - "application/json"
               produces:
