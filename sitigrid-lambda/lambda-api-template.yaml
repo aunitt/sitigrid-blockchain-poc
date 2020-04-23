@@ -164,6 +164,12 @@ Resources:
               - "application/json"
               produces:
               - "application/json"
+              parameters:
+                - in: body
+                  name: consumption
+                  description: A consumption record to log.
+                  schema:
+                    $ref: "#/definitions/Consumption"
               responses:
                 "200":
                   description: "200 response"
@@ -219,15 +225,7 @@ Resources:
                   name: consumer
                   description: The customer to create.
                   schema:
-                    type: object
-                    required:
-                      - customerName
-                      - email
-                    properties:
-                      customerName:
-                        type: string
-                      email:
-                        type: string
+                    $ref: "#/definitions/Customer"
               consumes:
               - "application/json"
               produces:
@@ -438,6 +436,12 @@ Resources:
               - "application/json"
               produces:
               - "application/json"
+              parameters:
+                - in: body
+                  name: production
+                  description: A production record to log.
+                  schema:
+                    $ref: "#/definitions/Production"
               responses:
                 "200":
                   description: "200 response"
@@ -464,6 +468,45 @@ Resources:
           Empty:
             type: "object"
             title: "Empty Schema"
+          Customer:
+            type: "object"
+            required:
+            - "customerName"
+            - "email"
+            properties:
+              customerName:
+                type: "string"
+              email:
+                type: "string"
+            example:
+              customerName: "John Smith"
+              email: "jsmith@example.com"
+          Production:
+            type: "object"
+            required:
+            - "customerName"
+            - "productionAmount"
+            properties:
+              customerName:
+                type: "string"
+              productionAmount:
+                type: integer
+            example:
+              customerName: "John Smith"
+              productionAmount: "100"
+          Consumption:
+            type: "object"
+            required:
+            - "customerName"
+            - "consumptionAmount"
+            properties:
+              customerName:
+                type: "string"
+              consumptionAmount:
+                type: integer
+            example:
+              customerName: "John Smith"
+              consumptionAmount: "90"
 Outputs:
   APIGatewayURL:
     Description: "API Gateway endpoint URL for Dev stage"
