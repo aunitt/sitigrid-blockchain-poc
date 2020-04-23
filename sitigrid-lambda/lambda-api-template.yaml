@@ -100,7 +100,7 @@ Resources:
             Path: /customers
             Method: get
             RestApiId: !Ref SitigridAPIGateway
-        createCustomer:
+        CreateCustomer:
           Type: Api
           Properties:
             Path: /customers
@@ -110,6 +110,30 @@ Resources:
           Type: Api
           Properties:
             Path: /customers/{customerName}
+            Method: get
+            RestApiId: !Ref SitigridAPIGateway
+        CreateProductionRecord:
+          Type: Api
+          Properties:
+            Path: /productions
+            Method: post
+            RestApiId: !Ref SitigridAPIGateway
+        GetProductions:
+          Type: Api
+          Properties:
+            Path: /productions
+            Method: get
+            RestApiId: !Ref SitigridAPIGateway
+        CreateConsumptionRecord:
+          Type: Api
+          Properties:
+            Path: /consumptions
+            Method: post
+            RestApiId: !Ref SitigridAPIGateway
+        GetConsumptions:
+          Type: Api
+          Properties:
+            Path: /consumptions
             Method: get
             RestApiId: !Ref SitigridAPIGateway
   SecretsManagerVPCE:
