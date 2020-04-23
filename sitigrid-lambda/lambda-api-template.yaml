@@ -478,9 +478,6 @@ Resources:
                 type: "string"
               email:
                 type: "string"
-            example:
-              customerName: "John Smith"
-              email: "jsmith@example.com"
           Production:
             type: "object"
             required:
@@ -491,9 +488,6 @@ Resources:
                 type: "string"
               productionAmount:
                 type: integer
-            example:
-              customerName: "John Smith"
-              productionAmount: "100"
           Consumption:
             type: "object"
             required:
@@ -504,9 +498,6 @@ Resources:
                 type: "string"
               consumptionAmount:
                 type: integer
-            example:
-              customerName: "John Smith"
-              consumptionAmount: "90"
 Outputs:
   APIGatewayURL:
     Description: "API Gateway endpoint URL for Dev stage"
