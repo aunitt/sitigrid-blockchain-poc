@@ -95,16 +95,14 @@ that provide a context to Hyperledger Fabric. These variables will tell the clie
 network to use, which peer node to interact with, which TLS certs to use, etc. 
 
 From Cloud9, SSH into the Fabric client node. The key (i.e. the .PEM file) should be in your home directory. 
+The DNS of the Fabric client node EC2 instance can be found in the output of the CloudFormation stack you 
+created in Step 3 above.
 
 Answer 'yes' if prompted: `Are you sure you want to continue connecting (yes/no)`
 
 ```
 cd ~
-export REGION=us-east-1
-export STACKNAME=$(aws cloudformation describe-stacks --region $REGION --query 'Stacks[?Description==`Amazon Managed Blockchain. Creates network with a single member and peer node`] | [0].StackName' --output text)
-export NETWORKNAME=$(aws cloudformation describe-stacks --stack-name $STACKNAME --region $REGION --query 'Stacks[0].Outputs[?OutputKey==`NetworkName`].OutputValue' --output text)
-export EC2URL=$(aws cloudformation describe-stacks --stack-name sitigrid-fabric-client-node --query "Stacks[0].Outputs[?OutputKey=='EC2URL'].OutputValue" --output text --region $REGION)
-ssh ec2-user@$EC2URL -i ~/$NETWORKNAME-keypair.pem
+ssh ec2-user@<dns of EC2 instance> -i ~/<Fabric network name>-keypair.pem
 ```
 
 Clone the repo:
