@@ -234,7 +234,7 @@ Resources:
                   content:
                     application/json:
                       schema:
-                        $ref: "#/components/schemas/Empty"
+                        $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
                 responses:
                   default:
@@ -322,7 +322,7 @@ Resources:
                   content:
                     application/json:
                       schema:
-                        $ref: "#/components/schemas/Empty"
+                        $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
                 responses:
                   default:
@@ -565,7 +565,7 @@ Resources:
                   content:
                     application/json:
                       schema:
-                        $ref: "#/components/schemas/Empty"
+                        $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
                 responses:
                   default:
