@@ -10,6 +10,7 @@ schemes:
 paths:
   /consumptions:
     get:
+      description: "Returns all the consumption records in the blockchain"
       consumes:
       - "application/json"
       produces:
@@ -38,6 +39,7 @@ paths:
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     post:
+      description: "Adds a new consumption record to the blockchain"
       consumes:
       - "application/json"
       produces:
@@ -106,6 +108,7 @@ paths:
         type: "mock"
   /customers:
     get:
+      description: "Returns all the customers registered"
       consumes:
       - "application/json"
       produces:
@@ -134,6 +137,7 @@ paths:
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     post:
+      description: "Registers a new customer in the blockchain"
       consumes:
       - "application/json"
       produces:
@@ -200,6 +204,7 @@ paths:
         type: "mock"
   /customers/{customerName}:
     get:
+      description: "Returns the customer record of the given customer"
       consumes:
       - "application/json"
       produces:
@@ -264,6 +269,7 @@ paths:
         type: "mock"
   /customers/{customerName}/consumptions:
     get:
+      description: "Returns all the consumption records for the given customer"
       consumes:
       - "application/json"
       produces:
@@ -328,6 +334,7 @@ paths:
         type: "mock"
   /customers/{customerName}/productions:
     get:
+      description: "Returns all the production methods for a given customer"
       consumes:
       - "application/json"
       produces:
@@ -392,6 +399,7 @@ paths:
         type: "mock"
   /customers/{customerName}/totalconsumptions:
     get:
+      description: "Returns the total consumption amount for the given customer"
       consumes:
       - "application/json"
       produces:
@@ -456,6 +464,7 @@ paths:
         type: "mock"
   /customers/{customerName}/totalproductions:
     get:
+      description: "Returns the total production amount for the given customer"
       consumes:
       - "application/json"
       produces:
@@ -520,6 +529,7 @@ paths:
         type: "mock"
   /productions:
     get:
+      description: "Returns all the production methods in the blockchain"
       consumes:
       - "application/json"
       produces:
@@ -548,6 +558,7 @@ paths:
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     post:
+      description: "Adds a new production method to the blockchain"
       consumes:
       - "application/json"
       produces:
@@ -647,3 +658,216 @@ definitions:
         type: "integer"
       customerName:
         type: "string"
+x-amazon-apigateway-documentation:
+  version: "1.0.1"
+  createdDate: "2020-04-29T15:39:38Z"
+  documentationParts:
+  - location:
+      type: "METHOD"
+      path: "/consumptions"
+      method: "GET"
+    properties:
+      description: "Returns all the consumption records in the blockchain"
+  - location:
+      type: "METHOD"
+      path: "/consumptions"
+      method: "POST"
+    properties:
+      description: "Adds a new consumption record to the blockchain"
+  - location:
+      type: "METHOD"
+      path: "/customers/{customerName}/consumptions"
+      method: "GET"
+    properties:
+      description: "Returns all the consumption records for the given customer"
+  - location:
+      type: "METHOD"
+      path: "/customers/{customerName}/productions"
+      method: "GET"
+    properties:
+      description: "Returns all the production methods for a given customer"
+  - location:
+      type: "METHOD"
+      path: "/customers/{customerName}/totalconsumptions"
+      method: "GET"
+    properties:
+      description: "Returns the total consumption amount for the given customer"
+  - location:
+      type: "METHOD"
+      path: "/customers/{customerName}/totalproductions"
+      method: "GET"
+    properties:
+      description: "Returns the total production amount for the given customer"
+  - location:
+      type: "METHOD"
+      path: "/customers/{customerName}"
+      method: "GET"
+    properties:
+      description: "Returns the customer record of the given customer"
+  - location:
+      type: "METHOD"
+      path: "/customers"
+      method: "GET"
+    properties:
+      description: "Returns all the customers registered"
+  - location:
+      type: "METHOD"
+      path: "/customers"
+      method: "POST"
+    properties:
+      description: "Registers a new customer in the blockchain"
+  - location:
+      type: "METHOD"
+      path: "/productions"
+      method: "GET"
+    properties:
+      description: "Returns all the production methods in the blockchain"
+  - location:
+      type: "METHOD"
+      path: "/productions"
+      method: "POST"
+    properties:
+      description: "Adds a new production method to the blockchain"
+  - location:
+      type: "MODEL"
+      name: "Empty"
+    properties:
+      title: "Empty Schema"
+  - location:
+      type: "RESOURCE"
+      path: "/consumptions"
+    properties:
+      description: ""
+  - location:
+      type: "RESPONSE"
+      path: "/consumptions"
+      method: "GET"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/consumptions"
+      method: "OPTIONS"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/consumptions"
+      method: "POST"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}/consumptions"
+      method: "GET"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}/consumptions"
+      method: "OPTIONS"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}/productions"
+      method: "GET"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}/productions"
+      method: "OPTIONS"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}/totalconsumptions"
+      method: "GET"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}/totalconsumptions"
+      method: "OPTIONS"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}/totalproductions"
+      method: "GET"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}/totalproductions"
+      method: "OPTIONS"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}"
+      method: "GET"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers/{customerName}"
+      method: "OPTIONS"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers"
+      method: "GET"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers"
+      method: "OPTIONS"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/customers"
+      method: "POST"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/productions"
+      method: "GET"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/productions"
+      method: "OPTIONS"
+      statusCode: "200"
+    properties:
+      description: "200 response"
+  - location:
+      type: "RESPONSE"
+      path: "/productions"
+      method: "POST"
+      statusCode: "200"
+    properties:
+      description: "200 response"
