@@ -167,6 +167,10 @@ Resources:
               responses:
                 "200":
                   description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      schema:
+                        type: "string"
                   schema:
                     $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
@@ -175,6 +179,8 @@ Resources:
                 responses:
                   default:
                     statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
                     : \"queryAllConsumptions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
@@ -197,6 +203,10 @@ Resources:
               responses:
                 "200":
                   description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      schema:
+                        type: "string"
                   schema:
                     $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
@@ -205,6 +215,8 @@ Resources:
                 responses:
                   default:
                     statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
                     : \"createConsumptionRecord\",\n  \"chaincodeFunctionArgs\": {\n     \
@@ -499,6 +511,10 @@ Resources:
               responses:
                 "200":
                   description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      schema:
+                        type: "string"
                   schema:
                     $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
@@ -507,6 +523,8 @@ Resources:
                 responses:
                   default:
                     statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
                     : \"queryAllProductions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
@@ -529,6 +547,10 @@ Resources:
               responses:
                 "200":
                   description: "200 response"
+                  headers:
+                    Access-Control-Allow-Origin:
+                      schema:
+                        type: "string"
                   schema:
                     $ref: "#/definitions/Empty"
               x-amazon-apigateway-integration:
@@ -537,6 +559,8 @@ Resources:
                 responses:
                   default:
                     statusCode: "200"
+                    responseParameters:
+                      method.response.header.Access-Control-Allow-Origin: "'*'"
                 requestTemplates:
                   application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
                     : \"createProductionRecord\",\n  \"chaincodeFunctionArgs\": {\n      #set(\
