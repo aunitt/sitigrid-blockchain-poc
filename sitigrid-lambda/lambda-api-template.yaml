@@ -156,7 +156,7 @@ Resources:
   SitigridUsagePlan:   
       Type: 'AWS::ApiGateway::UsagePlan'
       Properties: 
-        ApiStages: dev
+        ApiStages: ['dev'],
         Quota: 
           Limit: 3000
           Offset: 0
