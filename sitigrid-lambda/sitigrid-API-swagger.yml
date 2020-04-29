@@ -19,11 +19,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryAllConsumptions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
@@ -48,11 +53,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createConsumptionRecord\",\n  \"chaincodeFunctionArgs\": {\n     \
@@ -65,6 +75,35 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
   /customers:
     get:
       consumes:
@@ -76,11 +115,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryAllCustomers\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
@@ -105,11 +149,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createCustomer\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
@@ -120,6 +169,35 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
   /customers/{customerName}:
     get:
       consumes:
@@ -136,11 +214,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryCustomer\",\n  \"chaincodeFunctionArgs\": {\n      \"customerName\"\
@@ -150,6 +233,35 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
   /customers/{customerName}/consumptions:
     get:
       consumes:
@@ -166,11 +278,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n\
@@ -180,6 +297,35 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
   /customers/{customerName}/productions:
     get:
       consumes:
@@ -196,11 +342,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryProductionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n \
@@ -210,6 +361,35 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
   /customers/{customerName}/totalconsumptions:
     get:
       consumes:
@@ -226,11 +406,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryTotalConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\"\
@@ -240,6 +425,35 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
   /customers/{customerName}/totalproductions:
     get:
       consumes:
@@ -256,11 +470,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryTotalProductionsForCustomer\",\n  \"chaincodeFunctionArgs\":\
@@ -270,6 +489,35 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
   /productions:
     get:
       consumes:
@@ -281,11 +529,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryAllProductions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
@@ -310,11 +563,16 @@ paths:
           description: "200 response"
           schema:
             $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
       x-amazon-apigateway-integration:
         uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
         responses:
           default:
             statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createProductionRecord\",\n  \"chaincodeFunctionArgs\": {\n      #set(\
@@ -326,6 +584,35 @@ paths:
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
 definitions:
   Consumption:
     type: "object"
