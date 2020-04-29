@@ -1,0 +1,362 @@
+---
+swagger: "2.0"
+info:
+  version: "2019-11-13T11:12:00Z"
+  title: "Sitigrid API"
+host: "b3yhcg1it9.execute-api.us-east-1.amazonaws.com"
+basePath: "/dev"
+schemes:
+- "https"
+paths:
+  /consumptions:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryAllConsumptions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Consumption"
+        required: true
+        schema:
+          $ref: "#/definitions/Consumption"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
+            : \"createConsumptionRecord\",\n  \"chaincodeFunctionArgs\": {\n     \
+            \ #set( $body = $util.parseJson($input.body) )\n      \"productionId\"\
+            : \"$context.requestId\",\n      \"customerName\": \"$body.customerName\"\
+            ,\n      \"consumptionAmount\": $body.consumptionAmount,\n      \"consumptionDate\"\
+            :\"$context.requestTime\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\n\
+            }"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+  /customers:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryAllCustomers\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Customer"
+        required: true
+        schema:
+          $ref: "#/definitions/Customer"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
+            : \"createCustomer\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
+            \ = $util.parseJson($input.body) )\n      \"customerName\": \"$body.customerName\"\
+            ,\n      \"email\": \"$body.email\",\n      \"registeredDate\":\"$context.requestTime\"\
+            \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+  /customers/{customerName}:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerName"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryCustomer\",\n  \"chaincodeFunctionArgs\": {\n      \"customerName\"\
+            : \"$input.params('customerName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
+            \n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+  /customers/{customerName}/consumptions:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerName"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n\
+            \      \"customerName\": \"$input.params('customerName')\"\n  },\n  \"\
+            fabricUsername\": \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+  /customers/{customerName}/productions:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerName"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryProductionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n \
+            \     \"customerName\": \"$input.params('customerName')\"\n  },\n  \"\
+            fabricUsername\": \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+  /customers/{customerName}/totalconsumptions:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerName"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryTotalConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\"\
+            : {\n      \"customerName\": \"$input.params('customerName')\"\n  },\n\
+            \  \"fabricUsername\": \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+  /customers/{customerName}/totalproductions:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "customerName"
+        in: "path"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryTotalProductionsForCustomer\",\n  \"chaincodeFunctionArgs\":\
+            \ {\n      \"customerName\": \"$input.params('customerName')\"\n  },\n\
+            \  \"fabricUsername\": \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+  /productions:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryAllProductions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+    post:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "Production"
+        required: true
+        schema:
+          $ref: "#/definitions/Production"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
+            : \"createProductionRecord\",\n  \"chaincodeFunctionArgs\": {\n      #set(\
+            \ $body = $util.parseJson($input.body) )\n      \"productionId\": \"$context.requestId\"\
+            ,\n      \"customerName\": \"$body.customerName\",\n      \"productionAmount\"\
+            : $body.productionAmount,\n      \"productionDate\":\"$context.requestTime\"\
+            \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+definitions:
+  Consumption:
+    type: "object"
+    required:
+    - "consumptionAmount"
+    - "customerName"
+    properties:
+      consumptionAmount:
+        type: "integer"
+      customerName:
+        type: "string"
+  Empty:
+    type: "object"
+    title: "Empty Schema"
+  Customer:
+    type: "object"
+    required:
+    - "customerName"
+    - "email"
+    properties:
+      customerName:
+        type: "string"
+      email:
+        type: "string"
+  Production:
+    type: "object"
+    required:
+    - "customerName"
+    - "productionAmount"
+    properties:
+      productionAmount:
+        type: "integer"
+      customerName:
+        type: "string"
