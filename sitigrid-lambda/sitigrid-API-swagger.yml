@@ -54,7 +54,7 @@ paths:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/Empty"
+            $ref: "#/definitions/TransactionId"
           headers:
             Access-Control-Allow-Origin:
               type: "string"
@@ -152,7 +152,7 @@ paths:
         200:
           description: "200 response"
           schema:
-            $ref: "#/definitions/Empty"
+            $ref: "#/definitions/TransactionId"
           headers:
             Access-Control-Allow-Origin:
               type: "string"
@@ -657,6 +657,11 @@ definitions:
       productionAmount:
         type: "integer"
       customerName:
+        type: "string"
+  TransactionId:
+    type: "object"
+    properties:
+      transactionId:
         type: "string"
 x-amazon-apigateway-documentation:
   version: "1.0.1"
