@@ -152,7 +152,19 @@ Resources:
     Properties:
       Name: Sitigrid API
       StageName: dev
-      DefinitionUri: ./sitigrid-API-swagger.yml    
+      DefinitionUri: ./sitigrid-API-swagger.yml
+  SitigridUsagePlan:   
+      Type: 'AWS::ApiGateway::UsagePlan'
+      Properties: 
+        ApiStages: dev
+        Quota: 
+          Limit: 3000
+          Offset: 0
+          Period: 'MONTH'
+        Throttle: 
+          BurstLimit: 2
+          RateLimit: 10.0
+        UsagePlanName: 'Sitigrid Usage Plan' 
 Outputs:
   APIGatewayURL:
     Description: "API Gateway endpoint URL for Dev stage"
