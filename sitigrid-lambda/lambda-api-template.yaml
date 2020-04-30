@@ -169,7 +169,9 @@ Resources:
   SitigridUsagePlan:
     Type: "AWS::ApiGateway::UsagePlan"
     Properties:
-      ApiStages: !Ref DevStage
+      ApiStages:
+        - ApiId: !Ref SitigridAPIGateway 
+          Stage: !Ref DevStage
       Quota: 
         Limit: 5000
         Period: MONTH
