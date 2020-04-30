@@ -3,8 +3,8 @@ swagger: "2.0"
 info:
   version: "2019-11-13T11:12:00Z"
   title: "Sitigrid API"
-host: "b3yhcg1it9.execute-api.us-east-1.amazonaws.com"
-basePath: "/dev"
+host: "gwb6he85bd.execute-api.us-east-1.amazonaws.com"
+basePath: "/DevStage"
 schemes:
 - "https"
 paths:
@@ -30,12 +30,12 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryAllConsumptions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
             : \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     post:
@@ -65,16 +65,16 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createConsumptionRecord\",\n  \"chaincodeFunctionArgs\": {\n     \
-            \ #set( $body = $util.parseJson($input.body) )\n      \"productionId\"\
+            \ #set( $body = $util.parseJson($input.body) )\n      \"consumptionId\"\
             : \"$context.requestId\",\n      \"customerName\": \"$body.customerName\"\
             ,\n      \"consumptionAmount\": $body.consumptionAmount,\n      \"consumptionDate\"\
             :\"$context.requestTime\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\n\
             }"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -102,9 +102,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
         type: "mock"
   /customers:
     get:
@@ -128,12 +128,12 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryAllCustomers\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
             : \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     post:
@@ -163,14 +163,14 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createCustomer\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
             \ = $util.parseJson($input.body) )\n      \"customerName\": \"$body.customerName\"\
             ,\n      \"email\": \"$body.email\",\n      \"registeredDate\":\"$context.requestTime\"\
             \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -198,9 +198,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
         type: "mock"
   /customers/{customerName}:
     get:
@@ -229,13 +229,13 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryCustomer\",\n  \"chaincodeFunctionArgs\": {\n      \"customerName\"\
             : \"$input.params('customerName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
             \n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -263,9 +263,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
         type: "mock"
   /customers/{customerName}/consumptions:
     get:
@@ -294,13 +294,13 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n\
             \      \"customerName\": \"$input.params('customerName')\"\n  },\n  \"\
             fabricUsername\": \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -328,9 +328,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
         type: "mock"
   /customers/{customerName}/productions:
     get:
@@ -359,13 +359,13 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryProductionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n \
             \     \"customerName\": \"$input.params('customerName')\"\n  },\n  \"\
             fabricUsername\": \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -393,9 +393,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
         type: "mock"
   /customers/{customerName}/totalconsumptions:
     get:
@@ -424,13 +424,13 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryTotalConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\"\
             : {\n      \"customerName\": \"$input.params('customerName')\"\n  },\n\
             \  \"fabricUsername\": \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -458,9 +458,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
         type: "mock"
   /customers/{customerName}/totalproductions:
     get:
@@ -489,13 +489,13 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryTotalProductionsForCustomer\",\n  \"chaincodeFunctionArgs\":\
             \ {\n      \"customerName\": \"$input.params('customerName')\"\n  },\n\
             \  \"fabricUsername\": \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -523,9 +523,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
         type: "mock"
   /productions:
     get:
@@ -549,12 +549,12 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
             : \"queryAllProductions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
             : \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     post:
@@ -584,6 +584,8 @@ paths:
             statusCode: "200"
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createProductionRecord\",\n  \"chaincodeFunctionArgs\": {\n      #set(\
@@ -591,8 +593,6 @@ paths:
             ,\n      \"customerName\": \"$body.customerName\",\n      \"productionAmount\"\
             : $body.productionAmount,\n      \"productionDate\":\"$context.requestTime\"\
             \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -620,9 +620,9 @@ paths:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
         type: "mock"
 definitions:
   Consumption:
@@ -664,8 +664,8 @@ definitions:
       transactionId:
         type: "string"
 x-amazon-apigateway-documentation:
-  version: "1.0.1"
-  createdDate: "2020-04-29T15:39:38Z"
+  version: "1.0"
+  createdDate: "2020-04-30T11:32:27Z"
   documentationParts:
   - location:
       type: "METHOD"
