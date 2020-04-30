@@ -158,11 +158,11 @@ Resources:
     Properties: 
       RestApiId: !Ref SitigridAPIGateway
       Description: "Development deployment"
-      StageName: "Dev"
-  Dev:
+      StageName: "My Dummy Stage"
+  DevStage:
     Type: 'AWS::ApiGateway::Stage'
     Properties:
-      StageName: Dev
+      StageName: DevStage
       Description: Dev Stage
       RestApiId: !Ref SitigridAPIGateway
       DeploymentId: !Ref Deployment
