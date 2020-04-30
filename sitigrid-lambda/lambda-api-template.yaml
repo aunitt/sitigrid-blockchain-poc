@@ -158,14 +158,25 @@ Resources:
     Properties: 
       RestApiId: !Ref SitigridAPIGateway
       Description: "Development deployment"
-      StageName: "MyDummyStage"
+      StageName: "dev"
   DevStage:
     Type: 'AWS::ApiGateway::Stage'
     Properties:
-      StageName: DevStage
+      StageName: dev
       Description: Dev Stage
       RestApiId: !Ref SitigridAPIGateway
       DeploymentId: !Ref Deployment
+  SitigridUsagePlan:
+    Type: "AWS::ApiGateway::UsagePlan"
+    Properties:
+      ApiStages: !Ref DevStage
+      Quota: 
+        Limit: 5000
+        Period: MONTH
+      Throttle:
+        BurstLimit: 200
+        RateLimit: 100
+      UsagePlanName: Sitigrid_Plan
 Outputs:
   APIGatewayURL:
     Description: "API Gateway endpoint URL for Dev stage"
