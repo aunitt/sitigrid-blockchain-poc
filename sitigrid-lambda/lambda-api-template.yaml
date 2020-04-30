@@ -153,12 +153,19 @@ Resources:
       Name: Sitigrid API
       StageName: Dev
       DefinitionUri: ./sitigrid-API-swagger.yml
+  Deployment: 
+    Type: AWS::ApiGateway::Deployment
+    Properties: 
+      RestApiId: !Ref SitigridAPIGateway
+      Description: "Development deployment"
+      StageName: "Dev"
   Dev:
     Type: 'AWS::ApiGateway::Stage'
     Properties:
       StageName: Dev
       Description: Dev Stage
       RestApiId: !Ref SitigridAPIGateway
+      DeploymentId: !Ref Deployment
 Outputs:
   APIGatewayURL:
     Description: "API Gateway endpoint URL for Dev stage"
