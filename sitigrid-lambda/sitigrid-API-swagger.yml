@@ -73,8 +73,8 @@ paths:
             \ #set( $body = $util.parseJson($input.body) )\n      \"consumptionId\"\
             : \"$context.requestId\",\n      \"customerName\": \"$body.customerName\"\
             ,\n      \"consumptionAmount\": $body.consumptionAmount,\n      \"consumptionDate\"\
-            :\"$context.requestTime\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\n\
-            }"
+            :\"$context.requestTimeEpoch\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
+            \n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     options:
@@ -169,7 +169,7 @@ paths:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createCustomer\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
             \ = $util.parseJson($input.body) )\n      \"customerName\": \"$body.customerName\"\
-            ,\n      \"email\": \"$body.email\",\n      \"registeredDate\":\"$context.requestTime\"\
+            ,\n      \"email\": \"$body.email\",\n      \"registeredDate\":\"$context.requestTimeEpoch\"\
             \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
@@ -591,7 +591,7 @@ paths:
             : \"createProductionRecord\",\n  \"chaincodeFunctionArgs\": {\n      #set(\
             \ $body = $util.parseJson($input.body) )\n      \"productionId\": \"$context.requestId\"\
             ,\n      \"customerName\": \"$body.customerName\",\n      \"productionAmount\"\
-            : $body.productionAmount,\n      \"productionDate\":\"$context.requestTime\"\
+            : $body.productionAmount,\n      \"productionDate\":\"$context.requestTimeEpoch\"\
             \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
