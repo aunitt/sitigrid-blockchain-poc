@@ -158,10 +158,7 @@ Resources:
     Properties:
       StageName: Dev
       Description: Dev Stage
-
-Outputs:Properties:
-      StageName: Prod
-      Description: Prod Stage
+Outputs:
   APIGatewayURL:
     Description: "API Gateway endpoint URL for Dev stage"
     Value: !Sub "https://${SitigridAPIGateway}.execute-api.${AWS::Region}.amazonaws.com/dev"
