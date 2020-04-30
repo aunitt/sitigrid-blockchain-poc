@@ -158,7 +158,7 @@ Resources:
     Properties: 
       RestApiId: !Ref SitigridAPIGateway
       Description: "Development deployment"
-      StageName: "My Dummy Stage"
+      StageName: "MyDummyStage"
   DevStage:
     Type: 'AWS::ApiGateway::Stage'
     Properties:
