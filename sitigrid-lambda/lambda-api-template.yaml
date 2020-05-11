@@ -160,7 +160,7 @@ Resources:
       Description: "Development deployment"
       StageName: "dummy"
   dev:
-    Type: 'AWS::ApiGateway::Stage'de
+    Type: 'AWS::ApiGateway::Stage'
     Properties:
       StageName: dev
       Description: Dev Stage
