@@ -4,7 +4,7 @@ info:
   version: "2019-11-13T11:12:00Z"
   title: "Sitigrid API"
 host: "gwb6he85bd.execute-api.us-east-1.amazonaws.com"
-basePath: "/DevStage"
+basePath: "/dev"
 schemes:
 - "https"
 paths:

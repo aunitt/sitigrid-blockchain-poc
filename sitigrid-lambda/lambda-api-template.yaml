@@ -151,7 +151,7 @@ Resources:
     Type: 'AWS::Serverless::Api'
     Properties:
       Name: Sitigrid API
-      StageName: Dev
+      StageName: dev
       DefinitionUri: ./sitigrid-API-swagger.yml
   Deployment: 
     Type: AWS::ApiGateway::Deployment
@@ -159,10 +159,10 @@ Resources:
       RestApiId: !Ref SitigridAPIGateway
       Description: "Development deployment"
       StageName: "dummy"
-  DevStage:
-    Type: 'AWS::ApiGateway::Stage'
+  dev:
+    Type: 'AWS::ApiGateway::Stage'de
     Properties:
-      StageName: DevStage
+      StageName: dev
       Description: Dev Stage
       RestApiId: !Ref SitigridAPIGateway
       DeploymentId: !Ref Deployment
@@ -171,7 +171,7 @@ Resources:
     Properties:
       ApiStages:
         - ApiId: !Ref SitigridAPIGateway 
-          Stage: !Ref DevStage
+          Stage: !Ref dev
       Quota: 
         Limit: 5000
         Period: MONTH
