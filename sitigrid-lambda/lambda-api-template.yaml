@@ -151,6 +151,7 @@ Resources:
     Type: 'AWS::Serverless::Api'
     Properties:
       Name: Sitigrid API
+      StageName: prod
       DefinitionUri: ./sitigrid-API-swagger.yml
   Deployment: 
     Type: AWS::ApiGateway::Deployment
