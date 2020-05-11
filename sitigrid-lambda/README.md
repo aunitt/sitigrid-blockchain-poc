@@ -141,7 +141,6 @@ You now have a REST API managed by API Gateway that is invoking a Lambda functio
 
 * [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
 * [Part 2:](../sitigrid-chaincode/README.md) Deploy the non-profit chaincode. 
-* [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server. 
-* [Part 4:](../sitigrid-ui/README.md) Run the application. 
-* [Part 5:](../new-member/README.md) Add a new member to the network. 
-* [Part 6:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
+* [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
+* [Part 4:](../new-member/README.md) Add a new member to the network. 
+* [Part 5:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
