@@ -127,13 +127,12 @@ response:
 
 **If you encounter an error such as `{"code":20,"message":"Authorization failure"}`, it is likely because the admin credentials in `config.json` above are incorrect.  Update those and restart the REST API server that is running in the other terminal.**
 
-### POST a customer
+### POST a meterpoint
 
 request:
 ```
-curl -s -X POST "http://localhost:3000/customers" -H "content-type: application/json" -d '{ 
-   "customerName": "edge2", 
-   "email": "edge2@def.com", 
+curl -s -X POST "http://localhost:3000/meters" -H "content-type: application/json" -d '{ 
+   "meterpoint": "00-111-222-14-1234-5678-345", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
 }'
 ```
@@ -145,17 +144,17 @@ A transaction ID, which can be ignored:
 {"transactionId":"2f3f3a85340bde09b505b0d37235d1d32a674e43a66229f9a205e7d8d5328ed1"}
 ```
 
-### Get all customers
+### Get all meters
 
 request:
 ```
-curl -s -X GET   "http://localhost:3000/customers" -H "content-type: application/json"
+curl -s -X GET   "http://localhost:3000/meters" -H "content-type: application/json"
 ```
 
 response:
 ```
 [
-    {"docType":"user","customerName":"edge","email":"edge@def.com","registeredDate":"2018-10-22T11:52:20.182Z"}
+    {"docType":"user","meterpoint":"00-111-222-13-1234-5678-345","registeredDate":"2018-10-22T11:52:20.182Z"}
 ]
 ```
 ## Step 6 - Load the workshop test data

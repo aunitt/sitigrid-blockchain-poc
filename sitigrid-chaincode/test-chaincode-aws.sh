@@ -23,50 +23,50 @@ echo Add User
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createCustomer","{\"customerName\": \"edge\", \"email\": \"edge@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
+-c '{"Args":["createMeterpoint","{\"meterpoint\": \"00-111-222-13-1234-5678-345\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createCustomer","{\"customerName\": \"braendle\", \"email\": \"braendle@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
+-c '{"Args":["createMeterpoint","{\"meterpoint\": \"00-111-222-13-1234-5678-678\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
 echo Add Donation
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" 
 \ -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" 
 \ cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME 
-\ -c '{"Args":["createProductionRecord","{\"productionId\": \"2211\", \"productionAmount\": 100, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"customerName\": \"edge\"}"]}'
+\ -c '{"Args":["createProductionRecord","{\"productionId\": \"2211\", \"productionAmount\": 100, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"meterpoint\": \"00-111-222-13-1234-5678-345\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createProductionRecord","{\"productionId\": \"2212\", \"productionAmount\": 733, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"customerName\": \"braendle\"}"]}'
+-c '{"Args":["createProductionRecord","{\"productionId\": \"2212\", \"productionAmount\": 733, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"meterpoint\": \"00-111-222-13-1234-5678-678\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createProductionRecord","{\"productionId\": \"2230\", \"productionAmount\": 450, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"customerName\": \"edge\"}"]}'
+-c '{"Args":["createProductionRecord","{\"productionId\": \"2230\", \"productionAmount\": 450, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"meterpoint\": \"00-111-222-13-1234-5678-345\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createProductionRecord","{\"productionId\": \"2231\", \"productionAmount\": 29, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"customerName\": \"braendle\"}"]}'
+-c '{"Args":["createProductionRecord","{\"productionId\": \"2231\", \"productionAmount\": 29, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"meterpoint\": \"00-111-222-13-1234-5678-678\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
 cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \ 
--c '{"Args":["createProductionRecord","{\"productionId\": \"2232\", \"productionAmount\": 98, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"customerName\": \"braendle\"}"]}'
+-c '{"Args":["createProductionRecord","{\"productionId\": \"2232\", \"productionAmount\": 98, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"meterpoint\": \"00-111-222-13-1234-5678-678\"}"]}'
 
-echo Query all customers
-
-docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
--e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryAllCustomers"]}'
-
-echo Query specific customer
+echo Query all meters
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryCustomer","{\"customerName\": \"edge\"}"]}'
+cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryAllMeterpoints"]}'
+
+echo Query specific meterpoint
+
+docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
+-e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \ 
+cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryMeterpoint","{\"meterpoint\": \"00-111-222-13-1234-5678-345\"}"]}'
 
 echo Query all Productions
 

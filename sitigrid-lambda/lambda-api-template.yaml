@@ -94,22 +94,22 @@ Resources:
         SubnetIds:
           - !Ref SUBNETID
       Events:
-        GetCustomers:
+        GetMeterpoints:
           Type: Api
           Properties:
-            Path: /customers
+            Path: /meters
             Method: get
             RestApiId: !Ref SitigridAPIGateway
-        CreateCustomer:
+        CreateMeterpoint:
           Type: Api
           Properties:
-            Path: /customers
+            Path: /meters
             Method: post
             RestApiId: !Ref SitigridAPIGateway
-        GetCustomer:
+        GetMeterpoint:
           Type: Api
           Properties:
-            Path: /customers/{customerName}
+            Path: /meters/{meterpoint}
             Method: get
             RestApiId: !Ref SitigridAPIGateway
         CreateProductionRecord:

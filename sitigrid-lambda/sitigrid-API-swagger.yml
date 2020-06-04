@@ -71,7 +71,7 @@ paths:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createConsumptionRecord\",\n  \"chaincodeFunctionArgs\": {\n     \
             \ #set( $body = $util.parseJson($input.body) )\n      \"consumptionId\"\
-            : \"$context.requestId\",\n      \"customerName\": \"$body.customerName\"\
+            : \"$context.requestId\",\n      \"meterpoint\": \"$body.meterpoint\"\
             ,\n      \"consumptionAmount\": $body.consumptionAmount,\n      \"consumptionDate\"\
             :\"$context.requestTimeEpoch\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
             \n}"
@@ -106,9 +106,9 @@ paths:
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         type: "mock"
-  /customers:
+  /meters:
     get:
-      description: "Returns all the customers registered"
+      description: "Returns all the meters registered"
       consumes:
       - "application/json"
       produces:
@@ -132,22 +132,22 @@ paths:
         httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryAllCustomers\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+            : \"queryAllMeterpoints\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
             : \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
     post:
-      description: "Registers a new customer in the blockchain"
+      description: "Registers a new meterpoint in the blockchain"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
       - in: "body"
-        name: "Customer"
+        name: "Meterpoint"
         required: true
         schema:
-          $ref: "#/definitions/Customer"
+          $ref: "#/definitions/Meterpoint"
       responses:
         200:
           description: "200 response"
@@ -167,9 +167,9 @@ paths:
         httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
-            : \"createCustomer\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
-            \ = $util.parseJson($input.body) )\n      \"customerName\": \"$body.customerName\"\
-            ,\n      \"email\": \"$body.email\",\n      \"registeredDate\":\"$context.requestTimeEpoch\"\
+            : \"createMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
+            \ = $util.parseJson($input.body) )\n      \"meterpoint\": \"$body.meterpoint\"\
+            ,\n   \"registeredDate\":\"$context.requestTimeEpoch\"\
             \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
@@ -202,15 +202,15 @@ paths:
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         type: "mock"
-  /customers/{customerName}:
+  /meters/{meterpoint}:
     get:
-      description: "Returns the customer record of the given customer"
+      description: "Returns the meterpoint record of the given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -233,8 +233,8 @@ paths:
         httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryCustomer\",\n  \"chaincodeFunctionArgs\": {\n      \"customerName\"\
-            : \"$input.params('customerName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
+            : \"queryMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n      \"meterpoint\"\
+            : \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
             \n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
@@ -267,15 +267,15 @@ paths:
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         type: "mock"
-  /customers/{customerName}/consumptions:
+  /meters/{meterpoint}/consumptions:
     get:
-      description: "Returns all the consumption records for the given customer"
+      description: "Returns all the consumption records for the given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -298,8 +298,8 @@ paths:
         httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n\
-            \      \"customerName\": \"$input.params('customerName')\"\n  },\n  \"\
+            : \"queryConsumptionsForMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n\
+            \      \"meterpoint\": \"$input.params('meterpoint')\"\n  },\n  \"\
             fabricUsername\": \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
@@ -332,15 +332,15 @@ paths:
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         type: "mock"
-  /customers/{customerName}/productions:
+  /meters/{meterpoint}/productions:
     get:
-      description: "Returns all the production methods for a given customer"
+      description: "Returns all the production methods for a given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -363,8 +363,8 @@ paths:
         httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryProductionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n \
-            \     \"customerName\": \"$input.params('customerName')\"\n  },\n  \"\
+            : \"queryProductionsForMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n \
+            \     \"meterpoint\": \"$input.params('meterpoint')\"\n  },\n  \"\
             fabricUsername\": \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
@@ -397,15 +397,15 @@ paths:
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         type: "mock"
-  /customers/{customerName}/totalconsumptions:
+  /meters/{meterpoint}/totalconsumptions:
     get:
-      description: "Returns the total consumption amount for the given customer"
+      description: "Returns the total consumption amount for the given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -428,8 +428,8 @@ paths:
         httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryTotalConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\"\
-            : {\n      \"customerName\": \"$input.params('customerName')\"\n  },\n\
+            : \"queryTotalConsumptionsForMeterpoint\",\n  \"chaincodeFunctionArgs\"\
+            : {\n      \"meterpoint\": \"$input.params('meterpoint')\"\n  },\n\
             \  \"fabricUsername\": \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
@@ -462,15 +462,15 @@ paths:
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
         type: "mock"
-  /customers/{customerName}/totalproductions:
+  /meters/{meterpoint}/totalproductions:
     get:
-      description: "Returns the total production amount for the given customer"
+      description: "Returns the total production amount for the given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -493,8 +493,8 @@ paths:
         httpMethod: "POST"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryTotalProductionsForCustomer\",\n  \"chaincodeFunctionArgs\":\
-            \ {\n      \"customerName\": \"$input.params('customerName')\"\n  },\n\
+            : \"queryTotalProductionsForMeterpoint\",\n  \"chaincodeFunctionArgs\":\
+            \ {\n      \"meterpoint\": \"$input.params('meterpoint')\"\n  },\n\
             \  \"fabricUsername\": \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
         type: "aws"
@@ -590,7 +590,7 @@ paths:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createProductionRecord\",\n  \"chaincodeFunctionArgs\": {\n      #set(\
             \ $body = $util.parseJson($input.body) )\n      \"productionId\": \"$context.requestId\"\
-            ,\n      \"customerName\": \"$body.customerName\",\n      \"productionAmount\"\
+            ,\n      \"meterpoint\": \"$body.meterpoint\",\n      \"productionAmount\"\
             : $body.productionAmount,\n      \"productionDate\":\"$context.requestTimeEpoch\"\
             \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
         contentHandling: "CONVERT_TO_TEXT"
@@ -629,34 +629,31 @@ definitions:
     type: "object"
     required:
     - "consumptionAmount"
-    - "customerName"
+    - "meterpoint"
     properties:
       consumptionAmount:
         type: "integer"
-      customerName:
+      meterpoint:
         type: "string"
   Empty:
     type: "object"
     title: "Empty Schema"
-  Customer:
+  Meterpoint:
     type: "object"
     required:
-    - "customerName"
-    - "email"
+    - "meterpoint"
     properties:
-      customerName:
-        type: "string"
-      email:
+      meterpoint:
         type: "string"
   Production:
     type: "object"
     required:
-    - "customerName"
+    - "meterpoint"
     - "productionAmount"
     properties:
       productionAmount:
         type: "integer"
-      customerName:
+      meterpoint:
         type: "string"
   TransactionId:
     type: "object"
@@ -681,46 +678,46 @@ x-amazon-apigateway-documentation:
       description: "Adds a new consumption record to the blockchain"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}/consumptions"
+      path: "/meters/{meterpoint}/consumptions"
       method: "GET"
     properties:
-      description: "Returns all the consumption records for the given customer"
+      description: "Returns all the consumption records for the given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}/productions"
+      path: "/meters/{meterpoint}/productions"
       method: "GET"
     properties:
-      description: "Returns all the production methods for a given customer"
+      description: "Returns all the production methods for a given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}/totalconsumptions"
+      path: "/meters/{meterpoint}/totalconsumptions"
       method: "GET"
     properties:
-      description: "Returns the total consumption amount for the given customer"
+      description: "Returns the total consumption amount for the given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}/totalproductions"
+      path: "/meters/{meterpoint}/totalproductions"
       method: "GET"
     properties:
-      description: "Returns the total production amount for the given customer"
+      description: "Returns the total production amount for the given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}"
+      path: "/meters/{meterpoint}"
       method: "GET"
     properties:
-      description: "Returns the customer record of the given customer"
+      description: "Returns the meterpoint record of the given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers"
+      path: "/meters"
       method: "GET"
     properties:
-      description: "Returns all the customers registered"
+      description: "Returns all the meters registered"
   - location:
       type: "METHOD"
-      path: "/customers"
+      path: "/meters"
       method: "POST"
     properties:
-      description: "Registers a new customer in the blockchain"
+      description: "Registers a new meterpoint in the blockchain"
   - location:
       type: "METHOD"
       path: "/productions"
@@ -766,91 +763,91 @@ x-amazon-apigateway-documentation:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/consumptions"
+      path: "/meters/{meterpoint}/consumptions"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/consumptions"
+      path: "/meters/{meterpoint}/consumptions"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/productions"
+      path: "/meters/{meterpoint}/productions"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/productions"
+      path: "/meters/{meterpoint}/productions"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/totalconsumptions"
+      path: "/meters/{meterpoint}/totalconsumptions"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/totalconsumptions"
+      path: "/meters/{meterpoint}/totalconsumptions"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/totalproductions"
+      path: "/meters/{meterpoint}/totalproductions"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/totalproductions"
+      path: "/meters/{meterpoint}/totalproductions"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}"
+      path: "/meters/{meterpoint}"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}"
+      path: "/meters/{meterpoint}"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers"
+      path: "/meters"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers"
+      path: "/meters"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers"
+      path: "/meters"
       method: "POST"
       statusCode: "200"
     properties:

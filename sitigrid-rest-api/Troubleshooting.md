@@ -14,8 +14,7 @@
    ```
    {
       [...],
-      "customerName":"michael",
-      "orgName":"Org1",
+      "meterpoint":"00-111-222-16-1234-5678-345",
       [...]
    }
    ```

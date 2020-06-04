@@ -92,22 +92,22 @@ You can test the Lambda function from the [Lambda console](https://console.aws.a
 
 To test from the cli, you will execute the commands below.  The output of each command is in the file specified in the last argument, and is displayed via `cat`.
 
-First, call the `createCustomer` chaincode function to create the customer "melissa".
+First, call the `createMeterpoint` chaincode function to create the meterpoint "melissa".
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createCustomer\",\"chaincodeFunctionArgs\":{\"customerName\":\"melissa\",\"email\":\"melissa@melissasngo.org\"}}" --region $REGION /tmp/lambda-output-createCustomer.txt
-cat /tmp/lambda-output-createCustomer.txt
-```
-
-Next, call the `queryCustomer` function to view the details of the customer we just created.
-```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryCustomer\",\"chaincodeFunctionArgs\":{\"customerName\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryCustomer.txt
-cat /tmp/lambda-output-queryCustomer.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createMeterpoint\",\"chaincodeFunctionArgs\":{\"meterpoint\":\"melissa\"}}" --region $REGION /tmp/lambda-output-createMeterpoint.txt
+cat /tmp/lambda-output-createMeterpoint.txt
 ```
 
-Finally, call the `queryAllCustomers` function to view all the customers.
+Next, call the `queryMeterpoint` function to view the details of the meterpoint we just created.
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryAllCustomers\",\"chaincodeFunctionArgs\":{}}" --region $REGION /tmp/lambda-output-queryAllCustomers.txt
-cat /tmp/lambda-output-queryAllCustomers.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryMeterpoint\",\"chaincodeFunctionArgs\":{\"meterpoint\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryMeterpoint.txt
+cat /tmp/lambda-output-queryMeterpoint.txt
+```
+
+Finally, call the `queryAllMeterpoints` function to view all the meters.
+```
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryAllMeterpoints\",\"chaincodeFunctionArgs\":{}}" --region $REGION /tmp/lambda-output-queryAllMeterpoints.txt
+cat /tmp/lambda-output-queryAllMeterpoints.txt
 ```
 
 You have deployed a Lambda function that is invoking chaincode transactions and running queries in Managed Blockchain. Next we'll test using API Gateway to call this Lambda for each of its routes.
@@ -118,23 +118,23 @@ You can test the API Gateway from the [API Gateway console](https://console.aws.
 
 To test from the cli, you will execute the commands below.  
 
-First, call the `POST /customers` endpoint which will execute the `createCustomer` chaincode function to create the customer "rachel".
+First, call the `POST /meters` endpoint which will execute the `createMeterpoint` chaincode function to create the meterpoint "00-111-222-15-1234-5678-345".
 
 ```
 export APIURL=$(aws cloudformation describe-stacks --stack-name fabric-lambda-stack --query "Stacks[0].Outputs[?OutputKey=='APIGatewayURL'].OutputValue" --output text --region $REGION)
-curl -s -X POST "$APIURL/customers" -H "content-type: application/json" -d '{"customerName":"rachel","email":"rachel@customer.org"}'
+curl -s -X POST "$APIURL/meters" -H "content-type: application/json" -d '{"meterpoint":"00-111-222-15-1234-5678-345"}'
 ```
 
-Second, call the `GET /customers/{customerName}` endpoint which will execute the `queryCustomer` chaincode function to query the customer "rachel".
+Second, call the `GET /meters/{meterpoint}` endpoint which will execute the `queryMeterpoint` chaincode function to query the meterpoint "00-111-222-15-1234-5678-345".
 
 ```
-curl -s -X GET "$APIURL/customers/rachel" 
+curl -s -X GET "$APIURL/meters/00-111-222-15-1234-5678-345" 
 ```
 
-Finally, call the `GET /customers` endpoint which will execute the `queryAllCustomers` chaincode function to view all the customers.
+Finally, call the `GET /meters` endpoint which will execute the `queryAllMeterpoints` chaincode function to view all the meters.
 
 ```
-curl -s -X GET "$APIURL/customers" 
+curl -s -X GET "$APIURL/meters" 
 ```
 
 You now have a REST API managed by API Gateway that is invoking a Lambda function to execute transactions on the blockchain.  To expose additional chaincode functions within API Gateway, you would add API Gateway routes to support them, and continue routing to the same Lambda function.   

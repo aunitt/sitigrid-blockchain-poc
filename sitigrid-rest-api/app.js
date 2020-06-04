@@ -140,134 +140,134 @@ app.post('/users', awaitHandler(async (req, res) => {
 }));
 
 /************************************************************************************
- * Customer methods
+ * Meterpoint methods
  ************************************************************************************/
 
-// GET Customer
-app.get('/customers', awaitHandler(async (req, res) => {
-	logger.info('================ GET on customers');
+// GET Meterpoint
+app.get('/meters', awaitHandler(async (req, res) => {
+	logger.info('================ GET on meters');
 	let args = {};
-	let fcn = "queryAllCustomers";
+	let fcn = "queryAllMeterpoints";
 
-    logger.info('##### GET on customer - username : ' + username);
-	logger.info('##### GET on customer - userOrg : ' + orgName);
-	logger.info('##### GET on customer - channelName : ' + channelName);
-	logger.info('##### GET on customer - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on customer - fcn : ' + fcn);
-	logger.info('##### GET on customer - args : ' + JSON.stringify(args));
-	logger.info('##### GET on customer - peers : ' + peers);
+    logger.info('##### GET on meterpoint - username : ' + username);
+	logger.info('##### GET on meterpoint - userOrg : ' + orgName);
+	logger.info('##### GET on meterpoint - channelName : ' + channelName);
+	logger.info('##### GET on meterpoint - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on meterpoint - fcn : ' + fcn);
+	logger.info('##### GET on meterpoint - args : ' + JSON.stringify(args));
+	logger.info('##### GET on meterpoint - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET a specific customer
-app.get('/customers/:customerName', awaitHandler(async (req, res) => {
-	logger.info('================ GET on customer by ID');
-	logger.info('customer username : ' + req.params);
+// GET a specific meterpoint
+app.get('/meters/:meterpoint', awaitHandler(async (req, res) => {
+	logger.info('================ GET on meterpoint by ID');
+	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
-	let fcn = "queryCustomer";
+	let fcn = "queryMeterpoint";
 
-    logger.info('##### GET on customer by username - username : ' + username);
-	logger.info('##### GET on customer by username - userOrg : ' + orgName);
-	logger.info('##### GET on customer by username - channelName : ' + channelName);
-	logger.info('##### GET on customer by username - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on customer by username - fcn : ' + fcn);
-	logger.info('##### GET on customer by username - args : ' + JSON.stringify(args));
-	logger.info('##### GET on customer by username - peers : ' + peers);
+    logger.info('##### GET on meterpoint by username - username : ' + username);
+	logger.info('##### GET on meterpoint by username - userOrg : ' + orgName);
+	logger.info('##### GET on meterpoint by username - channelName : ' + channelName);
+	logger.info('##### GET on meterpoint by username - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on meterpoint by username - fcn : ' + fcn);
+	logger.info('##### GET on meterpoint by username - args : ' + JSON.stringify(args));
+	logger.info('##### GET on meterpoint by username - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET the productions for a specific customer
-app.get('/customers/:customerName/productions', awaitHandler(async (req, res) => {
-	logger.info('================ GET on productions for customer');
-	logger.info('customer username : ' + req.params);
+// GET the productions for a specific meterpoint
+app.get('/meters/:meterpoint/productions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on productions for meterpoint');
+	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
-	let fcn = "queryProductionsForCustomer";
+	let fcn = "queryProductionsForMeterpoint";
 
-    logger.info('##### GET on productions for customer - username : ' + username);
-	logger.info('##### GET on productions for customer - userOrg : ' + orgName);
-	logger.info('##### GET on productions for customer - channelName : ' + channelName);
-	logger.info('##### GET on productions for customer - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on productions for customer - fcn : ' + fcn);
-	logger.info('##### GET on productions for customer - args : ' + JSON.stringify(args));
-	logger.info('##### GET on productions for customer - peers : ' + peers);
+    logger.info('##### GET on productions for meterpoint - username : ' + username);
+	logger.info('##### GET on productions for meterpoint - userOrg : ' + orgName);
+	logger.info('##### GET on productions for meterpoint - channelName : ' + channelName);
+	logger.info('##### GET on productions for meterpoint - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on productions for meterpoint - fcn : ' + fcn);
+	logger.info('##### GET on productions for meterpoint - args : ' + JSON.stringify(args));
+	logger.info('##### GET on productions for meterpoint - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET total productions for a specific customer
-app.get('/customers/:customerName/totalproductions', awaitHandler(async (req, res) => {
-	logger.info('================ GET on totalproductions for customer');
-	logger.info('customer username : ' + req.params);
+// GET total productions for a specific meterpoint
+app.get('/meters/:meterpoint/totalproductions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on totalproductions for meterpoint');
+	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
-	let fcn = "queryTotalProductionsForCustomer";
+	let fcn = "queryTotalProductionsForMeterpoint";
 
-    logger.info('##### GET on productions for customer - username : ' + username);
-	logger.info('##### GET on productions for customer - userOrg : ' + orgName);
-	logger.info('##### GET on productions for customer - channelName : ' + channelName);
-	logger.info('##### GET on productions for customer - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on productions for customer - fcn : ' + fcn);
-	logger.info('##### GET on productions for customer - args : ' + JSON.stringify(args));
-	logger.info('##### GET on productions for customer - peers : ' + peers);
+    logger.info('##### GET on productions for meterpoint - username : ' + username);
+	logger.info('##### GET on productions for meterpoint - userOrg : ' + orgName);
+	logger.info('##### GET on productions for meterpoint - channelName : ' + channelName);
+	logger.info('##### GET on productions for meterpoint - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on productions for meterpoint - fcn : ' + fcn);
+	logger.info('##### GET on productions for meterpoint - args : ' + JSON.stringify(args));
+	logger.info('##### GET on productions for meterpoint - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET the consumptions for a specific customer
-app.get('/customers/:customerName/consumptions', awaitHandler(async (req, res) => {
-	logger.info('================ GET on consumptions for customer');
-	logger.info('customer username : ' + req.params);
+// GET the consumptions for a specific meterpoint
+app.get('/meters/:meterpoint/consumptions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on consumptions for meterpoint');
+	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
-	let fcn = "queryConsumptionsForCustomer";
+	let fcn = "queryConsumptionsForMeterpoint";
 
-    logger.info('##### GET on consumptions for customer - username : ' + username);
-	logger.info('##### GET on consumptions for customer - userOrg : ' + orgName);
-	logger.info('##### GET on consumptions for customer - channelName : ' + channelName);
-	logger.info('##### GET on consumptions for customer - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on consumptions for customer - fcn : ' + fcn);
-	logger.info('##### GET on consumptions for customer - args : ' + JSON.stringify(args));
-	logger.info('##### GET on consumptions for customer - peers : ' + peers);
+    logger.info('##### GET on consumptions for meterpoint - username : ' + username);
+	logger.info('##### GET on consumptions for meterpoint - userOrg : ' + orgName);
+	logger.info('##### GET on consumptions for meterpoint - channelName : ' + channelName);
+	logger.info('##### GET on consumptions for meterpoint - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on consumptions for meterpoint - fcn : ' + fcn);
+	logger.info('##### GET on consumptions for meterpoint - args : ' + JSON.stringify(args));
+	logger.info('##### GET on consumptions for meterpoint - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
 
-// GET total consumptions for a specific customer
-app.get('/customers/:customerName/totalconsumptions', awaitHandler(async (req, res) => {
-	logger.info('================ GET on totalconsumptions for customer');
-	logger.info('customer username : ' + req.params);
+// GET total consumptions for a specific meterpoint
+app.get('/meters/:meterpoint/totalconsumptions', awaitHandler(async (req, res) => {
+	logger.info('================ GET on totalconsumptions for meterpoint');
+	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
-	let fcn = "queryTotalConsumptionsForCustomer";
+	let fcn = "queryTotalConsumptionsForMeterpoint";
 
-    logger.info('##### GET on consumptions for customer - username : ' + username);
-	logger.info('##### GET on consumptions for customer - userOrg : ' + orgName);
-	logger.info('##### GET on consumptions for customer - channelName : ' + channelName);
-	logger.info('##### GET on consumptions for customer - chaincodeName : ' + chaincodeName);
-	logger.info('##### GET on consumptions for customer - fcn : ' + fcn);
-	logger.info('##### GET on consumptions for customer - args : ' + JSON.stringify(args));
-	logger.info('##### GET on consumptions for customer - peers : ' + peers);
+    logger.info('##### GET on consumptions for meterpoint - username : ' + username);
+	logger.info('##### GET on consumptions for meterpoint - userOrg : ' + orgName);
+	logger.info('##### GET on consumptions for meterpoint - channelName : ' + channelName);
+	logger.info('##### GET on consumptions for meterpoint - chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on consumptions for meterpoint - fcn : ' + fcn);
+	logger.info('##### GET on consumptions for meterpoint - args : ' + JSON.stringify(args));
+	logger.info('##### GET on consumptions for meterpoint - peers : ' + peers);
 
     let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
  	res.send(message);
 }));
-// POST customer
-app.post('/customers', awaitHandler(async (req, res) => {
-	logger.info('================ POST on customer');
+// POST meterpoint
+app.post('/meters', awaitHandler(async (req, res) => {
+	logger.info('================ POST on meterpoint');
 	var args = req.body;
-	var fcn = "createCustomer";
+	var fcn = "createMeterpoint";
 
-    logger.info('##### POST on customer - username : ' + username);
-	logger.info('##### POST on customer - userOrg : ' + orgName);
-	logger.info('##### POST on customer - channelName : ' + channelName);
-	logger.info('##### POST on customer - chaincodeName : ' + chaincodeName);
-	logger.info('##### POST on customer - fcn : ' + fcn);
-	logger.info('##### POST on customer - args : ' + JSON.stringify(args));
-	logger.info('##### POST on customer - peers : ' + peers);
+    logger.info('##### POST on meterpoint - username : ' + username);
+	logger.info('##### POST on meterpoint - userOrg : ' + orgName);
+	logger.info('##### POST on meterpoint - channelName : ' + channelName);
+	logger.info('##### POST on meterpoint - chaincodeName : ' + chaincodeName);
+	logger.info('##### POST on meterpoint - fcn : ' + fcn);
+	logger.info('##### POST on meterpoint - args : ' + JSON.stringify(args));
+	logger.info('##### POST on meterpoint - peers : ' + peers);
 
 	let message = await invoke.invokeChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
 	res.send(message);

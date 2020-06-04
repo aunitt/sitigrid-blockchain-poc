@@ -41,27 +41,25 @@ echo $response
 echo Response should be: {"success":true,"secret":"","message":"$USERID enrolled Successfully"}
 
 echo '---------------------------------------'
-echo Customers
+echo Meterpoints
 echo '---------------------------------------'
-echo 'Create Customer'
+echo 'Create Meterpoint'
 echo
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/customers -H 'content-type: application/json' -d '{ 
-   "customerName": "jane", 
-   "email": "jane@abc.com", 
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/meters -H 'content-type: application/json' -d '{ 
+   "meterpoint": "jane", 
    "registeredDate": "2018-10-21T09:52:20.182Z" 
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/customers -H 'content-type: application/json' -d '{ 
-   "customerName": "louisa", 
-   "email": "louisa@hij.com", 
+TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/meters -H 'content-type: application/json' -d '{ 
+   "meterpoint": "louisa", 
    "registeredDate": "2018-11-18T05:32:20.182Z" 
 }')
 echo "Transaction ID is $TRX_ID"
 
-echo 'Query all customers'
+echo 'Query all meters'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/customers -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/meters -H 'content-type: application/json'
 
 echo '---------------------------------------'
 echo Production
@@ -74,7 +72,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION1}"'",
         "productionAmount": 100,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "edge"
+        "meterpoint": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -83,7 +81,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION2}"'",
         "productionAmount": 255,
         "productionDate": "2018-09-18T07:41:59.582Z",
-        "customerName": "jane"
+        "meterpoint": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -92,7 +90,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION3}"'",
         "productionAmount": 900,
         "productionDate": "2018-09-09T06:32:59.582Z",
-        "customerName": "louisa"
+        "meterpoint": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -101,7 +99,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION4}"'",
         "productionAmount": 430,
         "productionDate": "2018-08-09T09:32:59.582Z",
-        "customerName": "braendle"
+        "meterpoint": "00-111-222-13-1234-5678-678"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -110,7 +108,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION5}"'",
         "productionAmount": 200,
         "productionDate": "2018-09-18T07:41:59.582Z",
-        "customerName": "edge"
+        "meterpoint": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -119,7 +117,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION6}"'",
         "productionAmount": 520,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "edge"
+        "meterpoint": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -128,7 +126,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION7}"'",
         "productionAmount": 760,
         "productionDate": "2018-09-18T07:41:59.582Z",
-        "customerName": "jane"
+        "meterpoint": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -137,7 +135,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION8}"'",
         "productionAmount": 25,
         "productionDate": "2018-09-09T06:32:59.582Z",
-        "customerName": "louisa"
+        "meterpoint": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -146,7 +144,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION9}"'",
         "productionAmount": 44,
         "productionDate": "2018-08-09T09:32:59.582Z",
-        "customerName": "braendle"
+        "meterpoint": "00-111-222-13-1234-5678-678"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -155,7 +153,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION10}"'",
         "productionAmount": 120,
         "productionDate": "2018-09-18T07:41:59.582Z",
-        "customerName": "edge"
+        "meterpoint": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 
@@ -170,7 +168,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION1}"'",
         "consumptionAmount": 100,
         "consumptionDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "edge"
+        "meterpoint": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -179,7 +177,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION2}"'",
         "consumptionAmount": 144,
         "consumptionDate": "2018-09-18T07:41:59.582Z",
-        "customerName": "jane"
+        "meterpoint": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -188,7 +186,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION3}"'",
         "consumptionAmount": 800,
         "consumptionDate": "2018-09-09T06:32:59.582Z",
-        "customerName": "louisa"
+        "meterpoint": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -197,7 +195,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION4}"'",
         "consumptionAmount": 420,
         "consumptionDate": "2018-08-09T09:32:59.582Z",
-        "customerName": "braendle"
+        "meterpoint": "00-111-222-13-1234-5678-678"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -206,7 +204,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION5}"'",
         "consumptionAmount": 201,
         "consumptionDate": "2018-09-18T07:41:59.582Z",
-        "customerName": "edge"
+        "meterpoint": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -215,7 +213,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION6}"'",
         "consumptionAmount": 520,
         "consumptionDate": "2018-09-20T12:41:59.582Z",
-        "customerName": "edge"
+        "meterpoint": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -224,7 +222,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION7}"'",
         "consumptionAmount": 760,
         "consumptionDate": "2018-09-18T07:41:59.582Z",
-        "customerName": "jane"
+        "meterpoint": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -233,7 +231,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION8}"'",
         "consumptionAmount": 255,
         "consumptionDate": "2018-09-09T06:32:59.582Z",
-        "customerName": "louisa"
+        "meterpoint": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -242,7 +240,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION9}"'",
         "consumptionAmount": 36,
         "consumptionDate": "2018-08-09T09:32:59.582Z",
-        "customerName": "braendle"
+        "meterpoint": "00-111-222-13-1234-5678-678"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -251,7 +249,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-typ
         "consumptionId": "'"${DONATION10}"'",
         "consumptionAmount": 120,
         "consumptionDate": "2018-09-18T07:41:59.582Z",
-        "customerName": "edge"
+        "meterpoint": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 
@@ -264,26 +262,26 @@ curl -s -X GET http://${ENDPOINT}:${PORT}/productions -H 'content-type: applicat
 echo
 
 echo 
-echo 'Query production for one customer'
+echo 'Query production for one meterpoint'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/productions -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/meters/00-111-222-13-1234-5678-345/productions -H 'content-type: application/json'
 echo
 
 echo
-echo 'Total production for one customer'
+echo 'Total production for one meterpoint'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/totalproductions -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/meters/00-111-222-13-1234-5678-345/totalproductions -H 'content-type: application/json'
 echo
 
 echo 
-echo 'Query consumption for one customer'
+echo 'Query consumption for one meterpoint'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/consumptions -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/meters/00-111-222-13-1234-5678-345/consumptions -H 'content-type: application/json'
 echo
 
 echo
-echo 'Total consumption for one customer'
+echo 'Total consumption for one meterpoint'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/customers/edge/totalconsumptions -H 'content-type: application/json'
+curl -s -X GET http://${ENDPOINT}:${PORT}/meters/00-111-222-13-1234-5678-345/totalconsumptions -H 'content-type: application/json'
 echo
 
