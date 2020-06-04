@@ -629,7 +629,7 @@ definitions:
     type: "object"
     required:
     - "consumptionAmount"
-    - "meterpoint"
+    - "MPAN"
     properties:
       consumptionAmount:
         type: "integer"
@@ -641,14 +641,14 @@ definitions:
   Meterpoint:
     type: "object"
     required:
-    - "meterpoint"
+    - "MPAN"
     properties:
       meterpoint:
         type: "string"
   Production:
     type: "object"
     required:
-    - "meterpoint"
+    - "MPAN"
     - "productionAmount"
     properties:
       productionAmount:

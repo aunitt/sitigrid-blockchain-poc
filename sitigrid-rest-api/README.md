@@ -132,7 +132,7 @@ response:
 request:
 ```
 curl -s -X POST "http://localhost:3000/meters" -H "content-type: application/json" -d '{ 
-   "meterpoint": "00-111-222-14-1234-5678-345", 
+   "MPAN": "00-111-222-14-1234-5678-345", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
 }'
 ```
@@ -154,7 +154,7 @@ curl -s -X GET   "http://localhost:3000/meters" -H "content-type: application/js
 response:
 ```
 [
-    {"docType":"user","meterpoint":"00-111-222-13-1234-5678-345","registeredDate":"2018-10-22T11:52:20.182Z"}
+    {"docType":"user","MPAN":"00-111-222-13-1234-5678-345","registeredDate":"2018-10-22T11:52:20.182Z"}
 ]
 ```
 ## Step 6 - Load the workshop test data

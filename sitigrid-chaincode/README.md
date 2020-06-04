@@ -128,12 +128,12 @@ Let's add a couple of meters to Fabric. Execute both of these transactions below
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
     cli peer chaincode invoke -C mychannel -n sitigrid \
-    -c  '{"Args":["createMeterpoint","{\"meterpoint\": \"00-111-222-13-1234-5678-345\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
+    -c  '{"Args":["createMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-345\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
     cli peer chaincode invoke -C mychannel -n sitigrid \
-    -c  '{"Args":["createMeterpoint","{\"meterpoint\": \"00-111-222-13-1234-5678-678\", \"registeredDate\": \"2018-11-05T14:31:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
+    -c  '{"Args":["createMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-678\", \"registeredDate\": \"2018-11-05T14:31:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
 ```
 
 ## Step 6 - Query the chaincode
@@ -149,7 +149,7 @@ Query a specific meters
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryMeterpoint","{\"meterpoint\": \"00-111-222-13-1234-5678-345\"}"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-345\"}"]}'
 ```
 
 ## Move on to Part 3

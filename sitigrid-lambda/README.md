@@ -122,7 +122,7 @@ First, call the `POST /meters` endpoint which will execute the `createMeterpoint
 
 ```
 export APIURL=$(aws cloudformation describe-stacks --stack-name fabric-lambda-stack --query "Stacks[0].Outputs[?OutputKey=='APIGatewayURL'].OutputValue" --output text --region $REGION)
-curl -s -X POST "$APIURL/meters" -H "content-type: application/json" -d '{"meterpoint":"00-111-222-15-1234-5678-345"}'
+curl -s -X POST "$APIURL/meters" -H "content-type: application/json" -d '{"MPAN":"00-111-222-15-1234-5678-345"}'
 ```
 
 Second, call the `GET /meters/{meterpoint}` endpoint which will execute the `queryMeterpoint` chaincode function to query the meterpoint "00-111-222-15-1234-5678-345".

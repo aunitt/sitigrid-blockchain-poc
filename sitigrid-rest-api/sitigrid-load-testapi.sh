@@ -61,14 +61,14 @@ echo 'Create Donor'
 echo
 DONOR1=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/meters -H 'content-type: application/json' -d '{ 
-   "meterpoint": "'"${DONOR1}"'", 
+   "MPAN": "'"${DONOR1}"'", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
 }')
 echo "Transaction ID is $TRX_ID"
 echo
 DONOR2=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/meters -H 'content-type: application/json' -d '{ 
-   "meterpoint": "'"${DONOR2}"'", 
+   "MPAN": "'"${DONOR2}"'", 
    "registeredDate": "2018-10-22T11:52:20.182Z" 
 }')
 echo "Transaction ID is $TRX_ID"
@@ -102,7 +102,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION1}"'",
         "productionAmount": 100,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR1}"'"
+        "MPAN": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -111,7 +111,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION2}"'",
         "productionAmount": 999,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR2}"'"
+        "MPAN": "'"${DONOR2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -120,7 +120,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION3}"'",
         "productionAmount": 75,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR1}"'"
+        "MPAN": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -152,7 +152,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION1}"'",
         "productionAmount": 111,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR1}"'"
+        "MPAN": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -161,7 +161,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION1}"'",
         "productionAmount": 222,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR2}"'"
+        "MPAN": "'"${DONOR2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -170,7 +170,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION1}"'",
         "productionAmount": 222,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR1}"'"
+        "MPAN": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -180,7 +180,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION1}"'",
         "productionAmount": 875,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR2}"'"
+        "MPAN": "'"${DONOR2}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -189,7 +189,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION1}"'",
         "productionAmount": 1,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR1}"'"
+        "MPAN": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
@@ -198,7 +198,7 @@ TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type
         "productionId": "'"${DONATION1}"'",
         "productionAmount": 0,
         "productionDate": "2018-09-20T12:41:59.582Z",
-        "meterpoint": "'"${DONOR1}"'"
+        "MPAN": "'"${DONOR1}"'"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
