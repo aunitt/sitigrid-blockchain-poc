@@ -22,67 +22,67 @@ echo Add User
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \
+cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n sitigrid \
 -c '{"Args":["createMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-345\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \
+cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n sitigrid \
 -c '{"Args":["createMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-678\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}'
 
 echo Add Production
 
-docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" 
-\ -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" 
-\ cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME 
-\ -c '{"Args":["createProductionRecord","{\"productionId\": \"2211\", \"productionAmount\": 100, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"MPAN\": \"00-111-222-13-1234-5678-345\"}"]}'
+docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \ 
+-e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
+cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n sitigrid \
+-c '{"Args":["createProductionRecord","{\"productionId\": \"2211\", \"productionAmount\": 100, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"MPAN\": \"00-111-222-13-1234-5678-345\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \
+cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n sitigrid \
 -c '{"Args":["createProductionRecord","{\"productionId\": \"2212\", \"productionAmount\": 733, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"MPAN\": \"00-111-222-13-1234-5678-678\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \
+cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n sitigrid \
 -c '{"Args":["createProductionRecord","{\"productionId\": \"2230\", \"productionAmount\": 450, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"MPAN\": \"00-111-222-13-1234-5678-345\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \
+cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n sitigrid \
 -c '{"Args":["createProductionRecord","{\"productionId\": \"2231\", \"productionAmount\": 29, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"MPAN\": \"00-111-222-13-1234-5678-678\"}"]}'
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n $CHAINCODENAME \
+cli peer chaincode invoke -o $ORDERER -C $CHANNEL -n sitigrid \
 -c '{"Args":["createProductionRecord","{\"productionId\": \"2232\", \"productionAmount\": 98, \"productionDate\": \"2018-09-20T12:41:59.582Z\", \"MPAN\": \"00-111-222-13-1234-5678-678\"}"]}'
 
 echo Query all meters
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryAllMeterpoints"]}'
+cli peer chaincode query -C $CHANNEL -n sitigrid -c '{"Args":["queryAllMeterpoints"]}'
 
 echo Query specific meterpoint
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-345\"}"]}'
+cli peer chaincode query -C $CHANNEL -n sitigrid -c '{"Args":["queryMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-345\"}"]}'
 
 echo Query all Productions
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryAllProductions"]}'
+cli peer chaincode query -C $CHANNEL -n sitigrid -c '{"Args":["queryAllProductions"]}'
 
 echo Query all Spend
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryAllSpends"]}'
+cli peer chaincode query -C $CHANNEL -n sitigrid -c '{"Args":["queryAllSpends"]}'
 
 echo Query history for a specific key
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
 -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-cli peer chaincode query -C $CHANNEL -n $CHAINCODENAME -c '{"Args":["queryHistoryForKey","{\"key\": \"136772b8c4bc84c09f86d8f936ae107a5fcbfbaa25b15d4a9ee7059dac1b312a-0\"}"]}'
+cli peer chaincode query -C $CHANNEL -n sitigrid -c '{"Args":["queryHistoryForKey","{\"key\": \"136772b8c4bc84c09f86d8f936ae107a5fcbfbaa25b15d4a9ee7059dac1b312a-0\"}"]}'
