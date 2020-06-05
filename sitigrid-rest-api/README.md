@@ -185,7 +185,7 @@ using a command such as `pm2 start app.js`, which will keep the app running. The
 The workshop instructions can be found in the README files in parts 1-4:
 
 * [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
-* [Part 2:](../sitigrid-chaincode/README.md) Deploy the non-profit chaincode. 
+* [Part 2:](../sitigrid-chaincode/README.md) Deploy the sitigrid chaincode. 
 * [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
 * [Part 4:](../new-member/README.md) Add a new member to the network.
 * [Part 5:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.

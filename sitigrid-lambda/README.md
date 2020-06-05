@@ -140,7 +140,7 @@ curl -s -X GET "$APIURL/meters"
 You now have a REST API managed by API Gateway that is invoking a Lambda function to execute transactions on the blockchain.  To expose additional chaincode functions within API Gateway, you would add API Gateway routes to support them, and continue routing to the same Lambda function.   
 
 * [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
-* [Part 2:](../sitigrid-chaincode/README.md) Deploy the non-profit chaincode. 
+* [Part 2:](../sitigrid-chaincode/README.md) Deploy the sitigrid chaincode. 
 * [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
 * [Part 4:](../new-member/README.md) Add a new member to the network. 
 * [Part 5:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
