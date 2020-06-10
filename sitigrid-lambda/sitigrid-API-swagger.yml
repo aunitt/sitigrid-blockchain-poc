@@ -164,7 +164,7 @@ paths:
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
-            \ = $util.parseJson($input.body) )\n      \"meterpoint\": \"$body.meterpoint\"\
+            \ = $util.parseJson($input.body) )\n      \"MPAN\": \"$body.meterpoint\"\
             ,\n   \"registeredDate\":\"$context.requestTimeEpoch\"\n  },\n  \"fabricUsername\"\
             : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
@@ -229,7 +229,7 @@ paths:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n      \"meterpoint\"\
+            : \"queryMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n      \"MPAN\"\
             : \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
             \n}"
         passthroughBehavior: "when_no_templates"
