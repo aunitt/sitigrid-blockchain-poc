@@ -17,6 +17,7 @@
 'use strict';
 const shim = require('fabric-shim');
 const util = require('util');
+const moment = require('moment');
 
 /************************************************************************************************
  * 
@@ -275,6 +276,10 @@ let Chaincode = class {
    *    "productionDate":"2018-09-20T12:41:59.582Z",
    *    "MPAN":"00-111-222-13-1234-5678-345"
    * }
+   * 
+   * productionDate must be in ISO 8601 format
+   * 
+   * NOTE: Also creates an index record with createCompositeKey to allow us to index by date (TBD)
    */
   async createProductionRecord(stub, args) {
     console.log('============= START : createProductionRecord ===========');
@@ -298,6 +303,11 @@ let Chaincode = class {
     let productionQuery = await stub.getState(key);
     if (productionQuery.toString()) {
       throw new Error('##### createProductionRecord - This production already exists: ' + json['productionId']);
+    }
+
+    // Check the date is in the right format
+    if (!moment(json['productionDate'], moment.ISO_8601, true).isValid()) {
+      throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json['productionDate']);
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
