@@ -17,7 +17,6 @@
 'use strict';
 const shim = require('fabric-shim');
 const util = require('util');
-const moment = require('moment');
 
 /************************************************************************************************
  * 
