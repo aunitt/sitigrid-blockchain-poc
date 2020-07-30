@@ -17,6 +17,7 @@
 'use strict';
 const shim = require('fabric-shim');
 const util = require('util');
+const moment = require('moment');
 
 /************************************************************************************************
  * 
@@ -59,7 +60,7 @@ async function queryByString(stub, queryString) {
 
   // Equivalent LevelDB Query. We need to parse queryString to determine what is being queried
   // In this chaincode, all queries will either query ALL records for a specific docType, or
-  // they will filter ALL the records looking for a specific NGO, Donor, Donation, etc. So far, 
+  // they will filter ALL the records looking for a specific Meterpoint, Production, etc. So far, 
   // in this chaincode there is a maximum of one filter parameter in addition to the docType.
   let docType = "";
   let startKey = "";
@@ -216,9 +217,9 @@ let Chaincode = class {
 
     console.log('##### createMeterpoint payload: ' + JSON.stringify(json));
 
-    // Check if the donor already exists
-    let donorQuery = await stub.getState(key);
-    if (donorQuery.toString()) {
+    // Check if the meterpoint already exists
+    let meterpointQuery = await stub.getState(key);
+    if (meterpointQuery.toString()) {
       throw new Error('##### createMeterpoint - This meterpoint already exists: ' + json['MPAN']);
     }
 
