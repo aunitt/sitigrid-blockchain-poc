@@ -310,12 +310,21 @@ let Chaincode = class {
 
     // Check the date is in the right format, note we cannot currently use external
     // libraries on Amazon Managed blockchain which is a pain
-
     if (!isIso8601(json['productionDate'])) {
       throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json['productionDate']);
     }
 
+    // Write the production
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
+
+    // Create the index key
+    let indexName = 'production~date';
+    let productionDateIndexKey = await stub.createCompositeKey(indexName, [json['productionId'],json['productionDate']]);
+
+    //  Save index entry to state. Only the key name is needed, no need to store a duplicate copy of the production.
+    //  Note - passing a 'nil' value will effectively delete the key from state, therefore we pass null character as value
+    await stub.putState(productionDateIndexKey, Buffer.from('\u0000'));
+
     console.log('============= END : createProductionRecord ===========');
   }
 
