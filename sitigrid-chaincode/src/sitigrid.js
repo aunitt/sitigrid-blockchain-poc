@@ -17,7 +17,6 @@
 'use strict';
 const shim = require('fabric-shim');
 const util = require('util');
-const moment = require('moment');
 
 /************************************************************************************************
  * 
@@ -41,6 +40,10 @@ async function queryByKey(stub, key) {
   console.log('##### queryByKey response: ' + resultAsBytes);
   console.log('============= END : queryByKey ===========');
   return resultAsBytes;
+}
+
+function isIso8601(value) {
+  return new Date(value).toJSON() === value;
 }
 
 /**
@@ -305,8 +308,10 @@ let Chaincode = class {
       throw new Error('##### createProductionRecord - This production already exists: ' + json['productionId']);
     }
 
-    // Check the date is in the right format
-    if (!moment(json['productionDate'], moment.ISO_8601, true).isValid()) {
+    // Check the date is in the right format, note we cannot currently use external
+    // libraries on Amazon Managed blockchain which is a pain
+
+    if (!isIso8601(json['productionDate'])) {
       throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json['productionDate']);
     }
 
