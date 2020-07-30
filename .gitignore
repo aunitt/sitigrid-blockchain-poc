@@ -7,3 +7,4 @@ sitigrid-rest-api/fabric-client-kv-org1
 sitigrid-ui/node_modules
 sitigrid-ui/Config
 .DS_Store
+sitigrid-chaincode/src/node_modules

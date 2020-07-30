@@ -106,15 +106,15 @@ instantiated once on a channel)
 
 ## Step 4 - Query the chaincode
 
-Query all customers
+Query all meters
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllCustomers"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllMeterpoints"]}'
 ```
 
 Expected response:
-This is correct as we do not have any customers in our network yet. We'll add one in the next step.
+This is correct as we do not have any meters in our network yet. We'll add one in the next step.
 
 ```
 []
@@ -122,42 +122,41 @@ This is correct as we do not have any customers in our network yet. We'll add on
 
 ## Step 5 - Invoke a transaction
 
-Let's add a couple of customers to Fabric. Execute both of these transactions below:
+Let's add a couple of meters to Fabric. Execute both of these transactions below:
 
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
     cli peer chaincode invoke -C mychannel -n sitigrid \
-    -c  '{"Args":["createCustomer","{\"customerName\": \"edge\", \"email\": \"edge@def.com\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
+    -c  '{"Args":["createMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-345\", \"registeredDate\": \"2018-10-22T11:52:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
 
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
     cli peer chaincode invoke -C mychannel -n sitigrid \
-    -c  '{"Args":["createCustomer","{\"customerName\": \"braendle\", \"email\": \"braendle@def.com\", \"registeredDate\": \"2018-11-05T14:31:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
+    -c  '{"Args":["createMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-678\", \"registeredDate\": \"2018-11-05T14:31:20.182Z\"}"]}' -o $ORDERER --cafile /opt/home/managedblockchain-tls-chain.pem --tls
 ```
 
 ## Step 6 - Query the chaincode
 
-Query all customers
+Query all meters
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllCustomers"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryAllMeterpoints"]}'
 ```
 
-Query a specific customers
+Query a specific meters
 ```
 docker exec -e "CORE_PEER_TLS_ENABLED=true" -e "CORE_PEER_TLS_ROOTCERT_FILE=/opt/home/managedblockchain-tls-chain.pem" \
     -e "CORE_PEER_ADDRESS=$PEER" -e "CORE_PEER_LOCALMSPID=$MSP" -e "CORE_PEER_MSPCONFIGPATH=$MSP_PATH" \
-    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryCustomer","{\"customerName\": \"edge\"}"]}'
+    cli peer chaincode query -C mychannel -n sitigrid -c '{"Args":["queryMeterpoint","{\"MPAN\": \"00-111-222-13-1234-5678-345\"}"]}'
 ```
 
 ## Move on to Part 3
 The workshop instructions can be found in the README files in parts 1-4:
 
 * [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
-* [Part 2:](../sitigrid-chaincode/README.md) Deploy the non-profit chaincode. 
+* [Part 2:](../sitigrid-chaincode/README.md) Deploy the sitigrid chaincode. 
 * [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server. 
-* [Part 4:](../sitigrid-ui/README.md) Run the application. 
-* [Part 5:](../new-member/README.md) Add a new member to the network. 
-* [Part 6:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
+* [Part 4:](../new-member/README.md) Add a new member to the network. 
+* [Part 5:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.

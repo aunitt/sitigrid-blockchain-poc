@@ -3,8 +3,7 @@ swagger: "2.0"
 info:
   version: "2019-11-13T11:12:00Z"
   title: "Sitigrid API"
-host: "b3yhcg1it9.execute-api.us-east-1.amazonaws.com"
-basePath: "/dev"
+host: "api.sitigrid-demo.co.uk"
 schemes:
 - "https"
 paths:
@@ -68,106 +67,9 @@ paths:
         requestTemplates:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createConsumptionRecord\",\n  \"chaincodeFunctionArgs\": {\n     \
-            \ #set( $body = $util.parseJson($input.body) )\n      \"productionId\"\
-            : \"$context.requestId\",\n      \"customerName\": \"$body.customerName\"\
-            ,\n      \"consumptionAmount\": $body.consumptionAmount,\n      \"consumptionDate\"\
-            :\"$context.requestTime\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\n\
-            }"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
-        type: "mock"
-  /customers:
-    get:
-      description: "Returns all the customers registered"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestTemplates:
-          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryAllCustomers\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
-            : \"lambdaUser\"\n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-    post:
-      description: "Registers a new customer in the blockchain"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - in: "body"
-        name: "Customer"
-        required: true
-        schema:
-          $ref: "#/definitions/Customer"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/TransactionId"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestTemplates:
-          application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
-            : \"createCustomer\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
-            \ = $util.parseJson($input.body) )\n      \"customerName\": \"$body.customerName\"\
-            ,\n      \"email\": \"$body.email\",\n      \"registeredDate\":\"$context.requestTime\"\
+            \ #set( $body = $util.parseJson($input.body) )\n      \"consumptionId\"\
+            : \"$context.requestId\",\n      \"MPAN\": \"$body.MPAN\",\n      \"consumptionAmount\"\
+            : $body.consumptionAmount,\n      \"consumptionDate\":\"$context.requestTimeEpoch\"\
             \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
@@ -202,15 +104,111 @@ paths:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
         type: "mock"
-  /customers/{customerName}:
+  /meters:
     get:
-      description: "Returns the customer record of the given customer"
+      description: "Returns all the meters registered"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
+            : \"queryAllMeterpoints\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+    post:
+      description: "Registers a new meterpoint in the blockchain"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - in: "body"
+        name: "Meterpoint"
+        required: true
+        schema:
+          $ref: "#/definitions/Meterpoint"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/TransactionId"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
+            : \"createMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n      #set( $body\
+            \ = $util.parseJson($input.body) )\n      \"MPAN\": \"$body.meterpoint\"\
+            ,\n   \"registeredDate\":\"$context.requestTimeEpoch\"\n  },\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
+        passthroughBehavior: "when_no_templates"
+        httpMethod: "POST"
+        contentHandling: "CONVERT_TO_TEXT"
+        type: "aws"
+    options:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      responses:
+        200:
+          description: "200 response"
+          schema:
+            $ref: "#/definitions/Empty"
+          headers:
+            Access-Control-Allow-Origin:
+              type: "string"
+            Access-Control-Allow-Methods:
+              type: "string"
+            Access-Control-Allow-Headers:
+              type: "string"
+      x-amazon-apigateway-integration:
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        requestTemplates:
+          application/json: "{\"statusCode\": 200}"
+        passthroughBehavior: "when_no_match"
+        type: "mock"
+  /meters/{meterpoint}:
+    get:
+      description: "Returns the meterpoint record of the given meterpoint"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -231,8 +229,8 @@ paths:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryCustomer\",\n  \"chaincodeFunctionArgs\": {\n      \"customerName\"\
-            : \"$input.params('customerName')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
+            : \"queryMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n      \"MPAN\"\
+            : \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
             \n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
@@ -267,15 +265,15 @@ paths:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
         type: "mock"
-  /customers/{customerName}/consumptions:
+  /meters/{meterpoint}/consumptions:
     get:
-      description: "Returns all the consumption records for the given customer"
+      description: "Returns all the consumption records for the given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -296,9 +294,9 @@ paths:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n\
-            \      \"customerName\": \"$input.params('customerName')\"\n  },\n  \"\
-            fabricUsername\": \"lambdaUser\"\n}"
+            : \"queryConsumptionsForMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n\
+            \      \"MPAN\": \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
@@ -332,15 +330,15 @@ paths:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
         type: "mock"
-  /customers/{customerName}/productions:
+  /meters/{meterpoint}/productions:
     get:
-      description: "Returns all the production methods for a given customer"
+      description: "Returns all the production methods for a given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -361,9 +359,9 @@ paths:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryProductionsForCustomer\",\n  \"chaincodeFunctionArgs\": {\n \
-            \     \"customerName\": \"$input.params('customerName')\"\n  },\n  \"\
-            fabricUsername\": \"lambdaUser\"\n}"
+            : \"queryProductionsForMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n\
+            \      \"MPAN\": \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
@@ -397,15 +395,15 @@ paths:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
         type: "mock"
-  /customers/{customerName}/totalconsumptions:
+  /meters/{meterpoint}/totalconsumptions:
     get:
-      description: "Returns the total consumption amount for the given customer"
+      description: "Returns the total consumption amount for the given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -426,9 +424,9 @@ paths:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryTotalConsumptionsForCustomer\",\n  \"chaincodeFunctionArgs\"\
-            : {\n      \"customerName\": \"$input.params('customerName')\"\n  },\n\
-            \  \"fabricUsername\": \"lambdaUser\"\n}"
+            : \"queryTotalConsumptionsForMeterpoint\",\n  \"chaincodeFunctionArgs\"\
+            : {\n      \"MPAN\": \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
@@ -462,15 +460,15 @@ paths:
           application/json: "{\"statusCode\": 200}"
         passthroughBehavior: "when_no_match"
         type: "mock"
-  /customers/{customerName}/totalproductions:
+  /meters/{meterpoint}/totalproductions:
     get:
-      description: "Returns the total production amount for the given customer"
+      description: "Returns the total production amount for the given meterpoint"
       consumes:
       - "application/json"
       produces:
       - "application/json"
       parameters:
-      - name: "customerName"
+      - name: "meterpoint"
         in: "path"
         required: true
         type: "string"
@@ -491,9 +489,9 @@ paths:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryTotalProductionsForCustomer\",\n  \"chaincodeFunctionArgs\":\
-            \ {\n      \"customerName\": \"$input.params('customerName')\"\n  },\n\
-            \  \"fabricUsername\": \"lambdaUser\"\n}"
+            : \"queryTotalProductionsForMeterpoint\",\n  \"chaincodeFunctionArgs\"\
+            : {\n      \"MPAN\": \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
@@ -588,9 +586,9 @@ paths:
           application/json: "{\n  \"functionType\": \"invoke\",\n  \"chaincodeFunction\"\
             : \"createProductionRecord\",\n  \"chaincodeFunctionArgs\": {\n      #set(\
             \ $body = $util.parseJson($input.body) )\n      \"productionId\": \"$context.requestId\"\
-            ,\n      \"customerName\": \"$body.customerName\",\n      \"productionAmount\"\
-            : $body.productionAmount,\n      \"productionDate\":\"$context.requestTime\"\
-            \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
+            ,\n      \"MPAN\": \"$body.MPAN\",\n      \"productionAmount\": $body.productionAmount,\n\
+            \      \"productionDate\":\"$context.requestTimeEpoch\"\n  },\n  \"fabricUsername\"\
+            : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
@@ -629,34 +627,27 @@ definitions:
     type: "object"
     required:
     - "consumptionAmount"
-    - "customerName"
     properties:
       consumptionAmount:
         type: "integer"
-      customerName:
+      meterpoint:
         type: "string"
   Empty:
     type: "object"
     title: "Empty Schema"
-  Customer:
-    type: "object"
-    required:
-    - "customerName"
-    - "email"
-    properties:
-      customerName:
-        type: "string"
-      email:
-        type: "string"
   Production:
     type: "object"
     required:
-    - "customerName"
     - "productionAmount"
     properties:
       productionAmount:
         type: "integer"
-      customerName:
+      meterpoint:
+        type: "string"
+  Meterpoint:
+    type: "object"
+    properties:
+      meterpoint:
         type: "string"
   TransactionId:
     type: "object"
@@ -664,8 +655,8 @@ definitions:
       transactionId:
         type: "string"
 x-amazon-apigateway-documentation:
-  version: "1.0.1"
-  createdDate: "2020-04-29T15:39:38Z"
+  version: "1.0"
+  createdDate: "2020-06-10T09:28:42Z"
   documentationParts:
   - location:
       type: "METHOD"
@@ -681,46 +672,46 @@ x-amazon-apigateway-documentation:
       description: "Adds a new consumption record to the blockchain"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}/consumptions"
+      path: "/meters/{meterpoint}/consumptions"
       method: "GET"
     properties:
-      description: "Returns all the consumption records for the given customer"
+      description: "Returns all the consumption records for the given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}/productions"
+      path: "/meters/{meterpoint}/productions"
       method: "GET"
     properties:
-      description: "Returns all the production methods for a given customer"
+      description: "Returns all the production methods for a given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}/totalconsumptions"
+      path: "/meters/{meterpoint}/totalconsumptions"
       method: "GET"
     properties:
-      description: "Returns the total consumption amount for the given customer"
+      description: "Returns the total consumption amount for the given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}/totalproductions"
+      path: "/meters/{meterpoint}/totalproductions"
       method: "GET"
     properties:
-      description: "Returns the total production amount for the given customer"
+      description: "Returns the total production amount for the given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers/{customerName}"
+      path: "/meters/{meterpoint}"
       method: "GET"
     properties:
-      description: "Returns the customer record of the given customer"
+      description: "Returns the meterpoint record of the given meterpoint"
   - location:
       type: "METHOD"
-      path: "/customers"
+      path: "/meters"
       method: "GET"
     properties:
-      description: "Returns all the customers registered"
+      description: "Returns all the meters registered"
   - location:
       type: "METHOD"
-      path: "/customers"
+      path: "/meters"
       method: "POST"
     properties:
-      description: "Registers a new customer in the blockchain"
+      description: "Registers a new meterpoint in the blockchain"
   - location:
       type: "METHOD"
       path: "/productions"
@@ -766,91 +757,91 @@ x-amazon-apigateway-documentation:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/consumptions"
+      path: "/meters/{meterpoint}/consumptions"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/consumptions"
+      path: "/meters/{meterpoint}/consumptions"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/productions"
+      path: "/meters/{meterpoint}/productions"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/productions"
+      path: "/meters/{meterpoint}/productions"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/totalconsumptions"
+      path: "/meters/{meterpoint}/totalconsumptions"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/totalconsumptions"
+      path: "/meters/{meterpoint}/totalconsumptions"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/totalproductions"
+      path: "/meters/{meterpoint}/totalproductions"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}/totalproductions"
+      path: "/meters/{meterpoint}/totalproductions"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}"
+      path: "/meters/{meterpoint}"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers/{customerName}"
+      path: "/meters/{meterpoint}"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers"
+      path: "/meters"
       method: "GET"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers"
+      path: "/meters"
       method: "OPTIONS"
       statusCode: "200"
     properties:
       description: "200 response"
   - location:
       type: "RESPONSE"
-      path: "/customers"
+      path: "/meters"
       method: "POST"
       statusCode: "200"
     properties:

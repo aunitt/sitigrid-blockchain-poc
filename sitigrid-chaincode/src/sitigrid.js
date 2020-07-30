@@ -42,6 +42,10 @@ async function queryByKey(stub, key) {
   return resultAsBytes;
 }
 
+function isIso8601(value) {
+  return new Date(value).toJSON() === value;
+}
+
 /**
  * Executes a query based on a provided queryString
  * 
@@ -59,7 +63,7 @@ async function queryByString(stub, queryString) {
 
   // Equivalent LevelDB Query. We need to parse queryString to determine what is being queried
   // In this chaincode, all queries will either query ALL records for a specific docType, or
-  // they will filter ALL the records looking for a specific NGO, Donor, Donation, etc. So far, 
+  // they will filter ALL the records looking for a specific Meterpoint, Production, etc. So far, 
   // in this chaincode there is a maximum of one filter parameter in addition to the docType.
   let docType = "";
   let startKey = "";
@@ -189,71 +193,72 @@ let Chaincode = class {
 
   /************************************************************************************************
    * 
-   * Customer functions 
+   * Meter point functions 
    * 
    ************************************************************************************************/
 
    /**
-   * Creates a new customer
+   * Creates a new meter point
+   * 
+   * See https://en.wikipedia.org/wiki/Meter_Point_Administration_Number
    * 
    * @param {*} stub 
    * @param {*} args - JSON as follows:
    * {
-   *    "customerName":"edge",
-   *    "email":"edge@abc.com",
+   *    "MPAN":"00-111-222-13-1234-5678-345",
    *    "registeredDate":"2018-10-22T11:52:20.182Z"
    * }
    */
-  async createCustomer(stub, args) {
-    console.log('============= START : createCustomer ===========');
-    console.log('##### createCustomer arguments: ' + JSON.stringify(args));
+  async createMeterpoint(stub, args) {
+    console.log('============= START : createMeterpoint ===========');
+    console.log('##### createMeterpoint arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'customer' + json['customerName'];
-    json['docType'] = 'customer';
+    let key = 'meterpoint' + json['MPAN'];
+    json['docType'] = 'meterpoint';
 
-    console.log('##### createCustomer payload: ' + JSON.stringify(json));
+    console.log('##### createMeterpoint payload: ' + JSON.stringify(json));
 
-    // Check if the donor already exists
-    let donorQuery = await stub.getState(key);
-    if (donorQuery.toString()) {
-      throw new Error('##### createCustomer - This customer already exists: ' + json['customerName']);
+    // Check if the meterpoint already exists
+    let meterpointQuery = await stub.getState(key);
+    if (meterpointQuery.toString()) {
+      throw new Error('##### createMeterpoint - This meterpoint already exists: ' + json['MPAN']);
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
-    console.log('============= END : createCustomer ===========');
+    console.log('============= END : createMeterpoint ===========');
   }
 
   /**
-   * Retrieves a specfic customer
+   * Retrieves a specfic meterpoint
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryCustomer(stub, args) {
-    console.log('============= START : queryCustomer ===========');
-    console.log('##### queryCustomer arguments: ' + JSON.stringify(args));
+  async queryMeterpoint(stub, args) {
+    console.log('============= START : queryMeterpoint ===========');
+    console.log('##### queryMeterpoint arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'customer' + json['customerName'];
-    console.log('##### queryCustomer key: ' + key);
+    let key = 'meterpoint' + json['MPAN'];
+    console.log('##### queryMeterpoint key: ' + key);
 
     return queryByKey(stub, key);
   }
 
   /**
-   * Retrieves all customers
+   * Retrieves all meters
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryAllCustomers(stub, args) {
-    console.log('============= START : queryAllCustomers ===========');
-    console.log('##### queryAllCustomers arguments: ' + JSON.stringify(args));
+  async queryAllMeterpoints(stub, args) {
+    console.log('============= START : queryAllMeterpoints ===========');
+    console.log('##### queryAllMeterpoints arguments: ' + JSON.stringify(args));
  
-    let queryString = '{"selector": {"docType": "customer"}}';
+    let queryString = '{"selector": {"docType": "meterpoint"}}';
     return queryByString(stub, queryString);
   }
 
@@ -272,8 +277,12 @@ let Chaincode = class {
    *    "productionId":"2211",
    *    "productionAmount":100,
    *    "productionDate":"2018-09-20T12:41:59.582Z",
-   *    "customerName":"edge"
+   *    "MPAN":"00-111-222-13-1234-5678-345"
    * }
+   * 
+   * productionDate must be in ISO 8601 format
+   * 
+   * NOTE: Also creates an index record with createCompositeKey to allow us to index by date (TBD)
    */
   async createProductionRecord(stub, args) {
     console.log('============= START : createProductionRecord ===========');
@@ -286,11 +295,11 @@ let Chaincode = class {
 
     console.log('##### createProductionRecord production: ' + JSON.stringify(json));
 
-    // Confirm the customer exists
-    let customerKey = 'customer' + json['customerName'];
-    let customerQuery = await stub.getState(customerKey);
-    if (!customerQuery.toString()) {
-      throw new Error('##### createProductionRecord - Cannot create production as the Customer does not exist: ' + json['customerName']);
+    // Confirm the meterpoint exists
+    let meterKey = 'meterpoint' + json['MPAN'];
+    let meterQuery = await stub.getState(meterKey);
+    if (!meterQuery.toString()) {
+      throw new Error('##### createProductionRecord - Cannot create production as the Meterpoint does not exist: ' + json['MPAN']);
     }
 
     // Check if the Production already exists
@@ -299,7 +308,23 @@ let Chaincode = class {
       throw new Error('##### createProductionRecord - This production already exists: ' + json['productionId']);
     }
 
+    // Check the date is in the right format, note we cannot currently use external
+    // libraries on Amazon Managed blockchain which is a pain
+    if (!isIso8601(json['productionDate'])) {
+      throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json['productionDate']);
+    }
+
+    // Write the production
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
+
+    // Create the index key
+    let indexName = 'production~date';
+    let productionDateIndexKey = await stub.createCompositeKey(indexName, [json['productionId'],json['productionDate']]);
+
+    //  Save index entry to state. Only the key name is needed, no need to store a duplicate copy of the production.
+    //  Note - passing a 'nil' value will effectively delete the key from state, therefore we pass null character as value
+    await stub.putState(productionDateIndexKey, Buffer.from('\u0000'));
+
     console.log('============= END : createProductionRecord ===========');
   }
 
@@ -321,46 +346,46 @@ let Chaincode = class {
   }
 
   /**
-   * Retrieves productions for a specfic customer
+   * Retrieves productions for a specfic meterpoint
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryProductionsForCustomer(stub, args) {
-    console.log('============= START : queryProductionsForCustomer ===========');
-    console.log('##### queryProductionsForCustomer arguments: ' + JSON.stringify(args));
+  async queryProductionsForMeterpoint(stub, args) {
+    console.log('============= START : queryProductionsForMeterpoint ===========');
+    console.log('##### queryProductionsForMeterpoint arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "production", "customerName": "' + json['customerName'] + '"}}';
+    let queryString = '{"selector": {"docType": "production", "MPAN": "' + json['MPAN'] + '"}}';
     return queryByString(stub, queryString);
   }
 
   /**
-   * Retrieves the sum of productions for a specfic customer
+   * Retrieves the sum of productions for a specfic meterpoint
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryTotalProductionsForCustomer(stub, args) {
-    console.log('============= START : queryTotalProductionsForCustomer ===========');
-    console.log('##### queryTotalProductionsForCustomer arguments: ' + JSON.stringify(args));
+  async queryTotalProductionsForMeterpoint(stub, args) {
+    console.log('============= START : queryTotalProductionsForMeterpoint ===========');
+    console.log('##### queryTotalProductionsForMeterpoint arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "production", "customerName": "' + json['customerName'] + '"}}';
+    let queryString = '{"selector": {"docType": "production", "MPAN": "' + json['MPAN'] + '"}}';
     let productions = await queryByString(stub, queryString);
     productions = JSON.parse(productions.toString());
-    console.log('#####  -queryTotalProductionsForCustomer productions as JSON: ' + JSON.stringify(productions));
+    console.log('#####  -queryTotalProductionsForMeterpoint productions as JSON: ' + JSON.stringify(productions));
 
     let totalProductions = 0;
-    console.log('#####  -queryTotalProductionsForCustomer number of productions: ' + productions.length);
+    console.log('#####  -queryTotalProductionsForMeterpoint number of productions: ' + productions.length);
     for (let n = 0; n < productions.length; n++) {
       let production = productions[n];
-      console.log('##### queryTotalProductionsForCustomer - production: ' + JSON.stringify(production));
+      console.log('##### queryTotalProductionsForMeterpoint - production: ' + JSON.stringify(production));
       totalProductions += production['Record']['productionAmount'];
     }
-    console.log('##### allocateSpend - Total productions for this customer are: ' + totalProductions.toString());
+    console.log('##### allocateSpend - Total productions for this meterpoint are: ' + totalProductions.toString());
     
     let result = { 'totalProductions' : totalProductions };
     console.log('##### allocateSpend - Total result: ' + JSON.stringify(result));
@@ -396,7 +421,7 @@ let Chaincode = class {
    *    "consumptionId":"433da889-777d-4f11-b9eb-a6610d8ba555",
    *    "consumptionAmount":100,
    *    "consumptionDate":"2018-09-20T12:41:59.582Z",
-   *    "customerName":"edge"
+   *    "MPAN":"00-111-222-13-1234-5678-345"
    * }
    */
   async createConsumptionRecord(stub, args) {
@@ -410,11 +435,11 @@ let Chaincode = class {
 
     console.log('##### createConsumptionRecord consumption: ' + JSON.stringify(json));
 
-    // Confirm the customer exists
-    let customerKey = 'customer' + json['customerName'];
-    let customerQuery = await stub.getState(customerKey);
-    if (!customerQuery.toString()) {
-      throw new Error('##### createConsumptionRecord - Cannot create consumption as the Customer does not exist: ' + json['customerName']);
+    // Confirm the meterpoint exists
+    let meterKey = 'meterpoint' + json['MPAN'];
+    let meterQuery = await stub.getState(meterKey);
+    if (!meterQuery.toString()) {
+      throw new Error('##### createConsumptionRecord - Cannot create consumption as the Meterpoint does not exist: ' + json['MPAN']);
     }
 
     // Check if the Consumption already exists
@@ -445,46 +470,46 @@ let Chaincode = class {
   }
 
   /**
-   * Retrieves consumptions for a specfic customer
+   * Retrieves consumptions for a specfic meterpoint
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryConsumptionsForCustomer(stub, args) {
-    console.log('============= START : queryConsumptionsForCustomer ===========');
-    console.log('##### queryConsumptionsForCustomer arguments: ' + JSON.stringify(args));
+  async queryConsumptionsForMeterpoint(stub, args) {
+    console.log('============= START : queryConsumptionsForMeterpoint ===========');
+    console.log('##### queryConsumptionsForMeterpoint arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "consumption", "customerName": "' + json['customerName'] + '"}}';
+    let queryString = '{"selector": {"docType": "consumption", "MPAN": "' + json['MPAN'] + '"}}';
     return queryByString(stub, queryString);
   }
 
   /**
-   * Retrieves the sum of consumptions for a specfic customer
+   * Retrieves the sum of consumptions for a specfic meterpoint
    * 
    * @param {*} stub 
    * @param {*} args 
    */
-  async queryTotalConsumptionsForCustomer(stub, args) {
-    console.log('============= START : queryTotalConsumptionsForCustomer ===========');
-    console.log('##### queryTotalConsumptionsForCustomer arguments: ' + JSON.stringify(args));
+  async queryTotalConsumptionsForMeterpoint(stub, args) {
+    console.log('============= START : queryTotalConsumptionsForMeterpoint ===========');
+    console.log('##### queryTotalConsumptionsForMeterpoint arguments: ' + JSON.stringify(args));
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "consumption", "customerName": "' + json['customerName'] + '"}}';
+    let queryString = '{"selector": {"docType": "consumption", "MPAN": "' + json['MPAN'] + '"}}';
     let consumptions = await queryByString(stub, queryString);
     consumptions = JSON.parse(consumptions.toString());
-    console.log('#####  -queryTotalConsumptionsForCustomer consumptions as JSON: ' + JSON.stringify(consumptions));
+    console.log('#####  -queryTotalConsumptionsForMeterpoint consumptions as JSON: ' + JSON.stringify(consumptions));
 
     let totalConsumptions = 0;
-    console.log('#####  -queryTotalConsumptionsForCustomer number of consumptions: ' + consumptions.length);
+    console.log('#####  -queryTotalConsumptionsForMeterpoint number of consumptions: ' + consumptions.length);
     for (let n = 0; n < consumptions.length; n++) {
       let consumption = consumptions[n];
-      console.log('##### queryTotalConsumptionsForCustomer - consumption: ' + JSON.stringify(consumption));
+      console.log('##### queryTotalConsumptionsForMeterpoint - consumption: ' + JSON.stringify(consumption));
       totalConsumptions += consumption['Record']['consumptionAmount'];
     }
-    console.log('##### allocateSpend - Total consumptions for this customer are: ' + totalConsumptions.toString());
+    console.log('##### allocateSpend - Total consumptions for this meterpoint are: ' + totalConsumptions.toString());
     
     let result = { 'totalConsumptions' : totalConsumptions };
     console.log('##### allocateSpend - Total result: ' + JSON.stringify(result));
