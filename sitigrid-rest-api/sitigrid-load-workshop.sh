@@ -67,90 +67,90 @@ echo '---------------------------------------'
 echo
 echo 'Create Production'
 echo
-DONATION1=$(uuidgen)
+PRODUCTION1=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION1}"'",
+        "productionId": "'"${PRODUCTION1}"'",
         "productionAmount": 100,
         "productionDate": "2018-09-20T12:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION2=$(uuidgen)
+PRODUCTION2=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION2}"'",
+        "productionId": "'"${PRODUCTION2}"'",
         "productionAmount": 255,
         "productionDate": "2018-09-18T07:41:59.582Z",
         "MPAN": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION3=$(uuidgen)
+PRODUCTION3=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION3}"'",
+        "productionId": "'"${PRODUCTION3}"'",
         "productionAmount": 900,
         "productionDate": "2018-09-09T06:32:59.582Z",
         "MPAN": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION4=$(uuidgen)
+PRODUCTION4=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION4}"'",
+        "productionId": "'"${PRODUCTION4}"'",
         "productionAmount": 430,
         "productionDate": "2018-08-09T09:32:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-678"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION5=$(uuidgen)
+PRODUCTION5=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION5}"'",
+        "productionId": "'"${PRODUCTION5}"'",
         "productionAmount": 200,
         "productionDate": "2018-09-18T07:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION6=$(uuidgen)
+PRODUCTION6=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION6}"'",
+        "productionId": "'"${PRODUCTION6}"'",
         "productionAmount": 520,
         "productionDate": "2018-09-20T12:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION7=$(uuidgen)
+PRODUCTION7=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION7}"'",
+        "productionId": "'"${PRODUCTION7}"'",
         "productionAmount": 760,
         "productionDate": "2018-09-18T07:41:59.582Z",
         "MPAN": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION8=$(uuidgen)
+PRODUCTION8=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION8}"'",
+        "productionId": "'"${PRODUCTION8}"'",
         "productionAmount": 25,
         "productionDate": "2018-09-09T06:32:59.582Z",
         "MPAN": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION9=$(uuidgen)
+PRODUCTION9=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION9}"'",
+        "productionId": "'"${PRODUCTION9}"'",
         "productionAmount": 44,
         "productionDate": "2018-08-09T09:32:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-678"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION10=$(uuidgen)
+PRODUCTION10=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
-        "productionId": "'"${DONATION10}"'",
+        "productionId": "'"${PRODUCTION10}"'",
         "productionAmount": 120,
         "productionDate": "2018-09-18T07:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
@@ -163,90 +163,90 @@ echo '---------------------------------------'
 echo
 echo 'Create Consumption'
 echo
-DONATION1=$(uuidgen)
+CONSUMPTION1=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION1}"'",
+        "consumptionId": "'"${CONSUMPTION1}"'",
         "consumptionAmount": 100,
         "consumptionDate": "2018-09-20T12:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION2=$(uuidgen)
+CONSUMPTION2=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION2}"'",
+        "consumptionId": "'"${CONSUMPTION2}"'",
         "consumptionAmount": 144,
         "consumptionDate": "2018-09-18T07:41:59.582Z",
         "MPAN": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION3=$(uuidgen)
+CONSUMPTION3=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION3}"'",
+        "consumptionId": "'"${CONSUMPTION3}"'",
         "consumptionAmount": 800,
         "consumptionDate": "2018-09-09T06:32:59.582Z",
         "MPAN": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION4=$(uuidgen)
+CONSUMPTION4=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION4}"'",
+        "consumptionId": "'"${CONSUMPTION4}"'",
         "consumptionAmount": 420,
         "consumptionDate": "2018-08-09T09:32:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-678"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION5=$(uuidgen)
+CONSUMPTION5=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION5}"'",
+        "consumptionId": "'"${CONSUMPTION5}"'",
         "consumptionAmount": 201,
         "consumptionDate": "2018-09-18T07:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION6=$(uuidgen)
+CONSUMPTION6=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION6}"'",
+        "consumptionId": "'"${CONSUMPTION6}"'",
         "consumptionAmount": 520,
         "consumptionDate": "2018-09-20T12:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION7=$(uuidgen)
+CONSUMPTION7=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION7}"'",
+        "consumptionId": "'"${CONSUMPTION7}"'",
         "consumptionAmount": 760,
         "consumptionDate": "2018-09-18T07:41:59.582Z",
         "MPAN": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION8=$(uuidgen)
+CONSUMPTION8=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION8}"'",
+        "consumptionId": "'"${CONSUMPTION8}"'",
         "consumptionAmount": 255,
         "consumptionDate": "2018-09-09T06:32:59.582Z",
         "MPAN": "louisa"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION9=$(uuidgen)
+CONSUMPTION9=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION9}"'",
+        "consumptionId": "'"${CONSUMPTION9}"'",
         "consumptionAmount": 36,
         "consumptionDate": "2018-08-09T09:32:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-678"
 }')
 echo "Transaction ID is $TRX_ID"
 echo
-DONATION10=$(uuidgen)
+CONSUMPTION10=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/consumptions -H 'content-type: application/json' -d '{ 
-        "consumptionId": "'"${DONATION10}"'",
+        "consumptionId": "'"${CONSUMPTION10}"'",
         "consumptionAmount": 120,
         "consumptionDate": "2018-09-18T07:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
