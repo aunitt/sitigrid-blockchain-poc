@@ -315,7 +315,7 @@ app.get('/productions/:productionId', awaitHandler(async (req, res) => {
 }));
 
 // GET productions in a date range
-app.get('/productions/daterange', awaitHandler(async (req, res) => {
+app.get('/productionsbydate', awaitHandler(async (req, res) => {
 	logger.info('================ GET on productions by date range');
 	let start = req.query.start;
 	let end = req.query.end;

@@ -264,7 +264,7 @@ echo
 echo
 echo 'Query all Productions for a date range'
 echo
-curl -s -X GET http://${ENDPOINT}:${PORT}/productions/daterange?start=2018-09-18&end=2018-09-19 -H 'content-type: application/json'
+curl -s -X GET "http://${ENDPOINT}:${PORT}/productionsbydate?start=2018-09-18&end=2018-09-19" -H 'content-type: application/json'
 echo
 
 echo 
