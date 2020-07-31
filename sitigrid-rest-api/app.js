@@ -314,6 +314,24 @@ app.get('/productions/:productionId', awaitHandler(async (req, res) => {
  	res.send(message);
 }));
 
+// GET productions in a date range
+app.get('/productions/daterange', awaitHandler(async (req, res) => {
+	logger.info('================ GET on productions by date range');
+	let args = req.params;
+	let fcn = "queryAllProductionsInDateRange";
+
+    logger.info('##### GET on production in date range - username : ' + username);
+	logger.info('##### GET on production in date range- userOrg : ' + orgName);
+	logger.info('##### GET on production in date range- channelName : ' + channelName);
+	logger.info('##### GET on production in date range- chaincodeName : ' + chaincodeName);
+	logger.info('##### GET on production in date range- fcn : ' + fcn);
+	logger.info('##### GET on production in date range- args : ' + JSON.stringify(args));
+	logger.info('##### GET on production in date range- peers : ' + peers);
+
+    let message = await query.queryChaincode(peers, channelName, chaincodeName, args, fcn, username, orgName);
+ 	res.send(message);
+}));
+
 // POST production
 app.post('/productions', awaitHandler(async (req, res) => {
 	logger.info('================ POST on production');

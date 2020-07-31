@@ -46,6 +46,33 @@ function isIso8601(value) {
   return new Date(value).toJSON() === value;
 }
 
+async function getAllResults(iterator) {
+  let allResults = [];
+  while (true) {
+    let res = await iterator.next();
+
+    if (res.value && res.value.value.toString()) {
+      let jsonRes = {};
+      console.log(res.value.value.toString('utf8'));
+
+      jsonRes.Key = res.value.key;
+      try {
+        jsonRes.Record = JSON.parse(res.value.value.toString('utf8'));
+      } catch (err) {
+        console.log(err);
+        jsonRes.Record = res.value.value.toString('utf8');
+      }
+
+      allResults.push(jsonRes);
+    }
+    if (res.done) {
+      console.log('end of data');
+      await iterator.close();
+      console.info(allResults);
+      return allResults;
+    }
+  }
+}
 /**
  * Executes a query based on a provided queryString
  * 
@@ -282,7 +309,7 @@ let Chaincode = class {
    * 
    * productionDate must be in ISO 8601 format
    * 
-   * NOTE: Also creates an index record with createCompositeKey to allow us to index by date (TBD)
+   * NOTE: Also creates an index record with to allow us to index by date 
    */
   async createProductionRecord(stub, args) {
     console.log('============= START : createProductionRecord ===========');
@@ -317,13 +344,15 @@ let Chaincode = class {
     // Write the production
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
 
-    // Create the index key
-    let indexName = 'production~date';
-    let productionDateIndexKey = await stub.createCompositeKey(indexName, [json['productionId'],json['productionDate']]);
+    // Create the index record
+    let indexJson = {};
+    indexJson['docType'] = 'productionDate';
+    indexJson['productionId'] = json['productionId'];
 
-    //  Save index entry to state. Only the key name is needed, no need to store a duplicate copy of the production.
-    //  Note - passing a 'nil' value will effectively delete the key from state, therefore we pass null character as value
-    await stub.putState(productionDateIndexKey, Buffer.from('\u0000'));
+    let indexKey  = 'productionDate' + json['productionDate'];
+
+    // Write the production index record
+    await stub.putState(indexKey, Buffer.from(JSON.stringify(indexJson)));
 
     console.log('============= END : createProductionRecord ===========');
   }
@@ -404,6 +433,32 @@ let Chaincode = class {
     console.log('##### queryAllProductions arguments: ' + JSON.stringify(args)); 
     let queryString = '{"selector": {"docType": "production"}}';
     return queryByString(stub, queryString);
+  }
+
+  /**
+   * Retrieves all productions in a given date range
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "startDate":"2018-09-20T12:41:59.582Z",
+   *    "endDate":"2018-09-21T00:00:00.000Z",
+   * }
+   */
+  async queryAllProductionsInDateRange(stub, args) {
+    console.log('============= START : queryAllProductionsInDateRange ===========');
+    console.log('##### queryAllProductionsInDateRange arguments: ' + JSON.stringify(args)); 
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let startIndex = 'productionDate' + json['startDate'];
+    let endIndex = 'productionDate' + json['endDate'];
+
+    // execute a range query on the given dates
+    let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
+    let result  = await getAllResults(resultsIterator);
+
+    return Buffer.from(JSON.stringify(result));
   }
 
   /************************************************************************************************
