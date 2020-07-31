@@ -107,7 +107,7 @@ PRODUCTION5=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
         "productionId": "'"${PRODUCTION5}"'",
         "productionAmount": 200,
-        "productionDate": "2018-09-18T07:41:59.582Z",
+        "productionDate": "2018-09-18T08:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -125,7 +125,7 @@ PRODUCTION7=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
         "productionId": "'"${PRODUCTION7}"'",
         "productionAmount": 760,
-        "productionDate": "2018-09-18T07:41:59.582Z",
+        "productionDate": "2018-09-18T09:41:59.582Z",
         "MPAN": "jane"
 }')
 echo "Transaction ID is $TRX_ID"
@@ -152,7 +152,7 @@ PRODUCTION10=$(uuidgen)
 TRX_ID=$(curl -s -X POST http://${ENDPOINT}:${PORT}/productions -H 'content-type: application/json' -d '{ 
         "productionId": "'"${PRODUCTION10}"'",
         "productionAmount": 120,
-        "productionDate": "2018-09-18T07:41:59.582Z",
+        "productionDate": "2018-09-18T10:41:59.582Z",
         "MPAN": "00-111-222-13-1234-5678-345"
 }')
 echo "Transaction ID is $TRX_ID"
