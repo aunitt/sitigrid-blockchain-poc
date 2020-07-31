@@ -319,7 +319,7 @@ app.get('/productionsbydate', awaitHandler(async (req, res) => {
 	logger.info('================ GET on productions by date range');
 	let start = req.query.start;
 	let end = req.query.end;
-	let args = { start: start, end: end };
+	let args = { startDate: start, endDate: end };
 
 	let fcn = "queryAllProductionsInDateRange";
 
