@@ -317,7 +317,10 @@ app.get('/productions/:productionId', awaitHandler(async (req, res) => {
 // GET productions in a date range
 app.get('/productions/daterange', awaitHandler(async (req, res) => {
 	logger.info('================ GET on productions by date range');
-	let args = req.params;
+	let start = req.query.start;
+	let end = req.query.end;
+	let args = { start: start, end: end };
+
 	let fcn = "queryAllProductionsInDateRange";
 
     logger.info('##### GET on production in date range - username : ' + username);
