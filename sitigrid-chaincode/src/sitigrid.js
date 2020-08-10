@@ -310,6 +310,11 @@ let Chaincode = class {
    * productionDate must be in ISO 8601 format
    * 
    * NOTE: Also creates an index record with to allow us to index by date 
+   * 
+   * TODO: Need to think about creating a single record using the Production Id + Date as the key
+   *       Note this will mean that we have to cascade the changes into the other functions. Is this the right thing
+   *       to do? I thought this was but now I'm no longer sure
+   *       Should we also have an index for MPAN + Date
    */
   async createProductionRecord(stub, args) {
     console.log('============= START : createProductionRecord ===========');
