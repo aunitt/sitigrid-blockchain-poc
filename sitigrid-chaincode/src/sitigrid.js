@@ -249,7 +249,8 @@ let Chaincode = class {
 
     // Check if the meterpoint already exists
     let meterpointQuery = await stub.getState(key);
-    if (meterpointQuery.toString()) {
+
+    if ( meterpointQuery && meterpointQuery.toString() ) {
       throw new Error('##### createMeterpoint - This meterpoint already exists: ' + json['MPAN']);
     }
 
@@ -330,14 +331,19 @@ let Chaincode = class {
     // Confirm the meterpoint exists
     let meterKey = 'meterpoint' + json['MPAN'];
     let meterQuery = await stub.getState(meterKey);
-    if (!meterQuery.toString()) {
+    if (!meterQuery || !meterQuery.toString()) {
       throw new Error('##### createProductionRecord - Cannot create production as the Meterpoint does not exist: ' + json['MPAN']);
     }
 
     // Check if the Production already exists
     let productionQuery = await stub.getState(key);
-    if (productionQuery.toString()) {
+    if (productionQuery && productionQuery.toString()) {
       throw new Error('##### createProductionRecord - This production already exists: ' + json['productionId']);
+    }
+
+    // Check the productionAmount is a number
+    if (typeof json['productionAmount'] != 'number') {
+      throw new Error('##### createProductionRecord - productionAmount is not a number: ' + json['productionAmount'] + ' (' + typeof json['productionAmount'] + ')');
     }
 
     // Check the date is in the right format, note we cannot currently use external
@@ -419,10 +425,10 @@ let Chaincode = class {
       console.log('##### queryTotalProductionsForMeterpoint - production: ' + JSON.stringify(production));
       totalProductions += production['Record']['productionAmount'];
     }
-    console.log('##### allocateSpend - Total productions for this meterpoint are: ' + totalProductions.toString());
+    console.log('##### queryTotalProductionsForMeterpoint - Total productions for this meterpoint are: ' + totalProductions.toString());
     
     let result = { 'totalProductions' : totalProductions };
-    console.log('##### allocateSpend - Total result: ' + JSON.stringify(result));
+    console.log('##### queryTotalProductionsForMeterpoint - Total result: ' + JSON.stringify(result));
     
     return Buffer.from(JSON.stringify(result));
   }
@@ -569,10 +575,10 @@ let Chaincode = class {
       console.log('##### queryTotalConsumptionsForMeterpoint - consumption: ' + JSON.stringify(consumption));
       totalConsumptions += consumption['Record']['consumptionAmount'];
     }
-    console.log('##### allocateSpend - Total consumptions for this meterpoint are: ' + totalConsumptions.toString());
+    console.log('##### queryTotalConsumptionsForMeterpoint - Total consumptions for this meterpoint are: ' + totalConsumptions.toString());
     
     let result = { 'totalConsumptions' : totalConsumptions };
-    console.log('##### allocateSpend - Total result: ' + JSON.stringify(result));
+    console.log('##### queryTotalConsumptionsForMeterpoint - Total result: ' + JSON.stringify(result));
     
     return Buffer.from(JSON.stringify(result));
   }
