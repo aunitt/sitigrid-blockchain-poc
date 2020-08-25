@@ -467,7 +467,16 @@ let Chaincode = class {
 
     // execute a range query on the given dates
     let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
-    let result  = await getAllResults(resultsIterator);
+    let productions  = await getAllResults(resultsIterator);
+
+    let result=[];
+
+    for (let n = 0; n < productions.length; n++) {
+      let key = 'production' + productions[n].Record.productionId;
+      let production = await queryByKey(stub, key);
+      //console.log(JSON.parse(production.toString()));
+      result.push(JSON.parse(production.toString()));
+    }
 
     return Buffer.from(JSON.stringify(result));
   }
