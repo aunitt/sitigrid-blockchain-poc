@@ -544,22 +544,26 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'consumption' + json['consumptionId'];
-    json['docType'] = 'consumption';
+    let key = 'consumption' + json.consumptionId;
+    json.docType = 'consumption';
 
     console.log('##### createConsumptionRecord consumption: ' + JSON.stringify(json));
 
     // Confirm the meterpoint exists
-    let meterKey = 'meterpoint' + json['MPAN'];
+    let meterKey = 'meterpoint' + json.MPAN;
     let meterQuery = await stub.getState(meterKey);
-    if (!meterQuery.toString()) {
-      throw new Error('##### createConsumptionRecord - Cannot create consumption as the Meterpoint does not exist: ' + json['MPAN']);
+    if (!meterQuery || !meterQuery.toString()) {
+      throw new Error('##### createConsumptionRecord - Cannot create consumption as the Meterpoint does not exist: ' + json.MPAN);
     }
 
     // Check if the Consumption already exists
     let consumptionQuery = await stub.getState(key);
-    if (consumptionQuery.toString()) {
-      throw new Error('##### createConsumptionRecord - This consumption already exists: ' + json['consumptionId']);
+    if (consumptionQuery && consumptionQuery.toString()) {
+      throw new Error('##### createConsumptionRecord - This consumption already exists: ' + json.consumptionId);
+    }
+
+    if (!isIso8601(json.consumptionDate)) {
+      throw new Error('##### createConsumptionRecord - This date is not in a valid format: ' + json.consumptionDate);
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
