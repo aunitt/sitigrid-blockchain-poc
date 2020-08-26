@@ -357,10 +357,11 @@ let Chaincode = class {
 
     // Create the index record
     let indexJson = {};
-    indexJson['docType'] = 'productionDate';
+    indexJson['docType'] = 'prodDate';
     indexJson['productionId'] = json['productionId'];
+    indexJson['MPAN'] = json['MPAN'];
 
-    let indexKey  = 'productionDate' + json['productionDate'];
+    let indexKey  = 'prodDate' + json['productionDate'];
 
     // Write the production index record
     await stub.putState(indexKey, Buffer.from(JSON.stringify(indexJson)));
@@ -462,8 +463,8 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let startIndex = 'productionDate' + json['startDate'];
-    let endIndex = 'productionDate' + json['endDate'];
+    let startIndex = 'prodDate' + json['startDate'];
+    let endIndex = 'prodDate' + json['endDate'];
 
     // execute a range query on the given dates
     let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
@@ -499,8 +500,8 @@ let Chaincode = class {
     // args is passed as a JSON string
     let json = JSON.parse(args);
     let MPAN = json.MPAN;
-    let startIndex = 'productionDate' + json.startDate;
-    let endIndex = 'productionDate' + json.endDate;
+    let startIndex = 'prodDate' + json.startDate;
+    let endIndex = 'prodDate' + json.endDate;
 
     // execute a range query on the given dates
     let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
@@ -510,11 +511,11 @@ let Chaincode = class {
 
     for (let n = 0; n < productions.length; n++) {
       let key = 'production' + productions[n].Record.productionId;
-      let productionBytes = await queryByKey(stub, key);
-      let production = JSON.parse(productionBytes.toString());
-
-      if (production.MPAN === MPAN)
+      if (productions[n].Record.MPAN === MPAN) {
+        let productionBytes = await queryByKey(stub, key);
+        let production = JSON.parse(productionBytes.toString());
         result.push(production);
+      }
     }
 
     return Buffer.from(JSON.stringify(result));
