@@ -453,7 +453,7 @@ let Chaincode = class {
    * @param {*} args - JSON as follows:
    * {
    *    "startDate":"2018-09-20T12:41:59.582Z",
-   *    "endDate":"2018-09-21T00:00:00.000Z",
+   *    "endDate":"2018-09-21T00:00:00.000Z"
    * }
    */
   async queryAllProductionsInDateRange(stub, args) {
@@ -481,6 +481,44 @@ let Chaincode = class {
     return Buffer.from(JSON.stringify(result));
   }
 
+  /**
+   * Retrieves all productions for a given meterpoint in a given date range
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "MPAN":"00-111-222-13-1234-5678-345",
+   *    "startDate":"2018-09-20T12:41:59.582Z",
+   *    "endDate":"2018-09-21T00:00:00.000Z"
+   * }
+   */
+  async queryTotalProductionsForMeterpointInRange(stub, args) {
+    console.log('============= START : queryTotalProductionsForMeterpointInRange ===========');
+    console.log('##### queryTotalProductionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let MPAN = json.MPAN;
+    let startIndex = 'productionDate' + json.startDate;
+    let endIndex = 'productionDate' + json.endDate;
+
+    // execute a range query on the given dates
+    let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
+    let productions  = await getAllResults(resultsIterator);
+
+    let result=[];
+
+    for (let n = 0; n < productions.length; n++) {
+      let key = 'production' + productions[n].Record.productionId;
+      let productionBytes = await queryByKey(stub, key);
+      let production = JSON.parse(productionBytes.toString());
+
+      if (production.MPAN === MPAN)
+        result.push(production);
+    }
+
+    return Buffer.from(JSON.stringify(result));
+  }
   /************************************************************************************************
    * 
    * Energy consumption functions 

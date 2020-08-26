@@ -415,4 +415,98 @@ describe('Test Sitigrid Chaincode', () => {
         expect(Transform.bufferToObject(queryResponse.payload)).to.be.an('array').that.contains.something.like({"productionId": productionId0})
         expect(Transform.bufferToObject(queryResponse.payload)).to.be.an('array').that.contains.something.like({"productionId": productionId2})
     });
+
+    it("I can get productions by date for a meterpoint", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        const MPAN0 = "00-111-222-13-1234-5678-000";
+        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+
+        const MPAN1 = "00-111-222-13-1234-5678-001";
+        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
+
+        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
+            {
+                "MPAN": MPAN0,
+                "registeredDate": registeredDate0
+            }
+        )]);
+        expect(response0.status).to.eql(200)
+
+        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
+            {
+                "MPAN": MPAN1,
+                "registeredDate": registeredDate1
+            }
+        )]);
+        expect(response1.status).to.eql(200)
+
+        const productionId0 = "ID1";
+        const productionAmount0 = 42;
+        const productionDate0 = "2019-01-01T00:00:01.001Z";
+
+        const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
+            {
+                "productionId": productionId0,
+                "productionAmount": productionAmount0,
+                "productionDate": productionDate0,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseProduction0.status).to.eql(200)
+
+        const productionId1 = "ID2";
+        const productionAmount1 = 10;
+        const productionDate1 = "2019-01-02T00:00:01.001Z";
+
+        const responseProduction1 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
+            {
+                "productionId": productionId1,
+                "productionAmount": productionAmount1,
+                "productionDate": productionDate1,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseProduction1.status).to.eql(200)
+
+        const productionId2 = "ID3";
+        const productionAmount2 = 5;
+        const productionDate2 = "2019-01-01T01:00:01.123Z";
+
+        const responseProduction2 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
+            {
+                "productionId": productionId2,
+                "productionAmount": productionAmount2,
+                "productionDate": productionDate2,
+                "MPAN": MPAN1
+            }
+        )]);
+        expect(responseProduction2.status).to.eql(200)
+
+        const productionId3 = "ID4";
+        const productionAmount3 = 15;
+        const productionDate3 = "2019-01-01T01:30:01.555Z";
+
+        const responseProduction3 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
+            {
+                "productionId": productionId3,
+                "productionAmount": productionAmount3,
+                "productionDate": productionDate3,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseProduction3.status).to.eql(200)
+
+        const queryResponse = await stub.mockInvoke("tx6", ['queryTotalProductionsForMeterpointInRange', JSON.stringify(
+            {
+                "MPAN":MPAN0,
+                "startDate": "2019-01-01T00:00:00.000Z",
+                "endDate": "2019-01-01T23:59:59.999Z"
+            })]);
+
+        expect(queryResponse.status).to.eql(200)
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.length(2)
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.an('array').that.contains.something.like({"productionId": productionId0})
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.an('array').that.contains.something.like({"productionId": productionId3})
+    });
 });
