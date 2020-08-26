@@ -790,7 +790,7 @@ let Chaincode = class {
   }  
 };
 
-//shim.start(new Chaincode());
+shim.start(new Chaincode());
 
 // TODO: you need to comment out the above code to run the unit tests.
 //       We really need to split that into a seperate module
