@@ -96,8 +96,8 @@ async function queryByString(stub, queryString) {
   let startKey = "";
   let endKey = "";
   let jsonQueryString = JSON.parse(queryString);
-  if (jsonQueryString['selector'] && jsonQueryString['selector']['docType']) {
-    docType = jsonQueryString['selector']['docType'];
+  if (jsonQueryString.selector && jsonQueryString.selector.docType) {
+    docType = jsonQueryString.selector.docType;
     startKey = docType + "0";
     endKey = docType + "z";
   }
@@ -129,7 +129,7 @@ async function queryByString(stub, queryString) {
       // LevelDB: additional code required to filter out records we don't need
       // Check that each filter condition in jsonQueryString can be found in the iterator json
       // If we are using CouchDB, this isn't required as rich query supports selectors
-      let jsonRecord = jsonQueryString['selector'];
+      let jsonRecord = jsonQueryString.selector;
       // If there is only a docType, no need to filter, just return all
       console.log('##### queryByString jsonRecord - number of JSON keys: ' + Object.keys(jsonRecord).length);
       if (Object.keys(jsonRecord).length == 1) {
@@ -242,8 +242,8 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'meterpoint' + json['MPAN'];
-    json['docType'] = 'meterpoint';
+    let key = 'meterpoint' + json.MPAN;
+    json.docType = 'meterpoint';
 
     console.log('##### createMeterpoint payload: ' + JSON.stringify(json));
 
@@ -251,7 +251,7 @@ let Chaincode = class {
     let meterpointQuery = await stub.getState(key);
 
     if ( meterpointQuery && meterpointQuery.toString() ) {
-      throw new Error('##### createMeterpoint - This meterpoint already exists: ' + json['MPAN']);
+      throw new Error('##### createMeterpoint - This meterpoint already exists: ' + json.MPAN);
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
@@ -270,7 +270,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'meterpoint' + json['MPAN'];
+    let key = 'meterpoint' + json.MPAN;
     console.log('##### queryMeterpoint key: ' + key);
 
     return queryByKey(stub, key);
@@ -323,33 +323,33 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'production' + json['productionId'];
-    json['docType'] = 'production';
+    let key = 'production' + json.productionId;
+    json.docType = 'production';
 
     console.log('##### createProductionRecord production: ' + JSON.stringify(json));
 
     // Confirm the meterpoint exists
-    let meterKey = 'meterpoint' + json['MPAN'];
+    let meterKey = 'meterpoint' + json.MPAN;
     let meterQuery = await stub.getState(meterKey);
     if (!meterQuery || !meterQuery.toString()) {
-      throw new Error('##### createProductionRecord - Cannot create production as the Meterpoint does not exist: ' + json['MPAN']);
+      throw new Error('##### createProductionRecord - Cannot create production as the Meterpoint does not exist: ' + json.MPAN);
     }
 
     // Check if the Production already exists
     let productionQuery = await stub.getState(key);
     if (productionQuery && productionQuery.toString()) {
-      throw new Error('##### createProductionRecord - This production already exists: ' + json['productionId']);
+      throw new Error('##### createProductionRecord - This production already exists: ' + json.productionId);
     }
 
     // Check the productionAmount is a number
-    if (typeof json['productionAmount'] != 'number') {
-      throw new Error('##### createProductionRecord - productionAmount is not a number: ' + json['productionAmount'] + ' (' + typeof json['productionAmount'] + ')');
+    if (typeof json.productionAmount != 'number') {
+      throw new Error('##### createProductionRecord - productionAmount is not a number: ' + json.productionAmount + ' (' + typeof json.productionAmount + ')');
     }
 
     // Check the date is in the right format, note we cannot currently use external
     // libraries on Amazon Managed blockchain which is a pain
-    if (!isIso8601(json['productionDate'])) {
-      throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json['productionDate']);
+    if (!isIso8601(json.productionDate)) {
+      throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json.productionDate);
     }
 
     // Write the production
@@ -357,11 +357,11 @@ let Chaincode = class {
 
     // Create the index record
     let indexJson = {};
-    indexJson['docType'] = 'prodDate';
-    indexJson['productionId'] = json['productionId'];
-    indexJson['MPAN'] = json['MPAN'];
+    indexJson.docType = 'prodDate';
+    indexJson.productionId = json.productionId;
+    indexJson.MPAN = json.MPAN;
 
-    let indexKey  = 'prodDate' + json['productionDate'];
+    let indexKey  = 'prodDate' + json.productionDate;
 
     // Write the production index record
     await stub.putState(indexKey, Buffer.from(JSON.stringify(indexJson)));
@@ -381,7 +381,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'production' + json['productionId'];
+    let key = 'production' + json.productionId;
     console.log('##### queryProduction key: ' + key);
     return queryByKey(stub, key);
   }
@@ -398,7 +398,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "production", "MPAN": "' + json['MPAN'] + '"}}';
+    let queryString = '{"selector": {"docType": "production", "MPAN": "' + json.MPAN + '"}}';
     return queryByString(stub, queryString);
   }
 
@@ -414,7 +414,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "production", "MPAN": "' + json['MPAN'] + '"}}';
+    let queryString = '{"selector": {"docType": "production", "MPAN": "' + json.MPAN + '"}}';
     let productions = await queryByString(stub, queryString);
     productions = JSON.parse(productions.toString());
     console.log('#####  -queryTotalProductionsForMeterpoint productions as JSON: ' + JSON.stringify(productions));
@@ -424,7 +424,7 @@ let Chaincode = class {
     for (let n = 0; n < productions.length; n++) {
       let production = productions[n];
       console.log('##### queryTotalProductionsForMeterpoint - production: ' + JSON.stringify(production));
-      totalProductions += production['Record']['productionAmount'];
+      totalProductions += production.Record.productionAmount;
     }
     console.log('##### queryTotalProductionsForMeterpoint - Total productions for this meterpoint are: ' + totalProductions.toString());
     
@@ -463,8 +463,8 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let startIndex = 'prodDate' + json['startDate'];
-    let endIndex = 'prodDate' + json['endDate'];
+    let startIndex = 'prodDate' + json.startDate;
+    let endIndex = 'prodDate' + json.endDate;
 
     // execute a range query on the given dates
     let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
