@@ -567,6 +567,18 @@ let Chaincode = class {
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
+
+    // Create the index record
+    let indexJson = {};
+    indexJson.docType = 'consDate';
+    indexJson.consumptionId = json.consumptionId;
+    indexJson.MPAN = json.MPAN;
+
+    let indexKey  = 'consDate' + json.consumptionDate;
+
+    // Write the consumption index record
+    await stub.putState(indexKey, Buffer.from(JSON.stringify(indexJson)));
+
     console.log('============= END : createConsumptionRecord ===========');
   }
 
@@ -648,6 +660,80 @@ let Chaincode = class {
     return queryByString(stub, queryString);
   }
 
+  /**
+   * Retrieves all consumptions in a given date range
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "startDate":"2018-09-20T12:41:59.582Z",
+   *    "endDate":"2018-09-21T00:00:00.000Z"
+   * }
+   */
+  async queryAllConsumptionsInDateRange(stub, args) {
+    console.log('============= START : queryAllConsumptionsInDateRange ===========');
+    console.log('##### queryAllConsumptionsInDateRange arguments: ' + JSON.stringify(args)); 
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let startIndex = 'consDate' + json.startDate;
+    let endIndex = 'consDate' + json.endDate;
+
+    // execute a range query on the given dates
+    let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
+    let consumptions  = await getAllResults(resultsIterator);
+
+    let result=[];
+
+    for (let n = 0; n < consumptions.length; n++) {
+      let key = 'consumption' + consumptions[n].Record.consumptionId;
+      let consumption = await queryByKey(stub, key);
+      //console.log(JSON.parse(consumption.toString()));
+      result.push(JSON.parse(consumption.toString()));
+    }
+
+    return Buffer.from(JSON.stringify(result));
+  }
+
+  /**
+   * Retrieves all consumptions for a given meterpoint in a given date range
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "MPAN":"00-111-222-13-1234-5678-345",
+   *    "startDate":"2018-09-20T12:41:59.582Z",
+   *    "endDate":"2018-09-21T00:00:00.000Z"
+   * }
+   */
+  async queryTotalConsumptionsForMeterpointInRange(stub, args) {
+    console.log('============= START : queryTotalConsumptionsForMeterpointInRange ===========');
+    console.log('##### queryTotalConsumptionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
+
+    // args is passed as a JSON string
+    let json = JSON.parse(args);
+    let MPAN = json.MPAN;
+    let startIndex = 'consDate' + json.startDate;
+    let endIndex = 'consDate' + json.endDate;
+
+    // execute a range query on the given dates
+    let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
+    let consumptions  = await getAllResults(resultsIterator);
+
+    let result=[];
+
+    for (let n = 0; n < consumptions.length; n++) {
+      let key = 'consumption' + consumptions[n].Record.consumptionId;
+      if (consumptions[n].Record.MPAN === MPAN) {
+        let consumptionBytes = await queryByKey(stub, key);
+        let consumption = JSON.parse(consumptionBytes.toString());
+        result.push(consumption);
+      }
+    }
+
+    return Buffer.from(JSON.stringify(result));
+  }
+
   /************************************************************************************************
    * 
    * Blockchain related functions 
@@ -701,7 +787,7 @@ let Chaincode = class {
         return Buffer.from(JSON.stringify(history));
       }
     }
-  }
+  }  
 };
 
 //shim.start(new Chaincode());

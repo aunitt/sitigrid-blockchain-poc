@@ -763,4 +763,176 @@ describe('Test Sitigrid Chaincode', () => {
         })
     });
 
+    it("I can get consumptions by date", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        const MPAN0 = "00-111-222-13-1234-5678-000";
+        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+
+        const MPAN1 = "00-111-222-13-1234-5678-001";
+        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
+
+        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
+            {
+                "MPAN": MPAN0,
+                "registeredDate": registeredDate0
+            }
+        )]);
+        expect(response0.status).to.eql(200)
+
+        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
+            {
+                "MPAN": MPAN1,
+                "registeredDate": registeredDate1
+            }
+        )]);
+        expect(response1.status).to.eql(200)
+
+        const consumptionId0 = "ID1";
+        const consumptionAmount0 = 42;
+        const consumptionDate0 = "2019-01-01T00:00:01.001Z";
+
+        const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
+            {
+                "consumptionId": consumptionId0,
+                "consumptionAmount": consumptionAmount0,
+                "consumptionDate": consumptionDate0,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseConsumption0.status).to.eql(200)
+
+        const consumptionId1 = "ID2";
+        const consumptionAmount1 = 10;
+        const consumptionDate1 = "2019-01-02T00:00:01.001Z";
+
+        const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
+            {
+                "consumptionId": consumptionId1,
+                "consumptionAmount": consumptionAmount1,
+                "consumptionDate": consumptionDate1,
+                "MPAN": MPAN1
+            }
+        )]);
+        expect(responseConsumption1.status).to.eql(200)
+
+        const consumptionId2 = "ID3";
+        const consumptionAmount2 = 5;
+        const consumptionDate2 = "2019-01-01T01:00:01.123Z";
+
+        const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
+            {
+                "consumptionId": consumptionId2,
+                "consumptionAmount": consumptionAmount2,
+                "consumptionDate": consumptionDate2,
+                "MPAN": MPAN1
+            }
+        )]);
+        expect(responseConsumption2.status).to.eql(200)
+
+        const queryResponse = await stub.mockInvoke("tx6", ['queryAllConsumptionsInDateRange', JSON.stringify(
+            {
+                "startDate": "2019-01-01T00:00:00.000Z",
+                "endDate": "2019-01-01T23:59:59.999Z"
+            })]);
+
+        expect(queryResponse.status).to.eql(200)
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.length(2)
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.an('array').that.contains.something.like({"consumptionId": consumptionId0})
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.an('array').that.contains.something.like({"consumptionId": consumptionId2})
+    });
+
+    it("I can get consumptions by date for a meterpoint", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        const MPAN0 = "00-111-222-13-1234-5678-000";
+        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+
+        const MPAN1 = "00-111-222-13-1234-5678-001";
+        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
+
+        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
+            {
+                "MPAN": MPAN0,
+                "registeredDate": registeredDate0
+            }
+        )]);
+        expect(response0.status).to.eql(200)
+
+        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
+            {
+                "MPAN": MPAN1,
+                "registeredDate": registeredDate1
+            }
+        )]);
+        expect(response1.status).to.eql(200)
+
+        const consumptionId0 = "ID1";
+        const consumptionAmount0 = 42;
+        const consumptionDate0 = "2019-01-01T00:00:01.001Z";
+
+        const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
+            {
+                "consumptionId": consumptionId0,
+                "consumptionAmount": consumptionAmount0,
+                "consumptionDate": consumptionDate0,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseConsumption0.status).to.eql(200)
+
+        const consumptionId1 = "ID2";
+        const consumptionAmount1 = 10;
+        const consumptionDate1 = "2019-01-02T00:00:01.001Z";
+
+        const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
+            {
+                "consumptionId": consumptionId1,
+                "consumptionAmount": consumptionAmount1,
+                "consumptionDate": consumptionDate1,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseConsumption1.status).to.eql(200)
+
+        const consumptionId2 = "ID3";
+        const consumptionAmount2 = 5;
+        const consumptionDate2 = "2019-01-01T01:00:01.123Z";
+
+        const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
+            {
+                "consumptionId": consumptionId2,
+                "consumptionAmount": consumptionAmount2,
+                "consumptionDate": consumptionDate2,
+                "MPAN": MPAN1
+            }
+        )]);
+        expect(responseConsumption2.status).to.eql(200)
+
+        const consumptionId3 = "ID4";
+        const consumptionAmount3 = 15;
+        const consumptionDate3 = "2019-01-01T01:30:01.555Z";
+
+        const responseConsumption3 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
+            {
+                "consumptionId": consumptionId3,
+                "consumptionAmount": consumptionAmount3,
+                "consumptionDate": consumptionDate3,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseConsumption3.status).to.eql(200)
+
+        const queryResponse = await stub.mockInvoke("tx6", ['queryTotalConsumptionsForMeterpointInRange', JSON.stringify(
+            {
+                "MPAN":MPAN0,
+                "startDate": "2019-01-01T00:00:00.000Z",
+                "endDate": "2019-01-01T23:59:59.999Z"
+            })]);
+
+        expect(queryResponse.status).to.eql(200)
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.length(2)
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.an('array').that.contains.something.like({"consumptionId": consumptionId0})
+        expect(Transform.bufferToObject(queryResponse.payload)).to.be.an('array').that.contains.something.like({"consumptionId": consumptionId3})
+    });
 });
