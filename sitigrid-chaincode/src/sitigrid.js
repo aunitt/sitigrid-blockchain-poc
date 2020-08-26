@@ -582,7 +582,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'consumption' + json['consumptionId'];
+    let key = 'consumption' + json.consumptionId;
     console.log('##### queryConsumption key: ' + key);
     return queryByKey(stub, key);
   }
@@ -599,7 +599,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "consumption", "MPAN": "' + json['MPAN'] + '"}}';
+    let queryString = '{"selector": {"docType": "consumption", "MPAN": "' + json.MPAN + '"}}';
     return queryByString(stub, queryString);
   }
 
@@ -615,7 +615,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let queryString = '{"selector": {"docType": "consumption", "MPAN": "' + json['MPAN'] + '"}}';
+    let queryString = '{"selector": {"docType": "consumption", "MPAN": "' + json.MPAN + '"}}';
     let consumptions = await queryByString(stub, queryString);
     consumptions = JSON.parse(consumptions.toString());
     console.log('#####  -queryTotalConsumptionsForMeterpoint consumptions as JSON: ' + JSON.stringify(consumptions));
@@ -625,7 +625,7 @@ let Chaincode = class {
     for (let n = 0; n < consumptions.length; n++) {
       let consumption = consumptions[n];
       console.log('##### queryTotalConsumptionsForMeterpoint - consumption: ' + JSON.stringify(consumption));
-      totalConsumptions += consumption['Record']['consumptionAmount'];
+      totalConsumptions += consumption.Record.consumptionAmount;
     }
     console.log('##### queryTotalConsumptionsForMeterpoint - Total consumptions for this meterpoint are: ' + totalConsumptions.toString());
     
@@ -670,8 +670,8 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = json['key'];
-    let docType = json['docType']
+    let key = json.key;
+    let docType = json.docType.
     console.log('##### queryHistoryForKey key: ' + key);
     let historyIterator = await stub.getHistoryForKey(docType + key);
     console.log('##### queryHistoryForKey historyIterator: ' + util.inspect(historyIterator));
@@ -702,7 +702,7 @@ let Chaincode = class {
       }
     }
   }
-}
+};
 
 //shim.start(new Chaincode());
 
