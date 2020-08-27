@@ -15,6 +15,6 @@
 */
 
 const shim = require('fabric-shim');
-const Chaincode = require('./sitigrid-core.js');
+const chaincode = require('./sitigrid-core.js');
 
-shim.start(new Chaincode());
+shim.start(new chaincode.Chaincode());
