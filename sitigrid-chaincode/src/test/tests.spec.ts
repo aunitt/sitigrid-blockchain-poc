@@ -1,4 +1,4 @@
-import { Chaincode } from '../sitigrid.js';
+import { Chaincode } from '../sitigrid-core.js';
 import { ChaincodeMockStub, Transform } from '@theledger/fabric-mock-stub';
 
 import { expect, assert, use, should } from 'chai';
