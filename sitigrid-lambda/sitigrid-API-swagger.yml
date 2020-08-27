@@ -30,8 +30,11 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
-          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryAllConsumptions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  #if($input.params('start')==\"\
+            \")\n  \"chaincodeFunction\": \"queryAllConsumptions\",\n  #else\n  \"\
+            chaincodeFunction\": \"queryAllConsumptionsInDateRange\",\n  #end\n  \"\
+            chaincodeFunctionArgs\": {\n    \"startDate\": \"$input.params('start')\"\
+            ,\n    \"endDate\": \"$input.params('end')\"\n  },\n  \"fabricUsername\"\
             : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
@@ -99,61 +102,6 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
-        type: "mock"
-  /consumptionsbydate:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
-        responses:
-          default:
-            statusCode: "200"
-        requestTemplates:
-          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryAllConsumptionsInDateRange\",\n  \"chaincodeFunctionArgs\": {\n\
-            \      \"startDate\": \"$input.params('start')\",\n      \"endDate\":\
-            \ \"$input.params('end')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
-            \n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
@@ -348,10 +296,13 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
-          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryConsumptionsForMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n\
-            \      \"MPAN\": \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\"\
-            : \"lambdaUser\"\n}"
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  #if($input.params('start')==\"\
+            \")\n  \"chaincodeFunction\": \"queryConsumptionsForMeterpoint\",\n  #else\n\
+            \  \"chaincodeFunction\": \"queryTotalConsumptionsForMeterpointInRange\"\
+            ,\n  #end\n  \"chaincodeFunctionArgs\": {\n      \"MPAN\": \"$input.params('meterpoint')\"\
+            ,\n      \"startDate\": \"$input.params('start')\",\n      \"endDate\"\
+            : \"$input.params('end')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
+            \n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
@@ -413,10 +364,13 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
-          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryProductionsForMeterpoint\",\n  \"chaincodeFunctionArgs\": {\n\
-            \      \"MPAN\": \"$input.params('meterpoint')\"\n  },\n  \"fabricUsername\"\
-            : \"lambdaUser\"\n}"
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  #if($input.params('start')==\"\
+            \")\n  \"chaincodeFunction\": \"queryProductionsForMeterpoint\",\n  #else\n\
+            \  \"chaincodeFunction\": \"queryTotalProductionsForMeterpointInRange\"\
+            ,\n  #end\n  \"chaincodeFunctionArgs\": {\n      \"MPAN\": \"$input.params('meterpoint')\"\
+            ,\n      \"startDate\": \"$input.params('start')\",\n      \"endDate\"\
+            : \"$input.params('end')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
+            \n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
         contentHandling: "CONVERT_TO_TEXT"
@@ -603,8 +557,11 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
-          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryAllProductions\",\n  \"chaincodeFunctionArgs\": {},\n  \"fabricUsername\"\
+          application/json: "{\n  \"functionType\": \"queryObject\",\n  #if($input.params('start')==\"\
+            \")\n  \"chaincodeFunction\": \"queryAllProductions\",\n  #else\n  \"\
+            chaincodeFunction\": \"queryAllProductionsInDateRange\",\n  #end\n  \"\
+            chaincodeFunctionArgs\": {\n    \"startDate\": \"$input.params('start')\"\
+            ,\n    \"endDate\": \"$input.params('end')\"\n  },\n  \"fabricUsername\"\
             : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
@@ -672,61 +629,6 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS,POST'"
               method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-              method.response.header.Access-Control-Allow-Origin: "'*'"
-        requestTemplates:
-          application/json: "{\"statusCode\": 200}"
-        passthroughBehavior: "when_no_match"
-        type: "mock"
-  /productionsbydate:
-    get:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-      x-amazon-apigateway-integration:
-        uri: "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:071760450533:function:sitigrid-fabric-lambda/invocations"
-        responses:
-          default:
-            statusCode: "200"
-        requestTemplates:
-          application/json: "{\n  \"functionType\": \"queryObject\",\n  \"chaincodeFunction\"\
-            : \"queryAllProductionsInDateRange\",\n  \"chaincodeFunctionArgs\": {\n\
-            \      \"startDate\": \"$input.params('start')\",\n      \"endDate\":\
-            \ \"$input.params('end')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
-            \n}"
-        passthroughBehavior: "when_no_templates"
-        httpMethod: "POST"
-        contentHandling: "CONVERT_TO_TEXT"
-        type: "aws"
-    options:
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      responses:
-        200:
-          description: "200 response"
-          schema:
-            $ref: "#/definitions/Empty"
-          headers:
-            Access-Control-Allow-Origin:
-              type: "string"
-            Access-Control-Allow-Methods:
-              type: "string"
-            Access-Control-Allow-Headers:
-              type: "string"
-      x-amazon-apigateway-integration:
-        responses:
-          default:
-            statusCode: "200"
-            responseParameters:
-              method.response.header.Access-Control-Allow-Methods: "'DELETE,GET,HEAD,OPTIONS,PATCH,POST,PUT'"
-              method.response.header.Access-Control-Allow-Headers: "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
               method.response.header.Access-Control-Allow-Origin: "'*'"
         requestTemplates:
           application/json: "{\"statusCode\": 200}"
