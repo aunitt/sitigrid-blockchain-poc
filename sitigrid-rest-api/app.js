@@ -162,7 +162,7 @@ app.get('/meters', awaitHandler(async (req, res) => {
 }));
 
 // GET a specific meterpoint
-app.get('/meters/:meterpoint', awaitHandler(async (req, res) => {
+app.get('/meters/:MPAN', awaitHandler(async (req, res) => {
 	logger.info('================ GET on meterpoint by ID');
 	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
@@ -181,7 +181,7 @@ app.get('/meters/:meterpoint', awaitHandler(async (req, res) => {
 }));
 
 // GET the productions for a specific meterpoint
-app.get('/meters/:meterpoint/productions', awaitHandler(async (req, res) => {
+app.get('/meters/:MPAN/productions', awaitHandler(async (req, res) => {
 	logger.info('================ GET on productions for meterpoint');
 	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
@@ -200,7 +200,7 @@ app.get('/meters/:meterpoint/productions', awaitHandler(async (req, res) => {
 }));
 
 // GET total productions for a specific meterpoint
-app.get('/meters/:meterpoint/totalproductions', awaitHandler(async (req, res) => {
+app.get('/meters/:MPAN/totalproductions', awaitHandler(async (req, res) => {
 	logger.info('================ GET on totalproductions for meterpoint');
 	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
@@ -219,7 +219,7 @@ app.get('/meters/:meterpoint/totalproductions', awaitHandler(async (req, res) =>
 }));
 
 // GET the consumptions for a specific meterpoint
-app.get('/meters/:meterpoint/consumptions', awaitHandler(async (req, res) => {
+app.get('/meters/:MPAN/consumptions', awaitHandler(async (req, res) => {
 	logger.info('================ GET on consumptions for meterpoint');
 	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
@@ -238,7 +238,7 @@ app.get('/meters/:meterpoint/consumptions', awaitHandler(async (req, res) => {
 }));
 
 // GET total consumptions for a specific meterpoint
-app.get('/meters/:meterpoint/totalconsumptions', awaitHandler(async (req, res) => {
+app.get('/meters/:MPAN/totalconsumptions', awaitHandler(async (req, res) => {
 	logger.info('================ GET on totalconsumptions for meterpoint');
 	logger.info('meterpoint username : ' + req.params);
 	let args = req.params;
