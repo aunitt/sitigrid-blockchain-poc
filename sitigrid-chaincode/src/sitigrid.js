@@ -482,6 +482,8 @@ let Chaincode = class {
     return Buffer.from(JSON.stringify(result));
   }
 
+   // TODO: the following function is badly named
+   
   /**
    * Retrieves all productions for a given meterpoint in a given date range
    * 
@@ -694,6 +696,8 @@ let Chaincode = class {
 
     return Buffer.from(JSON.stringify(result));
   }
+
+  // TODO: the following function is badly named
 
   /**
    * Retrieves all consumptions for a given meterpoint in a given date range
