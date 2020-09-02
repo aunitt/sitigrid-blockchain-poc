@@ -312,10 +312,6 @@ let Chaincode = class {
    * 
    * NOTE: Also creates an index record with to allow us to index by date 
    * 
-   * TODO: Need to think about creating a single record using the Production Id + Date as the key
-   *       Note this will mean that we have to cascade the changes into the other functions. Is this the right thing
-   *       to do? I thought this was but now I'm no longer sure
-   *       Should we also have an index for MPAN + Date
    */
   async createProductionRecord(stub, args) {
     console.log('============= START : createProductionRecord ===========');
@@ -481,8 +477,6 @@ let Chaincode = class {
 
     return Buffer.from(JSON.stringify(result));
   }
-
-   // TODO: the following function is badly named
    
   /**
    * Retrieves all productions for a given meterpoint in a given date range
@@ -500,25 +494,7 @@ let Chaincode = class {
     console.log('##### queryAllProductionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
 
     // args is passed as a JSON string
-    let json = JSON.parse(args);
-    let MPAN = json.MPAN;
-    let startIndex = 'prodDate' + json.startDate;
-    let endIndex = 'prodDate' + json.endDate;
-
-    // execute a range query on the given dates
-    let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
-    let productions  = await getAllResults(resultsIterator);
-
-    let result=[];
-
-    for (let n = 0; n < productions.length; n++) {
-      let key = 'production' + productions[n].Record.productionId;
-      if (productions[n].Record.MPAN === MPAN) {
-        let productionBytes = await queryByKey(stub, key);
-        let production = JSON.parse(productionBytes.toString());
-        result.push(production);
-      }
-    }
+    let result = await getAllProductionsForMPInRange(args, stub);
 
     return Buffer.from(JSON.stringify(result));
   }
@@ -697,8 +673,6 @@ let Chaincode = class {
     return Buffer.from(JSON.stringify(result));
   }
 
-  // TODO: the following function is badly named
-
   /**
    * Retrieves all consumptions for a given meterpoint in a given date range
    * 
@@ -715,25 +689,7 @@ let Chaincode = class {
     console.log('##### queryAllConsumptionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
 
     // args is passed as a JSON string
-    let json = JSON.parse(args);
-    let MPAN = json.MPAN;
-    let startIndex = 'consDate' + json.startDate;
-    let endIndex = 'consDate' + json.endDate;
-
-    // execute a range query on the given dates
-    let resultsIterator = await stub.getStateByRange(startIndex,endIndex);
-    let consumptions  = await getAllResults(resultsIterator);
-
-    let result=[];
-
-    for (let n = 0; n < consumptions.length; n++) {
-      let key = 'consumption' + consumptions[n].Record.consumptionId;
-      if (consumptions[n].Record.MPAN === MPAN) {
-        let consumptionBytes = await queryByKey(stub, key);
-        let consumption = JSON.parse(consumptionBytes.toString());
-        result.push(consumption);
-      }
-    }
+    let result = await getAllConsumptionsForMPInRange(args, stub);
 
     return Buffer.from(JSON.stringify(result));
   }
@@ -793,5 +749,51 @@ let Chaincode = class {
     }
   }  
 };
+
+async function getAllConsumptionsForMPInRange(args, stub) {
+  let json = JSON.parse(args);
+  let MPAN = json.MPAN;
+  let startIndex = 'consDate' + json.startDate;
+  let endIndex = 'consDate' + json.endDate;
+
+  // execute a range query on the given dates
+  let resultsIterator = await stub.getStateByRange(startIndex, endIndex);
+  let consumptions = await getAllResults(resultsIterator);
+
+  let result = [];
+
+  for (let n = 0; n < consumptions.length; n++) {
+    let key = 'consumption' + consumptions[n].Record.consumptionId;
+    if (consumptions[n].Record.MPAN === MPAN) {
+      let consumptionBytes = await queryByKey(stub, key);
+      let consumption = JSON.parse(consumptionBytes.toString());
+      result.push(consumption);
+    }
+  }
+  return result;
+}
+
+async function getAllProductionsForMPInRange(args, stub) {
+  let json = JSON.parse(args);
+  let MPAN = json.MPAN;
+  let startIndex = 'prodDate' + json.startDate;
+  let endIndex = 'prodDate' + json.endDate;
+
+  // execute a range query on the given dates
+  let resultsIterator = await stub.getStateByRange(startIndex, endIndex);
+  let productions = await getAllResults(resultsIterator);
+
+  let result = [];
+
+  for (let n = 0; n < productions.length; n++) {
+    let key = 'production' + productions[n].Record.productionId;
+    if (productions[n].Record.MPAN === MPAN) {
+      let productionBytes = await queryByKey(stub, key);
+      let production = JSON.parse(productionBytes.toString());
+      result.push(production);
+    }
+  }
+  return result;
+}
 
 module.exports.Chaincode = Chaincode;
