@@ -495,9 +495,9 @@ let Chaincode = class {
    *    "endDate":"2018-09-21T00:00:00.000Z"
    * }
    */
-  async queryTotalProductionsForMeterpointInRange(stub, args) {
-    console.log('============= START : queryTotalProductionsForMeterpointInRange ===========');
-    console.log('##### queryTotalProductionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
+  async queryAllProductionsForMeterpointInRange(stub, args) {
+    console.log('============= START : queryAllProductionsForMeterpointInRange ===========');
+    console.log('##### queryAllProductionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
@@ -710,9 +710,9 @@ let Chaincode = class {
    *    "endDate":"2018-09-21T00:00:00.000Z"
    * }
    */
-  async queryTotalConsumptionsForMeterpointInRange(stub, args) {
-    console.log('============= START : queryTotalConsumptionsForMeterpointInRange ===========');
-    console.log('##### queryTotalConsumptionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
+  async queryAllConsumptionsForMeterpointInRange(stub, args) {
+    console.log('============= START : queryAllConsumptionsForMeterpointInRange ===========');
+    console.log('##### queryAllConsumptionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
 
     // args is passed as a JSON string
     let json = JSON.parse(args);

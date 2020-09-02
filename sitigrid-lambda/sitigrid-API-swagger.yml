@@ -298,7 +298,7 @@ paths:
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  #if($input.params('start')==\"\
             \")\n  \"chaincodeFunction\": \"queryConsumptionsForMeterpoint\",\n  #else\n\
-            \  \"chaincodeFunction\": \"queryTotalConsumptionsForMeterpointInRange\"\
+            \  \"chaincodeFunction\": \"queryAllConsumptionsForMeterpointInRange\"\
             ,\n  #end\n  \"chaincodeFunctionArgs\": {\n      \"MPAN\": \"$input.params('meterpoint')\"\
             ,\n      \"startDate\": \"$input.params('start')\",\n      \"endDate\"\
             : \"$input.params('end')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\
@@ -366,7 +366,7 @@ paths:
         requestTemplates:
           application/json: "{\n  \"functionType\": \"queryObject\",\n  #if($input.params('start')==\"\
             \")\n  \"chaincodeFunction\": \"queryProductionsForMeterpoint\",\n  #else\n\
-            \  \"chaincodeFunction\": \"queryTotalProductionsForMeterpointInRange\"\
+            \  \"chaincodeFunction\": \"queryAllProductionsForMeterpointInRange\"\
             ,\n  #end\n  \"chaincodeFunctionArgs\": {\n      \"MPAN\": \"$input.params('meterpoint')\"\
             ,\n      \"startDate\": \"$input.params('start')\",\n      \"endDate\"\
             : \"$input.params('end')\"\n  },\n  \"fabricUsername\": \"lambdaUser\"\

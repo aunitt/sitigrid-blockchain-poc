@@ -504,7 +504,7 @@ describe('Test Sitigrid Chaincode', () => {
         )]);
         expect(responseProduction3.status).to.eql(200)
 
-        const queryResponse = await stub.mockInvoke("tx6", ['queryTotalProductionsForMeterpointInRange', JSON.stringify(
+        const queryResponse = await stub.mockInvoke("tx6", ['queryAllProductionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
                 "startDate": "2019-01-01T00:00:00.000Z",
@@ -923,7 +923,7 @@ describe('Test Sitigrid Chaincode', () => {
         )]);
         expect(responseConsumption3.status).to.eql(200)
 
-        const queryResponse = await stub.mockInvoke("tx6", ['queryTotalConsumptionsForMeterpointInRange', JSON.stringify(
+        const queryResponse = await stub.mockInvoke("tx6", ['queryAllConsumptionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
                 "startDate": "2019-01-01T00:00:00.000Z",
