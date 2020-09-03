@@ -750,6 +750,12 @@ let Chaincode = class {
   }  
 };
 
+ /************************************************************************************************
+   * 
+   * Common functions 
+   * 
+   ************************************************************************************************/
+
 async function getAllConsumptionsForMPInRange(args, stub) {
   let json = JSON.parse(args);
   let MPAN = json.MPAN;
