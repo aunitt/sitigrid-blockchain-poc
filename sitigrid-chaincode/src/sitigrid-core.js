@@ -477,7 +477,7 @@ let Chaincode = class {
 
     return Buffer.from(JSON.stringify(result));
   }
-   
+  
   /**
    * Retrieves all productions for a given meterpoint in a given date range
    * 
@@ -498,6 +498,39 @@ let Chaincode = class {
 
     return Buffer.from(JSON.stringify(result));
   }
+  
+  /**
+   * Retrieves total productions for a given meterpoint in a given date range
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "MPAN":"00-111-222-13-1234-5678-345",
+   *    "startDate":"2018-09-20T12:41:59.582Z",
+   *    "endDate":"2018-09-21T00:00:00.000Z"
+   * }
+   */
+  async queryTotalProductionsForMeterpointInRange(stub, args) {
+    console.log('============= START : queryTotalProductionsForMeterpointInRange ===========');
+    console.log('##### queryTotalProductionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
+
+    // args is passed as a JSON string
+    let productions = await getAllProductionsForMPInRange(args, stub);
+
+    // Sum the productions
+    let totalProductions = 0;
+    for (let n = 0; n < productions.length; n++) {
+      let production = productions[n];
+      totalProductions += production.productionAmount;
+    }
+
+    let result = { 'totalProductions' : totalProductions };
+    console.log('##### queryTotalProductionsForMeterpointInRange - Total result: ' + JSON.stringify(result));
+
+    return Buffer.from(JSON.stringify(result));
+  }
+
+
   /************************************************************************************************
    * 
    * Energy consumption functions 
@@ -691,6 +724,36 @@ let Chaincode = class {
     // args is passed as a JSON string
     let result = await getAllConsumptionsForMPInRange(args, stub);
 
+    return Buffer.from(JSON.stringify(result));
+  }
+
+    /**
+   * Retrieves total consumptions for a given meterpoint in a given date range
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "MPAN":"00-111-222-13-1234-5678-345",
+   *    "startDate":"2018-09-20T12:41:59.582Z",
+   *    "endDate":"2018-09-21T00:00:00.000Z"
+   * }
+   */
+  async queryTotalConsumptionsForMeterpointInRange(stub, args) {
+    console.log('============= START : queryTotalConsumptionsForMeterpointInRange ===========');
+    console.log('##### queryTotalConsumptionsForMeterpointInRange arguments: ' + JSON.stringify(args)); 
+
+    // args is passed as a JSON string
+    let consumptions = await getAllConsumptionsForMPInRange(args, stub);
+
+    // Sum the consumption
+    let totalConsumptions = 0;
+    for (let n = 0; n < consumptions.length; n++) {
+      let consumption = consumptions[n];
+      totalConsumptions += consumption.consumptionAmount;
+    }
+
+    let result = { 'totalConsumptions' : totalConsumptions };
+    console.log('##### queryTotalConsumptionsForMeterpointInRange - Total result: ' + JSON.stringify(result));
     return Buffer.from(JSON.stringify(result));
   }
 
