@@ -72,7 +72,7 @@ paths:
             : \"createConsumptionRecord\",\n  \"chaincodeFunctionArgs\": {\n     \
             \ #set( $body = $util.parseJson($input.body) )\n      \"consumptionId\"\
             : \"$context.requestId\",\n      \"MPAN\": \"$body.MPAN\",\n      \"consumptionAmount\"\
-            : $body.consumptionAmount,\n      \"consumptionDate\":\"$context.requestTimeEpoch\"\
+            : $body.consumptionAmount,\n      \"consumptionDate\": $context.requestTimeEpoch\
             \n  },\n  \"fabricUsername\": \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
@@ -599,7 +599,7 @@ paths:
             : \"createProductionRecord\",\n  \"chaincodeFunctionArgs\": {\n      #set(\
             \ $body = $util.parseJson($input.body) )\n      \"productionId\": \"$context.requestId\"\
             ,\n      \"MPAN\": \"$body.MPAN\",\n      \"productionAmount\": $body.productionAmount,\n\
-            \      \"productionDate\":\"$context.requestTimeEpoch\"\n  },\n  \"fabricUsername\"\
+            \      \"productionDate\": $context.requestTimeEpoch\n  },\n  \"fabricUsername\"\
             : \"lambdaUser\"\n}"
         passthroughBehavior: "when_no_templates"
         httpMethod: "POST"
