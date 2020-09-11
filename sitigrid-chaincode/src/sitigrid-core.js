@@ -24,6 +24,12 @@ const util = require('util');
  * 
  ************************************************************************************************/
 
+function epochToJsDate(ts){
+  // ts = epoch timestamp
+  // returns date obj
+  return new Date(ts*1000);
+}
+
 /**
  * Executes a query using a specific key
  * 
@@ -344,6 +350,7 @@ let Chaincode = class {
 
     // Check the date is in the right format, note we cannot currently use external
     // libraries on Amazon Managed blockchain which is a pain
+    json.productionDate = epochToJsDate(json.productionDate).toISOString();
     if (!isIso8601(json.productionDate)) {
       throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json.productionDate);
     }
@@ -573,6 +580,7 @@ let Chaincode = class {
       throw new Error('##### createConsumptionRecord - This consumption already exists: ' + json.consumptionId);
     }
 
+    json.consumptionDate = epochToJsDate(json.consumptionDate).toISOString();
     if (!isIso8601(json.consumptionDate)) {
       throw new Error('##### createConsumptionRecord - This date is not in a valid format: ' + json.consumptionDate);
     }
