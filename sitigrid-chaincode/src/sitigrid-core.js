@@ -350,10 +350,12 @@ let Chaincode = class {
 
     // Check the date is in the right format, note we cannot currently use external
     // libraries on Amazon Managed blockchain which is a pain
-    json.productionDate = epochToJsDate(json.productionDate).toISOString();
-    if (!isIso8601(json.productionDate)) {
+    //json.productionDate = epochToJsDate(json.productionDate).toISOString();
+    /* Add suitable check back
+    if (!isIso8601(epochToJsDate(json.productionDate))) {
       throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json.productionDate);
     }
+    */
 
     // Write the production
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
@@ -365,6 +367,7 @@ let Chaincode = class {
     indexJson.MPAN = json.MPAN;
 
     let indexKey  = 'prodDate' + json.productionDate;
+    console.log('prodData ' + indexKey);
 
     // Write the production index record
     await stub.putState(indexKey, Buffer.from(JSON.stringify(indexJson)));
@@ -580,10 +583,13 @@ let Chaincode = class {
       throw new Error('##### createConsumptionRecord - This consumption already exists: ' + json.consumptionId);
     }
 
+    /*
+     * TODO Fix me
     json.consumptionDate = epochToJsDate(json.consumptionDate).toISOString();
     if (!isIso8601(json.consumptionDate)) {
       throw new Error('##### createConsumptionRecord - This date is not in a valid format: ' + json.consumptionDate);
     }
+    */
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
 

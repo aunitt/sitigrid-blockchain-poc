@@ -431,8 +431,8 @@ describe('Test Sitigrid Chaincode', () => {
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllProductionsInDateRange', JSON.stringify(
             {
-                "startDate": "2019-01-01T00:00:00.000Z",
-                "endDate": "2019-01-01T23:59:59.999Z"
+                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
+                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -525,8 +525,8 @@ describe('Test Sitigrid Chaincode', () => {
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllProductionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
-                "startDate": "2019-01-01T00:00:00.000Z",
-                "endDate": "2019-01-01T23:59:59.999Z"
+                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
+                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -619,8 +619,8 @@ describe('Test Sitigrid Chaincode', () => {
         const queryResponse = await stub.mockInvoke("tx6", ['queryTotalProductionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
-                "startDate": "2019-01-01T00:00:00.000Z",
-                "endDate": "2019-01-01T23:59:59.999Z"
+                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
+                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -952,8 +952,8 @@ describe('Test Sitigrid Chaincode', () => {
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllConsumptionsInDateRange', JSON.stringify(
             {
-                "startDate": "2019-01-01T00:00:00.000Z",
-                "endDate": "2019-01-01T23:59:59.999Z"
+                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
+                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -1046,8 +1046,8 @@ describe('Test Sitigrid Chaincode', () => {
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllConsumptionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
-                "startDate": "2019-01-01T00:00:00.000Z",
-                "endDate": "2019-01-01T23:59:59.999Z"
+                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
+                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -1140,8 +1140,8 @@ describe('Test Sitigrid Chaincode', () => {
         const queryResponse = await stub.mockInvoke("tx6", ['queryTotalConsumptionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
-                "startDate": "2019-01-01T00:00:00.000Z",
-                "endDate": "2019-01-01T23:59:59.999Z"
+                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
+                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
             })]);
 
         expect(queryResponse.status).to.eql(200)
