@@ -24,10 +24,25 @@ const util = require('util');
  * 
  ************************************************************************************************/
 
-function epochToJsDate(ts){
+function normaliseToMSEpoch(ts) {
+  // Need to add check for strings
+  if ( typeof ts === 'string')
+    ts = new Date(ts).getTime();
+
+  if ( ts < 9999999999 )
+    // Assume we are passed an epoch time in seconds without millisecond component
+    return ts * 1000;
+    
+  else
+    return ts;
+}
+
+function isSaneDate(ts){
   // ts = epoch timestamp
-  // returns date obj
-  return new Date(ts);
+  let date = new Date(ts);
+  let year = date.getFullYear();
+
+  return ( year >= 2000 && year < 2100 );
 }
 
 /**
@@ -46,10 +61,6 @@ async function queryByKey(stub, key) {
   console.log('##### queryByKey response: ' + resultAsBytes);
   console.log('============= END : queryByKey ===========');
   return resultAsBytes;
-}
-
-function isIso8601(value) {
-  return new Date(value).toJSON() === value;
 }
 
 async function getAllResults(iterator) {
@@ -255,9 +266,14 @@ let Chaincode = class {
 
     // Check if the meterpoint already exists
     let meterpointQuery = await stub.getState(key);
-
     if ( meterpointQuery && meterpointQuery.toString() ) {
       throw new Error('##### createMeterpoint - This meterpoint already exists: ' + json.MPAN);
+    }
+
+    // Check validity of registration date
+    json.registeredDate = normaliseToMSEpoch(json.registeredDate);
+    if ( !isSaneDate(json.registeredDate) ) {
+      throw new Error('##### createMeterpoint - This date is not valid: ' + json.registeredDate);
     }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
@@ -348,14 +364,11 @@ let Chaincode = class {
       throw new Error('##### createProductionRecord - productionAmount is not a number: ' + json.productionAmount + ' (' + typeof json.productionAmount + ')');
     }
 
-    // Check the date is in the right format, note we cannot currently use external
-    // libraries on Amazon Managed blockchain which is a pain
-    //json.productionDate = epochToJsDate(json.productionDate).toISOString();
-    /* Add suitable check back
-    if (!isIso8601(epochToJsDate(json.productionDate))) {
-      throw new Error('##### createProductionRecord - This date is not in a valid format: ' + json.productionDate);
+    // Check the date is in the right format
+    json.productionDate = normaliseToMSEpoch(json.productionDate);
+    if ( !isSaneDate(json.productionDate) ) {
+      throw new Error('##### createProductionRecord - This date is not valid: ' + json.productionDate);
     }
-    */
 
     // Write the production
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
@@ -583,13 +596,10 @@ let Chaincode = class {
       throw new Error('##### createConsumptionRecord - This consumption already exists: ' + json.consumptionId);
     }
 
-    /*
-     * TODO Fix me
-    json.consumptionDate = epochToJsDate(json.consumptionDate).toISOString();
-    if (!isIso8601(json.consumptionDate)) {
-      throw new Error('##### createConsumptionRecord - This date is not in a valid format: ' + json.consumptionDate);
-    }
-    */
+   json.consumptionDate = normaliseToMSEpoch(json.consumptionDate);
+   if ( !isSaneDate(json.consumptionDate) ) {
+    throw new Error('##### createConsumptionRecord - This date is notvalid: ' + json.productionDate);
+  }
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
 

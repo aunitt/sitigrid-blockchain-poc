@@ -11,16 +11,11 @@ use(chaiThings);
 
 const chaincode = new Chaincode();
 
-function epochToJsDate(ts){
-    // ts = epoch timestamp
-    // returns date obj
-    return new Date(ts*1000);
-}
-
-function jsDateToEpoch(d){
-    // d = javascript date obj
-    // returns epoch timestamp
-    return (d.getTime()-d.getMilliseconds())/1000;
+function jsDateToEpochMS(d){
+    // d = javascript date time string
+    // returns epoch timestamp including milliseconds
+    var date = new Date(d);
+    return date.getTime();
 }
 
 describe('Test Sitigrid Chaincode', () => {
@@ -34,7 +29,7 @@ describe('Test Sitigrid Chaincode', () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         const MPAN0 = "00-111-222-13-1234-5678-345";
-        const registeredDate = "2018-10-22T11:52:20.182Z"; 
+        const registeredDate = jsDateToEpochMS("2018-10-22T11:52:20.182Z"); 
 
         const response = await stub.mockInvoke("mptx1", ['createMeterpoint', JSON.stringify(
             {
@@ -57,7 +52,7 @@ describe('Test Sitigrid Chaincode', () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate = "2018-10-22T11:52:20.182Z";  
+        const registeredDate = jsDateToEpochMS("2018-10-22T11:52:20.182Z");  
 
         const response = await stub.mockInvoke("mptx3", ['createMeterpoint', JSON.stringify(
             {
@@ -82,10 +77,10 @@ describe('Test Sitigrid Chaincode', () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const registeredDate0 = jsDateToEpochMS("2018-10-22T11:52:20.182Z");  
 
         const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
+        const registeredDate1 = jsDateToEpochMS("2018-10-22T11:53:00.182Z");  
 
         const response0 = await stub.mockInvoke("mptx1", ['createMeterpoint', JSON.stringify(
             {
@@ -116,15 +111,12 @@ describe('Test Sitigrid Chaincode', () => {
      *
      **************************************************************/
 
-     /*
-      * FIX ME
-      *
     it("Should be able to add a production record", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         // Create a meterpoint as we need one
         const MPAN0 = "00-111-222-13-1234-5678-345";
-        const registeredDate = "2018-10-22T11:52:20.182Z"; 
+        const registeredDate = jsDateToEpochMS("2018-10-22T11:52:20.182Z"); 
 
         const responseMPAN = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
             {
@@ -136,7 +128,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId = "ID1";
         const productionAmount = 42;
-        const productionDate = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const productionDate = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseProduction = await stub.mockInvoke("tx2", ['createProductionRecord', JSON.stringify(
             {
@@ -158,7 +150,6 @@ describe('Test Sitigrid Chaincode', () => {
             "MPAN": MPAN0
         })
     });
-    */
 
     it("Shouldn't be able to add a production record with an invalid meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
@@ -181,13 +172,12 @@ describe('Test Sitigrid Chaincode', () => {
         expect(responseProduction.status).to.eql(500)
     });
 
-    /*
     it("Shouldn't be able to add a production record with an invalid date", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         // Create a meterpoint as we need one
         const MPAN0 = "00-111-222-13-1234-5678-345";
-        const registeredDate = "2018-10-22T11:52:20.182Z"; 
+        const registeredDate = jsDateToEpochMS("2018-10-22T11:52:20.182Z"); 
 
         const responseMPAN = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
             {
@@ -210,17 +200,74 @@ describe('Test Sitigrid Chaincode', () => {
             }
         )]);
         expect(responseProduction.status).to.eql(500)
+
+        const productionId1 = "ID2";
+        const productionAmount1 = 42;
+        const badProductionDate1 = 100000;
+
+        const responseProduction1 = await stub.mockInvoke("tx2", ['createProductionRecord', JSON.stringify(
+            {
+                "productionId": productionId1,
+                "productionAmount": productionAmount1,
+                "productionDate": badProductionDate1,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseProduction1.status).to.eql(500)
+
+        const productionId2 = "ID3";
+        const productionAmount2 = 42;
+        const badProductionDate2 = "2020-03-22T11:52:20.182Z";  /* We also support valid text dates */
+
+        const responseProduction2 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
+            {
+                "productionId": productionId2,
+                "productionAmount": productionAmount2,
+                "productionDate": badProductionDate2,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseProduction2.status).to.eql(200)
     });
-    */
+
+    it("Should be able to add a production record with an textual date", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        // Create a meterpoint as we need one
+        const MPAN0 = "00-111-222-13-1234-5678-345";
+        const registeredDate = jsDateToEpochMS("2018-10-22T11:52:20.182Z"); 
+
+        const responseMPAN = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
+            {
+                "MPAN": MPAN0,
+                "registeredDate": registeredDate
+            }
+        )]);
+        expect(responseMPAN.status).to.eql(200)
+
+        const productionId = "ID3";
+        const productionAmount = 42;
+        const ProductionDate = "2020-03-22T11:52:20.182Z";  /* We also support valid text dates */
+
+        const responseProduction = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
+            {
+                "productionId": productionId,
+                "productionAmount": productionAmount,
+                "productionDate": ProductionDate,
+                "MPAN": MPAN0
+            }
+        )]);
+        expect(responseProduction.status).to.eql(200)
+    });
 
     it("Should be able to read production records for a given meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const registeredDate0 = jsDateToEpochMS("2018-10-22T11:52:20.182Z");  
 
         const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
+        const registeredDate1 = jsDateToEpochMS("2018-10-22T11:53:00.182Z");  
 
         const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
             {
@@ -240,7 +287,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId0 = "ID1";
         const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
             {
@@ -254,7 +301,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId1 = "ID2";
         const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseProduction1 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
             {
@@ -268,7 +315,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId2 = "ID3";
         const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseProduction2 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
             {
@@ -314,7 +361,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId0 = "ID1";
         const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
             {
@@ -328,7 +375,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId1 = "ID2";
         const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseProduction1 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
             {
@@ -342,7 +389,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId2 = "ID3";
         const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseProduction2 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
             {
@@ -389,7 +436,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId0 = "ID1";
         const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
             {
@@ -403,7 +450,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId1 = "ID2";
         const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseProduction1 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
             {
@@ -417,7 +464,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId2 = "ID3";
         const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseProduction2 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
             {
@@ -431,8 +478,8 @@ describe('Test Sitigrid Chaincode', () => {
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllProductionsInDateRange', JSON.stringify(
             {
-                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
-                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
+                "startDate": jsDateToEpochMS("2019-01-01T00:00:00.000Z"),
+                "endDate": jsDateToEpochMS("2019-01-01T23:59:59.999Z")
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -468,7 +515,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId0 = "ID1";
         const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
             {
@@ -482,7 +529,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId1 = "ID2";
         const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseProduction1 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
             {
@@ -496,7 +543,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId2 = "ID3";
         const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseProduction2 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
             {
@@ -510,7 +557,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId3 = "ID4";
         const productionAmount3 = 15;
-        const productionDate3 = jsDateToEpoch(new Date("2019-01-01T01:30:01.555Z"));
+        const productionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
 
         const responseProduction3 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
             {
@@ -525,8 +572,8 @@ describe('Test Sitigrid Chaincode', () => {
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllProductionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
-                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
-                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
+                "startDate": jsDateToEpochMS("2019-01-01T00:00:00.000Z"),
+                "endDate": jsDateToEpochMS("2019-01-01T23:59:59.999Z")
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -562,7 +609,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId0 = "ID1";
         const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
             {
@@ -576,7 +623,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId1 = "ID2";
         const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseProduction1 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
             {
@@ -590,7 +637,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId2 = "ID3";
         const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseProduction2 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
             {
@@ -604,7 +651,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const productionId3 = "ID4";
         const productionAmount3 = 15;
-        const productionDate3 = jsDateToEpoch(new Date("2019-01-01T01:30:01.555Z"));
+        const productionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
 
         const responseProduction3 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
             {
@@ -619,8 +666,8 @@ describe('Test Sitigrid Chaincode', () => {
         const queryResponse = await stub.mockInvoke("tx6", ['queryTotalProductionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
-                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
-                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
+                "startDate": jsDateToEpochMS("2019-01-01T00:00:00.000Z"),
+                "endDate": jsDateToEpochMS("2019-01-01T23:59:59.999Z")
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -635,15 +682,12 @@ describe('Test Sitigrid Chaincode', () => {
      *
      **************************************************************/
 
-    /*
-     * FIX ME
-     *
     it("Should be able to add a consumption record", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         // Create a meterpoint as we need one
         const MPAN0 = "00-111-222-13-1234-5678-345";
-        const registeredDate = "2018-10-22T11:52:20.182Z"; 
+        const registeredDate = jsDateToEpochMS("2018-10-22T11:52:20.182Z"); 
 
         const responseMPAN = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
             {
@@ -655,7 +699,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId = "ID1";
         const consumptionAmount = 42;
-        const consumptionDate = "2019-01-01T00:00:01.001Z";
+        const consumptionDate = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseConsumption = await stub.mockInvoke("tx2", ['createConsumptionRecord', JSON.stringify(
             {
@@ -677,7 +721,6 @@ describe('Test Sitigrid Chaincode', () => {
             "MPAN": MPAN0
         })
     });
-    */
 
     it("Shouldn't be able to add a consumption record with an invalid meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
@@ -687,7 +730,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId = "ID1";
         const consumptionAmount = 42;
-        const consumptionDate = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const consumptionDate = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseConsumption = await stub.mockInvoke("tx2", ['createConsumptionRecord', JSON.stringify(
             {
@@ -700,15 +743,12 @@ describe('Test Sitigrid Chaincode', () => {
         expect(responseConsumption.status).to.eql(500)
     });
 
-    /*
-     * FIX ME
-     *
     it("Shouldn't be able to add a consumption record with an invalid date", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         // Create a meterpoint as we need one
         const MPAN0 = "00-111-222-13-1234-5678-345";
-        const registeredDate = "2018-10-22T11:52:20.182Z"; 
+        const registeredDate = jsDateToEpochMS("2018-10-22T11:52:20.182Z"); 
 
         const responseMPAN = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
             {
@@ -732,16 +772,15 @@ describe('Test Sitigrid Chaincode', () => {
         )]);
         expect(responseConsumption.status).to.eql(500)
     });
-    */
 
     it("Should be able to read consumption records for a given meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const registeredDate0 = jsDateToEpochMS("2018-10-22T11:52:20.182Z");  
 
         const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
+        const registeredDate1 = jsDateToEpochMS("2018-10-22T11:53:00.182Z");  
 
         const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
             {
@@ -761,7 +800,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId0 = "ID1";
         const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
             {
@@ -775,7 +814,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId1 = "ID2";
         const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseConsumption1 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
             {
@@ -789,7 +828,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId2 = "ID3";
         const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseConsumption2 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
             {
@@ -812,10 +851,10 @@ describe('Test Sitigrid Chaincode', () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
         const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const registeredDate0 = jsDateToEpochMS("2018-10-22T11:52:20.182Z");  
 
         const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
+        const registeredDate1 = jsDateToEpochMS("2018-10-22T11:53:00.182Z");  
 
         const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
             {
@@ -835,7 +874,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId0 = "ID1";
         const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
             {
@@ -849,7 +888,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId1 = "ID2";
         const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseConsumption1 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
             {
@@ -863,7 +902,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId2 = "ID3";
         const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseConsumption2 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
             {
@@ -910,7 +949,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId0 = "ID1";
         const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
             {
@@ -924,7 +963,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId1 = "ID2";
         const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
             {
@@ -938,7 +977,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId2 = "ID3";
         const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
             {
@@ -952,8 +991,8 @@ describe('Test Sitigrid Chaincode', () => {
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllConsumptionsInDateRange', JSON.stringify(
             {
-                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
-                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
+                "startDate": jsDateToEpochMS("2019-01-01T00:00:00.000Z"),
+                "endDate": jsDateToEpochMS("2019-01-01T23:59:59.999Z")
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -989,7 +1028,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId0 = "ID1";
         const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
             {
@@ -1003,7 +1042,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId1 = "ID2";
         const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
             {
@@ -1017,7 +1056,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId2 = "ID3";
         const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
             {
@@ -1031,7 +1070,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId3 = "ID4";
         const consumptionAmount3 = 15;
-        const consumptionDate3 = jsDateToEpoch(new Date("2019-01-01T01:30:01.555Z"));
+        const consumptionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
 
         const responseConsumption3 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
             {
@@ -1046,8 +1085,8 @@ describe('Test Sitigrid Chaincode', () => {
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllConsumptionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
-                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
-                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
+                "startDate": jsDateToEpochMS("2019-01-01T00:00:00.000Z"),
+                "endDate": jsDateToEpochMS("2019-01-01T23:59:59.999Z")
             })]);
 
         expect(queryResponse.status).to.eql(200)
@@ -1083,7 +1122,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId0 = "ID1";
         const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpoch(new Date("2019-01-01T00:00:01.001Z"));
+        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
 
         const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
             {
@@ -1097,7 +1136,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId1 = "ID2";
         const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpoch(new Date("2019-01-02T00:00:01.001Z"));
+        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
 
         const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
             {
@@ -1111,7 +1150,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId2 = "ID3";
         const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpoch(new Date("2019-01-01T01:00:01.123Z"));
+        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
 
         const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
             {
@@ -1125,7 +1164,7 @@ describe('Test Sitigrid Chaincode', () => {
 
         const consumptionId3 = "ID4";
         const consumptionAmount3 = 15;
-        const consumptionDate3 = jsDateToEpoch(new Date("2019-01-01T01:30:01.555Z"));
+        const consumptionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
 
         const responseConsumption3 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
             {
@@ -1140,8 +1179,8 @@ describe('Test Sitigrid Chaincode', () => {
         const queryResponse = await stub.mockInvoke("tx6", ['queryTotalConsumptionsForMeterpointInRange', JSON.stringify(
             {
                 "MPAN":MPAN0,
-                "startDate": jsDateToEpoch(new Date("2019-01-01T00:00:00.000Z")),
-                "endDate": jsDateToEpoch(new Date("2019-01-01T23:59:59.999Z"))
+                "startDate": jsDateToEpochMS("2019-01-01T00:00:00.000Z"),
+                "endDate": jsDateToEpochMS("2019-01-01T23:59:59.999Z")
             })]);
 
         expect(queryResponse.status).to.eql(200)
