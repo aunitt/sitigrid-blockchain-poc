@@ -263,69 +263,9 @@ describe('Test Sitigrid Chaincode', () => {
     it("Should be able to read production records for a given meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = jsDateToEpochMS("2018-10-22T11:52:20.182Z");  
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = jsDateToEpochMS("2018-10-22T11:53:00.182Z");  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const productionId0 = "ID1";
-        const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId0,
-                "productionAmount": productionAmount0,
-                "productionDate": productionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction0.status).to.eql(200)
-
-        const productionId1 = "ID2";
-        const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseProduction1 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId1,
-                "productionAmount": productionAmount1,
-                "productionDate": productionDate1,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseProduction1.status).to.eql(200)
-
-        const productionId2 = "ID3";
-        const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseProduction2 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId2,
-                "productionAmount": productionAmount2,
-                "productionDate": productionDate2,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction2.status).to.eql(200)
+        await CreateProductions(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx5", ['queryProductionsForMeterpoint', JSON.stringify(
             { "MPAN": MPAN0 })]);
@@ -337,69 +277,9 @@ describe('Test Sitigrid Chaincode', () => {
     it("I can get the total productions for a meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const productionId0 = "ID1";
-        const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId0,
-                "productionAmount": productionAmount0,
-                "productionDate": productionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction0.status).to.eql(200)
-
-        const productionId1 = "ID2";
-        const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseProduction1 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId1,
-                "productionAmount": productionAmount1,
-                "productionDate": productionDate1,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseProduction1.status).to.eql(200)
-
-        const productionId2 = "ID3";
-        const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseProduction2 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId2,
-                "productionAmount": productionAmount2,
-                "productionDate": productionDate2,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction2.status).to.eql(200)
+        const { productionAmount0, productionAmount2 } = await CreateProductions(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx5", ['queryTotalProductionsForMeterpoint', JSON.stringify(
             { "MPAN": MPAN0 })]);
@@ -411,70 +291,10 @@ describe('Test Sitigrid Chaincode', () => {
 
     it("I can get productions by date", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+        
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
-
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const productionId0 = "ID1";
-        const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId0,
-                "productionAmount": productionAmount0,
-                "productionDate": productionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction0.status).to.eql(200)
-
-        const productionId1 = "ID2";
-        const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseProduction1 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId1,
-                "productionAmount": productionAmount1,
-                "productionDate": productionDate1,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseProduction1.status).to.eql(200)
-
-        const productionId2 = "ID3";
-        const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseProduction2 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId2,
-                "productionAmount": productionAmount2,
-                "productionDate": productionDate2,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseProduction2.status).to.eql(200)
+        const { productionId0, productionId2 } = await CreateProductions(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllProductionsInDateRange', JSON.stringify(
             {
@@ -491,83 +311,9 @@ describe('Test Sitigrid Chaincode', () => {
     it("I can get productions by date for a meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const productionId0 = "ID1";
-        const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId0,
-                "productionAmount": productionAmount0,
-                "productionDate": productionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction0.status).to.eql(200)
-
-        const productionId1 = "ID2";
-        const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseProduction1 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId1,
-                "productionAmount": productionAmount1,
-                "productionDate": productionDate1,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction1.status).to.eql(200)
-
-        const productionId2 = "ID3";
-        const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseProduction2 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId2,
-                "productionAmount": productionAmount2,
-                "productionDate": productionDate2,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseProduction2.status).to.eql(200)
-
-        const productionId3 = "ID4";
-        const productionAmount3 = 15;
-        const productionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
-
-        const responseProduction3 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId3,
-                "productionAmount": productionAmount3,
-                "productionDate": productionDate3,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction3.status).to.eql(200)
+        const { productionId0, productionId3 } = await CreateProductionsAlt(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllProductionsForMeterpointInRange', JSON.stringify(
             {
@@ -585,83 +331,9 @@ describe('Test Sitigrid Chaincode', () => {
     it("I can get total productions by date for a meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const productionId0 = "ID1";
-        const productionAmount0 = 42;
-        const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId0,
-                "productionAmount": productionAmount0,
-                "productionDate": productionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction0.status).to.eql(200)
-
-        const productionId1 = "ID2";
-        const productionAmount1 = 10;
-        const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseProduction1 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId1,
-                "productionAmount": productionAmount1,
-                "productionDate": productionDate1,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction1.status).to.eql(200)
-
-        const productionId2 = "ID3";
-        const productionAmount2 = 5;
-        const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseProduction2 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId2,
-                "productionAmount": productionAmount2,
-                "productionDate": productionDate2,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseProduction2.status).to.eql(200)
-
-        const productionId3 = "ID4";
-        const productionAmount3 = 15;
-        const productionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
-
-        const responseProduction3 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId3,
-                "productionAmount": productionAmount3,
-                "productionDate": productionDate3,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction3.status).to.eql(200)
+        const { productionAmount0, productionAmount3 } = await CreateProductionsAlt(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryTotalProductionsForMeterpointInRange', JSON.stringify(
             {
@@ -776,27 +448,7 @@ describe('Test Sitigrid Chaincode', () => {
     it("Should be able to read consumption records for a given meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = jsDateToEpochMS("2018-10-22T11:52:20.182Z");  
-
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = jsDateToEpochMS("2018-10-22T11:53:00.182Z");  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
         const consumptionId0 = "ID1";
         const consumptionAmount0 = 42;
@@ -850,69 +502,9 @@ describe('Test Sitigrid Chaincode', () => {
     it("I can get the total consumptions for a meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = jsDateToEpochMS("2018-10-22T11:52:20.182Z");  
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = jsDateToEpochMS("2018-10-22T11:53:00.182Z");  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const consumptionId0 = "ID1";
-        const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId0,
-                "consumptionAmount": consumptionAmount0,
-                "consumptionDate": consumptionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption0.status).to.eql(200)
-
-        const consumptionId1 = "ID2";
-        const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseConsumption1 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId1,
-                "consumptionAmount": consumptionAmount1,
-                "consumptionDate": consumptionDate1,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseConsumption1.status).to.eql(200)
-
-        const consumptionId2 = "ID3";
-        const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseConsumption2 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId2,
-                "consumptionAmount": consumptionAmount2,
-                "consumptionDate": consumptionDate2,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption2.status).to.eql(200)
+        const { consumptionAmount0, consumptionAmount2 } = await CreateConsumptions(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx5", ['queryTotalConsumptionsForMeterpoint', JSON.stringify(
             { "MPAN": MPAN0 })]);
@@ -925,69 +517,9 @@ describe('Test Sitigrid Chaincode', () => {
     it("I can get consumptions by date", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const consumptionId0 = "ID1";
-        const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId0,
-                "consumptionAmount": consumptionAmount0,
-                "consumptionDate": consumptionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption0.status).to.eql(200)
-
-        const consumptionId1 = "ID2";
-        const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId1,
-                "consumptionAmount": consumptionAmount1,
-                "consumptionDate": consumptionDate1,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseConsumption1.status).to.eql(200)
-
-        const consumptionId2 = "ID3";
-        const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId2,
-                "consumptionAmount": consumptionAmount2,
-                "consumptionDate": consumptionDate2,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseConsumption2.status).to.eql(200)
+        const { consumptionId0, consumptionId2 } = await CreateConsumptions(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllConsumptionsInDateRange', JSON.stringify(
             {
@@ -1004,83 +536,9 @@ describe('Test Sitigrid Chaincode', () => {
     it("I can get consumptions by date for a meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const consumptionId0 = "ID1";
-        const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId0,
-                "consumptionAmount": consumptionAmount0,
-                "consumptionDate": consumptionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption0.status).to.eql(200)
-
-        const consumptionId1 = "ID2";
-        const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId1,
-                "consumptionAmount": consumptionAmount1,
-                "consumptionDate": consumptionDate1,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption1.status).to.eql(200)
-
-        const consumptionId2 = "ID3";
-        const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId2,
-                "consumptionAmount": consumptionAmount2,
-                "consumptionDate": consumptionDate2,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseConsumption2.status).to.eql(200)
-
-        const consumptionId3 = "ID4";
-        const consumptionAmount3 = 15;
-        const consumptionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
-
-        const responseConsumption3 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId3,
-                "consumptionAmount": consumptionAmount3,
-                "consumptionDate": consumptionDate3,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption3.status).to.eql(200)
+        const { consumptionId0, consumptionId3 } = await CreateConsumptionsAlt(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryAllConsumptionsForMeterpointInRange', JSON.stringify(
             {
@@ -1098,83 +556,9 @@ describe('Test Sitigrid Chaincode', () => {
     it("I can get total consumptions by date for a meterpoint", async () => {
         const stub = new ChaincodeMockStub("MyMockStub", chaincode);
 
-        const MPAN0 = "00-111-222-13-1234-5678-000";
-        const registeredDate0 = "2018-10-22T11:52:20.182Z";  
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
 
-        const MPAN1 = "00-111-222-13-1234-5678-001";
-        const registeredDate1 = "2018-10-22T11:53:00.182Z";  
-
-        const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN0,
-                "registeredDate": registeredDate0
-            }
-        )]);
-        expect(response0.status).to.eql(200)
-
-        const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
-            {
-                "MPAN": MPAN1,
-                "registeredDate": registeredDate1
-            }
-        )]);
-        expect(response1.status).to.eql(200)
-
-        const consumptionId0 = "ID1";
-        const consumptionAmount0 = 42;
-        const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
-
-        const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId0,
-                "consumptionAmount": consumptionAmount0,
-                "consumptionDate": consumptionDate0,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption0.status).to.eql(200)
-
-        const consumptionId1 = "ID2";
-        const consumptionAmount1 = 10;
-        const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
-
-        const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId1,
-                "consumptionAmount": consumptionAmount1,
-                "consumptionDate": consumptionDate1,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption1.status).to.eql(200)
-
-        const consumptionId2 = "ID3";
-        const consumptionAmount2 = 5;
-        const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
-
-        const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId2,
-                "consumptionAmount": consumptionAmount2,
-                "consumptionDate": consumptionDate2,
-                "MPAN": MPAN1
-            }
-        )]);
-        expect(responseConsumption2.status).to.eql(200)
-
-        const consumptionId3 = "ID4";
-        const consumptionAmount3 = 15;
-        const consumptionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
-
-        const responseConsumption3 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
-            {
-                "consumptionId": consumptionId3,
-                "consumptionAmount": consumptionAmount3,
-                "consumptionDate": consumptionDate3,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseConsumption3.status).to.eql(200)
+        const { consumptionAmount0, consumptionAmount3 } = await CreateConsumptionsAlt(stub, MPAN0, MPAN1);
 
         const queryResponse = await stub.mockInvoke("tx6", ['queryTotalConsumptionsForMeterpointInRange', JSON.stringify(
             {
@@ -1189,3 +573,242 @@ describe('Test Sitigrid Chaincode', () => {
         })  
     });
 });
+
+async function CreateConsumptionsAlt(stub: ChaincodeMockStub, MPAN0: string, MPAN1: string) {
+    const consumptionId0 = "ID1";
+    const consumptionAmount0 = 42;
+    const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
+
+    const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
+        {
+            "consumptionId": consumptionId0,
+            "consumptionAmount": consumptionAmount0,
+            "consumptionDate": consumptionDate0,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseConsumption0.status).to.eql(200);
+
+    const consumptionId1 = "ID2";
+    const consumptionAmount1 = 10;
+    const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
+
+    const responseConsumption1 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
+        {
+            "consumptionId": consumptionId1,
+            "consumptionAmount": consumptionAmount1,
+            "consumptionDate": consumptionDate1,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseConsumption1.status).to.eql(200);
+
+    const consumptionId2 = "ID3";
+    const consumptionAmount2 = 5;
+    const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
+
+    const responseConsumption2 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
+        {
+            "consumptionId": consumptionId2,
+            "consumptionAmount": consumptionAmount2,
+            "consumptionDate": consumptionDate2,
+            "MPAN": MPAN1
+        }
+    )]);
+    expect(responseConsumption2.status).to.eql(200);
+
+    const consumptionId3 = "ID4";
+    const consumptionAmount3 = 15;
+    const consumptionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
+
+    const responseConsumption3 = await stub.mockInvoke("tx5", ['createConsumptionRecord', JSON.stringify(
+        {
+            "consumptionId": consumptionId3,
+            "consumptionAmount": consumptionAmount3,
+            "consumptionDate": consumptionDate3,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseConsumption3.status).to.eql(200);
+
+    return { consumptionId0, consumptionId1, consumptionId2, consumptionId3,
+             consumptionAmount0, consumptionAmount1, consumptionAmount2, consumptionAmount3
+           };
+}
+
+async function CreateConsumptions(stub: ChaincodeMockStub, MPAN0: string, MPAN1: string) {
+    const consumptionId0 = "ID1";
+    const consumptionAmount0 = 42;
+    const consumptionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
+
+    const responseConsumption0 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
+        {
+            "consumptionId": consumptionId0,
+            "consumptionAmount": consumptionAmount0,
+            "consumptionDate": consumptionDate0,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseConsumption0.status).to.eql(200);
+
+    const consumptionId1 = "ID2";
+    const consumptionAmount1 = 10;
+    const consumptionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
+
+    const responseConsumption1 = await stub.mockInvoke("tx3", ['createConsumptionRecord', JSON.stringify(
+        {
+            "consumptionId": consumptionId1,
+            "consumptionAmount": consumptionAmount1,
+            "consumptionDate": consumptionDate1,
+            "MPAN": MPAN1
+        }
+    )]);
+    expect(responseConsumption1.status).to.eql(200);
+
+    const consumptionId2 = "ID3";
+    const consumptionAmount2 = 5;
+    const consumptionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
+
+    const responseConsumption2 = await stub.mockInvoke("tx4", ['createConsumptionRecord', JSON.stringify(
+        {
+            "consumptionId": consumptionId2,
+            "consumptionAmount": consumptionAmount2,
+            "consumptionDate": consumptionDate2,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseConsumption2.status).to.eql(200);
+    return { consumptionAmount0, consumptionAmount1, consumptionAmount2, consumptionId0, consumptionId1, consumptionId2 };
+}
+
+async function CreateProductionsAlt(stub: ChaincodeMockStub, MPAN0: string, MPAN1: string) {
+    const productionId0 = "ID1";
+    const productionAmount0 = 42;
+    const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
+
+    const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
+        {
+            "productionId": productionId0,
+            "productionAmount": productionAmount0,
+            "productionDate": productionDate0,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseProduction0.status).to.eql(200);
+
+    const productionId1 = "ID2";
+    const productionAmount1 = 10;
+    const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
+
+    const responseProduction1 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
+        {
+            "productionId": productionId1,
+            "productionAmount": productionAmount1,
+            "productionDate": productionDate1,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseProduction1.status).to.eql(200);
+
+    const productionId2 = "ID3";
+    const productionAmount2 = 5;
+    const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
+
+    const responseProduction2 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
+        {
+            "productionId": productionId2,
+            "productionAmount": productionAmount2,
+            "productionDate": productionDate2,
+            "MPAN": MPAN1
+        }
+    )]);
+    expect(responseProduction2.status).to.eql(200);
+
+    const productionId3 = "ID4";
+    const productionAmount3 = 15;
+    const productionDate3 = jsDateToEpochMS("2019-01-01T01:30:01.555Z");
+
+    const responseProduction3 = await stub.mockInvoke("tx5", ['createProductionRecord', JSON.stringify(
+        {
+            "productionId": productionId3,
+            "productionAmount": productionAmount3,
+            "productionDate": productionDate3,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseProduction3.status).to.eql(200);
+    return { productionId0, productionId1, productionId2, productionId3,
+             productionAmount0, productionAmount1, productionAmount2, productionAmount3
+        };
+}
+
+async function CreateProductions(stub: ChaincodeMockStub, MPAN0: string, MPAN1: string) {
+    const productionId0 = "ID1";
+    const productionAmount0 = 42;
+    const productionDate0 = jsDateToEpochMS("2019-01-01T00:00:01.001Z");
+
+    const responseProduction0 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
+        {
+            "productionId": productionId0,
+            "productionAmount": productionAmount0,
+            "productionDate": productionDate0,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseProduction0.status).to.eql(200);
+
+    const productionId1 = "ID2";
+    const productionAmount1 = 10;
+    const productionDate1 = jsDateToEpochMS("2019-01-02T00:00:01.001Z");
+
+    const responseProduction1 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
+        {
+            "productionId": productionId1,
+            "productionAmount": productionAmount1,
+            "productionDate": productionDate1,
+            "MPAN": MPAN1
+        }
+    )]);
+    expect(responseProduction1.status).to.eql(200);
+
+    const productionId2 = "ID3";
+    const productionAmount2 = 5;
+    const productionDate2 = jsDateToEpochMS("2019-01-01T01:00:01.123Z");
+
+    const responseProduction2 = await stub.mockInvoke("tx4", ['createProductionRecord', JSON.stringify(
+        {
+            "productionId": productionId2,
+            "productionAmount": productionAmount2,
+            "productionDate": productionDate2,
+            "MPAN": MPAN0
+        }
+    )]);
+    expect(responseProduction2.status).to.eql(200);
+
+    return { productionAmount0, productionAmount1, productionAmount2, productionId0, productionId1, productionId2 };
+}
+
+async function SetupMeterpoints(stub: ChaincodeMockStub) {
+    const MPAN0 = "00-111-222-13-1234-5678-000";
+    const registeredDate0 = jsDateToEpochMS("2018-10-22T11:52:20.182Z");
+
+    const MPAN1 = "00-111-222-13-1234-5678-001";
+    const registeredDate1 = jsDateToEpochMS("2018-10-22T11:53:00.182Z");
+
+    const response0 = await stub.mockInvoke("tx1", ['createMeterpoint', JSON.stringify(
+        {
+            "MPAN": MPAN0,
+            "registeredDate": registeredDate0
+        }
+    )]);
+    expect(response0.status).to.eql(200);
+
+    const response1 = await stub.mockInvoke("tx2", ['createMeterpoint', JSON.stringify(
+        {
+            "MPAN": MPAN1,
+            "registeredDate": registeredDate1
+        }
+    )]);
+    expect(response1.status).to.eql(200);
+    return { MPAN0, MPAN1 };
+}
