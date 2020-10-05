@@ -345,13 +345,6 @@ let Chaincode = class {
 
     console.log('##### createProductionRecord production: ' + JSON.stringify(json));
 
-    let sender = await stub.getCreator();
-    let senderOrg = sender.mspid;
-
-    console.log('Sender = ' + Object.keys(sender));
-    console.log('Sender org = ' + senderOrg);
-    console.log('Sender signer = ' + sender.signingId);
-
     // Confirm the meterpoint exists
     let meterKey = 'meterpoint' + json.MPAN;
     let meterQuery = await stub.getState(meterKey);
@@ -375,6 +368,14 @@ let Chaincode = class {
     if ( !isSaneDate(json.productionDate) ) {
       throw new Error('##### createProductionRecord - This date is not valid: ' + json.productionDate);
     }
+
+    // Add the owner details to the record
+    let sender = await stub.getCreator();
+    let senderOrg = sender.mspid;
+    json.owner = senderOrg;
+
+    console.log('Sender = ' + Object.keys(sender));
+    console.log('Sender org = ' + senderOrg);
 
     // Write the production
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
