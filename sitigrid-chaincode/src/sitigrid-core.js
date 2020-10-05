@@ -346,7 +346,7 @@ let Chaincode = class {
     console.log('##### createProductionRecord production: ' + JSON.stringify(json));
 
     let sender = await stub.getCreator();
-    let senderOrg = sender.mspId;
+    let senderOrg = sender.mspid;
 
     console.log('Sender = ' + Object.keys(sender));
     console.log('Sender org = ' + senderOrg);
