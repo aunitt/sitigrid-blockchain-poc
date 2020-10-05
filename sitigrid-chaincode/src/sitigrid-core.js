@@ -25,7 +25,6 @@ const util = require('util');
  ************************************************************************************************/
 
 function normaliseToMSEpoch(ts) {
-  // Need to add check for strings
   if ( typeof ts === 'string')
     ts = new Date(ts).getTime();
 
@@ -345,6 +344,13 @@ let Chaincode = class {
     json.docType = 'production';
 
     console.log('##### createProductionRecord production: ' + JSON.stringify(json));
+
+    let sender = await stub.getCreator();
+    let senderOrg = sender.mspId;
+
+    console.log('Sender = ' + Object.keys(sender));
+    console.log('Sender org = ' + senderOrg);
+    console.log('Sender signer = ' + sender.signingId);
 
     // Confirm the meterpoint exists
     let meterKey = 'meterpoint' + json.MPAN;
