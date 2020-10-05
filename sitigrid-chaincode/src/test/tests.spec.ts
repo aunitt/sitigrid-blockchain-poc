@@ -149,6 +149,7 @@ describe('Test Sitigrid Chaincode', () => {
             "productionDate": productionDate,
             "MPAN": MPAN0
         })
+        expect(Transform.bufferToObject(queryResponse.payload)).to.have.property('owner');
     });
 
     it("Shouldn't be able to add a production record with an invalid meterpoint", async () => {
@@ -214,20 +215,6 @@ describe('Test Sitigrid Chaincode', () => {
             }
         )]);
         expect(responseProduction1.status).to.eql(500)
-
-        const productionId2 = "ID3";
-        const productionAmount2 = 42;
-        const badProductionDate2 = "2020-03-22T11:52:20.182Z";  /* We also support valid text dates */
-
-        const responseProduction2 = await stub.mockInvoke("tx3", ['createProductionRecord', JSON.stringify(
-            {
-                "productionId": productionId2,
-                "productionAmount": productionAmount2,
-                "productionDate": badProductionDate2,
-                "MPAN": MPAN0
-            }
-        )]);
-        expect(responseProduction2.status).to.eql(200)
     });
 
     it("Should be able to add a production record with an textual date", async () => {
@@ -392,6 +379,7 @@ describe('Test Sitigrid Chaincode', () => {
             "consumptionDate": consumptionDate,
             "MPAN": MPAN0
         })
+        expect(Transform.bufferToObject(queryResponse.payload)).to.have.property('owner');
     });
 
     it("Shouldn't be able to add a consumption record with an invalid meterpoint", async () => {

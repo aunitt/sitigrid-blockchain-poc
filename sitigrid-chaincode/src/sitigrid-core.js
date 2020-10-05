@@ -613,10 +613,13 @@ let Chaincode = class {
       throw new Error('##### createConsumptionRecord - This consumption already exists: ' + json.consumptionId);
     }
 
-   json.consumptionDate = normaliseToMSEpoch(json.consumptionDate);
-   if ( !isSaneDate(json.consumptionDate) ) {
-    throw new Error('##### createConsumptionRecord - This date is notvalid: ' + json.productionDate);
-  }
+    json.consumptionDate = normaliseToMSEpoch(json.consumptionDate);
+    if ( !isSaneDate(json.consumptionDate) ) {
+      throw new Error('##### createConsumptionRecord - This date is notvalid: ' + json.productionDate);
+    }
+
+    // Add the owner details to the record
+    json.owner = getSenderOrg( await stub.getCreator());
 
     await stub.putState(key, Buffer.from(JSON.stringify(json)));
 
