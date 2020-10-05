@@ -44,6 +44,16 @@ function isSaneDate(ts){
   return ( year >= 2000 && year < 2100 );
 }
 
+function getSenderOrg(sender){
+  if ( "mspid" in sender )
+    return sender.mspid;
+
+  if ( "mspId" in sender)
+    return sender.mspId;
+
+  throw new Error("Owner not found in sender object");
+}
+
 /**
  * Executes a query using a specific key
  * 
@@ -371,7 +381,7 @@ let Chaincode = class {
 
     // Add the owner details to the record
     let sender = await stub.getCreator();
-    let senderOrg = sender.mspid;
+    let senderOrg = getSenderOrg( sender );
     json.owner = senderOrg;
 
     console.log('Sender = ' + Object.keys(sender));
