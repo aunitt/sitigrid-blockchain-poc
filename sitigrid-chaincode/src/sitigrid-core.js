@@ -335,11 +335,11 @@ let Chaincode = class {
    * {
    *    "productionId":"2211",
    *    "productionAmount":100,
-   *    "productionDate":"2018-09-20T12:41:59.582Z",
+   *    "productionDate":1537447319000,
    *    "MPAN":"00-111-222-13-1234-5678-345"
    * }
    * 
-   * productionDate must be in ISO 8601 format
+   * productionDate must be in Epoch format
    * 
    * NOTE: Also creates an index record with to allow us to index by date 
    * 
@@ -585,7 +585,7 @@ let Chaincode = class {
    * {
    *    "consumptionId":"433da889-777d-4f11-b9eb-a6610d8ba555",
    *    "consumptionAmount":100,
-   *    "consumptionDate":"2018-09-20T12:41:59.582Z",
+   *    "consumptionDate":1537447319582,
    *    "MPAN":"00-111-222-13-1234-5678-345"
    * }
    */
