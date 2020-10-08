@@ -79,8 +79,6 @@ async function getAllResults(iterator) {
 
     if (res.value && res.value.value.toString()) {
       let jsonRes = {};
-      console.log(res.value.value.toString('utf8'));
-
       jsonRes.Key = res.value.key;
       try {
         jsonRes.Record = JSON.parse(res.value.value.toString('utf8'));
@@ -196,7 +194,6 @@ async function queryByString(stub, queryString) {
  ************************************************************************************************/
 
 let Chaincode = class {
-
   /**
    * Initialize the state when the chaincode is either instantiated or upgraded
    * 
@@ -350,57 +347,7 @@ let Chaincode = class {
 
     // args is passed as a JSON string
     let json = JSON.parse(args);
-    let key = 'production' + json.productionId;
-    json.docType = 'production';
-
-    console.log('##### createProductionRecord production: ' + JSON.stringify(json));
-
-    // Confirm the meterpoint exists
-    let meterKey = 'meterpoint' + json.MPAN;
-    let meterQuery = await stub.getState(meterKey);
-    if (!meterQuery || !meterQuery.toString()) {
-      throw new Error('##### createProductionRecord - Cannot create production as the Meterpoint does not exist: ' + json.MPAN);
-    }
-
-    // Check if the Production already exists
-    let productionQuery = await stub.getState(key);
-    if (productionQuery && productionQuery.toString()) {
-      throw new Error('##### createProductionRecord - This production already exists: ' + json.productionId);
-    }
-
-    // Check the productionAmount is a number
-    if (typeof json.productionAmount != 'number') {
-      throw new Error('##### createProductionRecord - productionAmount is not a number: ' + json.productionAmount + ' (' + typeof json.productionAmount + ')');
-    }
-
-    // Check the date is in the right format
-    json.productionDate = normaliseToMSEpoch(json.productionDate);
-    if ( !isSaneDate(json.productionDate) ) {
-      throw new Error('##### createProductionRecord - This date is not valid: ' + json.productionDate);
-    }
-
-    // Add the owner details to the record
-    let sender = await stub.getCreator();
-    let senderOrg = getSenderOrg( sender );
-    json.owner = senderOrg;
-
-    console.log('Sender = ' + Object.keys(sender));
-    console.log('Sender org = ' + senderOrg);
-
-    // Write the production
-    await stub.putState(key, Buffer.from(JSON.stringify(json)));
-
-    // Create the index record
-    let indexJson = {};
-    indexJson.docType = 'prodDate';
-    indexJson.productionId = json.productionId;
-    indexJson.MPAN = json.MPAN;
-
-    let indexKey  = 'prodDate' + json.productionDate;
-    console.log('prodData ' + indexKey);
-
-    // Write the production index record
-    await stub.putState(indexKey, Buffer.from(JSON.stringify(indexJson)));
+    await akaCreateProductionRecord(json, stub, false);
 
     console.log('============= END : createProductionRecord ===========');
   }
@@ -457,8 +404,7 @@ let Chaincode = class {
 
     let totalProductions = 0;
     console.log('#####  -queryTotalProductionsForMeterpoint number of productions: ' + productions.length);
-    for (let n = 0; n < productions.length; n++) {
-      let production = productions[n];
+    for(const production of productions) { 
       console.log('##### queryTotalProductionsForMeterpoint - production: ' + JSON.stringify(production));
       totalProductions += production.Record.productionAmount;
     }
@@ -559,8 +505,7 @@ let Chaincode = class {
 
     // Sum the productions
     let totalProductions = 0;
-    for (let n = 0; n < productions.length; n++) {
-      let production = productions[n];
+    for (const production of productions) {
       totalProductions += production.productionAmount;
     }
 
@@ -570,6 +515,102 @@ let Chaincode = class {
     return Buffer.from(JSON.stringify(result));
   }
 
+  /************************************************************************************************
+   * 
+   * Energy reconciliation functions 
+   * 
+   ************************************************************************************************/
+  
+   /**
+   * Reconciles production records into a given chunk size, if it can't find enough production amounts
+   * to reconcile will not update production records
+   * 
+   * @param {*} stub 
+   * @param {*} args - JSON as follows:
+   * {
+   *    "requestedBlockSize": 1000
+   * }
+   */
+  async reconcileProductionRecords(stub, args) {
+    console.log('============= START : reconcileProductionRecords  ===========');
+    console.log('##### reconcileProductionRecords arguments: ' + JSON.stringify(args)); 
+
+    let json = JSON.parse(args);
+
+    // Find where we have already reconciled up to for our Org
+    let senderOrg = getSenderOrg( await stub.getCreator() );
+
+    let reconciliationKey = 'reconcilation' + senderOrg;
+    let reconciliationQuery = await stub.getState(reconciliationKey);
+    if (!reconciliationQuery || !reconciliationQuery.toString()) {
+      throw new Error('##### reconcileProductionRecords - No reconciliation record exists for ' + senderOrg);
+    }
+
+    let alreadyReconciledUpTo = JSON.parse(reconciliationQuery).reconciledUpTo;
+
+    // Find productions after this date for our org
+    let productions = await getAllProductionsForOrgInRange(senderOrg,alreadyReconciledUpTo,Date.now(),stub);
+    let successfullyReconciled = false;
+    let reconciled = [];
+    let amountToReconcile = json.requestedBlockSize;
+    let reconciledUpTo = alreadyReconciledUpTo;
+
+    // Sort the productions by date
+    productions.sort((a,b) => (a.productionDate > b.productionDate) ? 1 : ((b.productionDate > a.productionDate) ? -1 : 0)); 
+
+    for(const production of productions){
+      let updatedProduction = JSON.parse(JSON.stringify(production));
+
+      if (production.unreconciledAmount < amountToReconcile) {
+        if (production.unreconciledAmount > Number.EPSILON) {
+          updatedProduction.unreconciledAmount = 0.0;
+          reconciled.push( updatedProduction );
+          amountToReconcile -= production.unreconciledAmount;
+          //console.log("Reconciled production " + production.productionId + " in full");
+        }
+      }
+      else 
+      {
+        updatedProduction.unreconciledAmount = production.unreconciledAmount - amountToReconcile;
+        reconciled.push( updatedProduction );
+        amountToReconcile = 0.0;
+        //console.log("Partially reconciled " + production.productionId);
+      }
+
+      //console.log("Amount to still reconcile is " + amountToReconcile);
+
+      if (amountToReconcile < Number.EPSILON)
+      {
+        //console.log("Successfully reconciled full amount");
+        reconciledUpTo = production.productionDate;
+        successfullyReconciled = true;
+        break;
+      }
+    }
+
+    if ( successfullyReconciled ) {
+      // Write production records
+      await writeProductionRecords( stub, reconciled );
+
+      // Write the reconciled up to time
+      let reconciliationJson = JSON.parse(reconciliationQuery);
+      reconciliationJson.reconciledUpTo = reconciledUpTo;
+
+      //console.log("Writing reconciled up to record " + JSON.stringify(reconciliationJson));
+    
+      await stub.putState(reconciliationKey, Buffer.from(JSON.stringify(reconciliationJson)));
+    }
+    else {
+      reconciled = [];
+    }
+
+    let result = {
+      successful: successfullyReconciled,
+      reconciled: reconciled
+    };
+
+    return Buffer.from(JSON.stringify(result));
+  }
 
   /************************************************************************************************
    * 
@@ -689,8 +730,7 @@ let Chaincode = class {
 
     let totalConsumptions = 0;
     console.log('#####  -queryTotalConsumptionsForMeterpoint number of consumptions: ' + consumptions.length);
-    for (let n = 0; n < consumptions.length; n++) {
-      let consumption = consumptions[n];
+    for (const consumption of consumptions) {
       console.log('##### queryTotalConsumptionsForMeterpoint - consumption: ' + JSON.stringify(consumption));
       totalConsumptions += consumption.Record.consumptionAmount;
     }
@@ -791,8 +831,8 @@ let Chaincode = class {
 
     // Sum the consumption
     let totalConsumptions = 0;
-    for (let n = 0; n < consumptions.length; n++) {
-      let consumption = consumptions[n];
+    for (const consumption of consumptions) {
+
       totalConsumptions += consumption.consumptionAmount;
     }
 
@@ -854,7 +894,7 @@ let Chaincode = class {
         return Buffer.from(JSON.stringify(history));
       }
     }
-  }  
+  } 
 };
 
  /************************************************************************************************
@@ -862,6 +902,71 @@ let Chaincode = class {
    * Common functions 
    * 
    ************************************************************************************************/
+
+async function akaCreateProductionRecord(args, stub, updateExisting) {
+  let key = 'production' + args.productionId;
+  args.docType = 'production';
+
+  console.log('##### createProductionRecord production: ' + JSON.stringify(args));
+
+  // Confirm the meterpoint exists
+  let meterKey = 'meterpoint' + args.MPAN;
+  let meterQuery = await stub.getState(meterKey);
+  if (!meterQuery || !meterQuery.toString()) {
+    throw new Error('##### createProductionRecord - Cannot create production as the Meterpoint does not exist: ' + args.MPAN);
+  }
+
+  // Check the productionAmount is a number
+  if (typeof args.productionAmount != 'number') {
+    throw new Error('##### createProductionRecord - productionAmount is not a number: ' + args.productionAmount + ' (' + typeof args.productionAmount + ')');
+  }
+
+  // Check the date is in the right format
+  args.productionDate = normaliseToMSEpoch(args.productionDate);
+  if (!isSaneDate(args.productionDate)) {
+    throw new Error('##### createProductionRecord - This date is not valid: ' + args.productionDate);
+  }
+
+  if ( !updateExisting) {
+    // Add unallocated production amount - to be used later for reconciliation
+    args.unreconciledAmount = args.productionAmount;
+  }
+
+  // Add the owner details to the record
+  let sender = await stub.getCreator();
+  let senderOrg = getSenderOrg(sender);
+  args.owner = senderOrg;
+
+  //console.log('Sender = ' + Object.keys(sender));
+  //console.log('Sender org = ' + senderOrg);
+
+  // Check if reconciliation record exists for this org and if not create it
+  let reconciliationKey = 'reconcilation' + senderOrg;
+  let reconciliationQuery = await stub.getState(reconciliationKey);
+  if (!reconciliationQuery || !reconciliationQuery.toString()) {
+    let reconciliationJson = {};
+    reconciliationJson.organisation = senderOrg;
+    reconciliationJson.reconciledUpTo = 0; // Epoch date of where we have reconciled up to 
+
+    await stub.putState(reconciliationKey, Buffer.from(JSON.stringify(reconciliationJson)));
+  }
+
+  // Write the production
+  await stub.putState(key, Buffer.from(JSON.stringify(args)));
+
+  // Create the index record
+  let indexJson = {};
+  indexJson.docType = 'prodDate';
+  indexJson.productionId = args.productionId;
+  indexJson.MPAN = args.MPAN;
+  indexJson.owner = args.owner;
+
+  let indexKey = 'prodDate' + args.productionDate;
+  //console.log('prodDate ' + indexKey);
+
+  // Write the production index record
+  await stub.putState(indexKey, Buffer.from(JSON.stringify(indexJson)));
+}
 
 async function getAllConsumptionsForMPInRange(args, stub) {
   let json = JSON.parse(args);
@@ -908,5 +1013,34 @@ async function getAllProductionsForMPInRange(args, stub) {
   }
   return result;
 }
+
+async function getAllProductionsForOrgInRange(org, startDate, endDate, stub) {
+  // execute a range query on the given dates
+  //console.log("Get all prods for org in range, start = " + startDate + " end = " + endDate);
+  let startIndex = 'prodDate' + startDate;
+  let endIndex = 'prodDate' + endDate;
+
+  let resultsIterator = await stub.getStateByRange(startIndex, endIndex);
+  let productions = await getAllResults(resultsIterator);
+
+  let result = [];
+
+  for (let n = 0; n < productions.length; n++) {
+    let key = 'production' + productions[n].Record.productionId;
+    if (productions[n].Record.owner === org) {
+      let productionBytes = await queryByKey(stub, key);
+      let production = JSON.parse(productionBytes.toString());
+      result.push(production);
+    }
+  }
+  return result;
+}
+
+async function writeProductionRecords( stub, reconciled ) {
+  for (const production of reconciled) {
+    await akaCreateProductionRecord(production, stub, true);
+  }
+}
+
 
 module.exports.Chaincode = Chaincode;

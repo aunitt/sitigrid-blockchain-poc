@@ -9,3 +9,4 @@ sitigrid-ui/Config
 .DS_Store
 sitigrid-chaincode/src/node_modules
 node_modules
+.nyc_output

@@ -147,7 +147,8 @@ describe('Test Sitigrid Chaincode', () => {
             "productionId": productionId,
             "productionAmount": productionAmount,
             "productionDate": productionDate,
-            "MPAN": MPAN0
+            "MPAN": MPAN0,
+            "unreconciledAmount": productionAmount
         })
         expect(Transform.bufferToObject(queryResponse.payload)).to.have.property('owner');
     });
@@ -560,6 +561,167 @@ describe('Test Sitigrid Chaincode', () => {
             "totalConsumptions": consumptionAmount0 + consumptionAmount3
         })  
     });
+
+    it("I can reconcile production records into a chunk", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
+
+        const { productionId0, productionId1, productionId2 } = await CreateProductions(stub, MPAN0, MPAN1);
+
+        const unimportantBlockSize = 10;
+        const queryResponse = await stub.mockInvoke("tx6", ['reconcileProductionRecords', JSON.stringify(
+            {
+                "requestedBlockSize": unimportantBlockSize
+            })]);
+        expect(queryResponse.status).to.eql(200)
+    });
+
+    it("I can reconcile production records that fit exactly into a chunk", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
+
+        const { productionId0, productionId1, productionId2, productionAmount0, productionAmount1, productionAmount2 } 
+            = await CreateProductions(stub, MPAN0, MPAN1);
+
+        const blockSize = productionAmount0 + productionAmount1 + productionAmount2;
+        const queryResponse = await stub.mockInvoke("tx6", ['reconcileProductionRecords', JSON.stringify(
+            {
+                "requestedBlockSize": blockSize
+            })]);
+        expect(queryResponse.status).to.eql(200)
+        let obj = Transform.bufferToObject(queryResponse.payload);
+        expect(obj).to.deep.include({
+            "successful": true
+        })    
+        expect(obj).to.have.property('reconciled')
+            .that.is.an('array')
+            .that.has.lengthOf(3)
+            .that.contains.something.like({"productionId": productionId0, "unreconciledAmount":0})
+        expect(obj).to.have.property('reconciled')
+            .that.contains.something.like({"productionId": productionId1, "unreconciledAmount":0})
+        expect(obj).to.have.property('reconciled')
+            .that.contains.something.like({"productionId": productionId2, "unreconciledAmount":0})
+    });
+
+    it("I can reconcile production records that overflow a chunk", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
+
+        const { productionId0, productionId1, productionId2, productionAmount0, productionAmount1, productionAmount2 } 
+            = await CreateProductions(stub, MPAN0, MPAN1);
+
+        const overflowAmount = 1.5;
+        let blockSize = productionAmount0 + productionAmount1 + productionAmount2 - overflowAmount;
+        let queryResponse = await stub.mockInvoke("tx6", ['reconcileProductionRecords', JSON.stringify(
+            {
+                "requestedBlockSize": blockSize
+            })]);
+        expect(queryResponse.status).to.eql(200)
+        let obj = Transform.bufferToObject(queryResponse.payload);
+
+        expect(obj).to.deep.include({
+            "successful": true
+        })    
+        expect(obj).to.have.property('reconciled')
+            .that.is.an('array')
+            .that.has.lengthOf(3)
+            .that.contains.something.like({"productionId": productionId0, "unreconciledAmount":0})
+        expect(obj).to.have.property('reconciled')
+            .that.contains.something.like({"productionId": productionId2, "unreconciledAmount":0})
+        expect(obj).to.have.property('reconciled')
+            .that.contains.something.like({"productionId": productionId1, "unreconciledAmount":overflowAmount})
+    });
+
+    it("I can reconcile production records into multiple chunks", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
+
+        const { productionId0, productionId1, productionId2, productionAmount0, productionAmount1, productionAmount2 } 
+            = await CreateProductions(stub, MPAN0, MPAN1);
+
+        const overflowAmount = 1.5;
+        let blockSize = productionAmount0 + productionAmount1 + productionAmount2 - overflowAmount;
+        let queryResponse = await stub.mockInvoke("tx6", ['reconcileProductionRecords', JSON.stringify(
+            {
+                "requestedBlockSize": blockSize
+            })]);
+        expect(queryResponse.status).to.eql(200)
+        let obj = Transform.bufferToObject(queryResponse.payload);
+
+        expect(obj).to.deep.include({
+            "successful": true
+        })    
+        expect(obj).to.have.property('reconciled')
+            .that.is.an('array')
+            .that.has.lengthOf(3)
+            .that.contains.something.like({"productionId": productionId0, "unreconciledAmount":0})
+        expect(obj).to.have.property('reconciled')
+            .that.contains.something.like({"productionId": productionId2, "unreconciledAmount":0})
+        expect(obj).to.have.property('reconciled')
+            .that.contains.something.like({"productionId": productionId1, "unreconciledAmount":overflowAmount})
+
+        // Now try and consume the overflow amount
+        blockSize = overflowAmount;
+        queryResponse = await stub.mockInvoke("tx7", ['reconcileProductionRecords', JSON.stringify(
+            {
+                "requestedBlockSize": blockSize
+            })]);
+        expect(queryResponse.status).to.eql(200)
+        obj = Transform.bufferToObject(queryResponse.payload);
+        expect(obj).to.have.property('successful').that.equals(true)
+        expect(obj).to.have.property('reconciled')
+        .that.is.an('array')
+        .that.has.lengthOf(1)
+        .that.contains.something.like({"productionId": productionId1, "unreconciledAmount":0})
+    });
+
+    it("I can reconcile production records into multiple chunks that fit exactly", async () => {
+        const stub = new ChaincodeMockStub("MyMockStub", chaincode);
+
+        const { MPAN0, MPAN1 } = await SetupMeterpoints(stub);
+
+        const { productionId0, productionId1, productionId2, productionAmount0, productionAmount1, productionAmount2 } 
+            = await CreateProductions(stub, MPAN0, MPAN1);
+
+        let blockSize = productionAmount0 + productionAmount2;
+        let queryResponse = await stub.mockInvoke("tx6", ['reconcileProductionRecords', JSON.stringify(
+            {
+                "requestedBlockSize": blockSize
+            })]);
+        expect(queryResponse.status).to.eql(200)
+        let obj = Transform.bufferToObject(queryResponse.payload);
+
+        expect(obj).to.deep.include({
+            "successful": true
+        })    
+        expect(obj).to.have.property('reconciled')
+            .that.is.an('array')
+            .that.has.lengthOf(2)
+            .that.contains.something.like({"productionId": productionId0, "unreconciledAmount":0})
+        expect(obj).to.have.property('reconciled')
+            .that.contains.something.like({"productionId": productionId2, "unreconciledAmount":0})
+
+        // Now try and consume the overflow amount
+        blockSize = productionAmount1;
+        queryResponse = await stub.mockInvoke("tx7", ['reconcileProductionRecords', JSON.stringify(
+            {
+                "requestedBlockSize": blockSize
+            })]);
+        expect(queryResponse.status).to.eql(200)
+        obj = Transform.bufferToObject(queryResponse.payload);
+        expect(obj).to.have.property('successful').that.equals(true)
+        expect(obj).to.have.property('reconciled')
+        .that.is.an('array')
+        .that.has.lengthOf(1)
+        .that.contains.something.like({"productionId": productionId1, "unreconciledAmount":0})
+    });
+
+    //TODO: Add more reconciliation tests
+    // Do check reconciled up to time properly
 });
 
 async function CreateConsumptionsAlt(stub: ChaincodeMockStub, MPAN0: string, MPAN1: string) {
