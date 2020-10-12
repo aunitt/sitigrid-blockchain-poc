@@ -559,7 +559,7 @@ let Chaincode = class {
     productions.sort((a,b) => (a.productionDate > b.productionDate) ? 1 : ((b.productionDate > a.productionDate) ? -1 : 0)); 
 
     for(const production of productions){
-      let updatedProduction = JSON.parse(JSON.stringify(production));
+      let updatedProduction = Object.assign({}, production);
 
       if (production.unreconciledAmount < amountToReconcile) {
         if (production.unreconciledAmount > Number.EPSILON) {
