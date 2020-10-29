@@ -92,15 +92,15 @@ You can test the Lambda function from the [Lambda console](https://console.aws.a
 
 To test from the cli, you will execute the commands below.  The output of each command is in the file specified in the last argument, and is displayed via `cat`.
 
-First, call the `createMeterpoint` chaincode function to create the meterpoint "melissa".
+First, call the `createMeterpoint` chaincode function to create the meterpoint "01-111-222-13-1234-5678-001".
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createMeterpoint\",\"chaincodeFunctionArgs\":{\"meterpoint\":\"melissa\"}}" --region $REGION /tmp/lambda-output-createMeterpoint.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"invoke\",\"chaincodeFunction\":\"createMeterpoint\",\"chaincodeFunctionArgs\":{\"meterpoint\":\"01-111-222-13-1234-5678-001\"}}" --region $REGION /tmp/lambda-output-createMeterpoint.txt
 cat /tmp/lambda-output-createMeterpoint.txt
 ```
 
 Next, call the `queryMeterpoint` function to view the details of the meterpoint we just created.
 ```
-aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryMeterpoint\",\"chaincodeFunctionArgs\":{\"meterpoint\":\"melissa\"}}" --region $REGION /tmp/lambda-output-queryMeterpoint.txt
+aws lambda invoke --function-name $LAMBDANAME --payload "{\"fabricUsername\":\"$FABRICUSER\",\"functionType\":\"queryObject\",\"chaincodeFunction\":\"queryMeterpoint\",\"chaincodeFunctionArgs\":{\"meterpoint\":\"01-111-222-13-1234-5678-001\"}}" --region $REGION /tmp/lambda-output-queryMeterpoint.txt
 cat /tmp/lambda-output-queryMeterpoint.txt
 ```
 
