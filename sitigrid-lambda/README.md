@@ -1,6 +1,6 @@
-# Part 6: Read and write to the blockchain with Amazon API Gateway and AWS Lambda
+# Part 3: Read and write to the blockchain with Amazon API Gateway and AWS Lambda
 
-Part 6 will show you how to publish a REST API with API Gateway and Lambda that invokes chaincode on a Hyperledger Fabric blockchain network running on Amazon Managed Blockchain.  You will use the NodeJS Hyperledger Fabric SDK within the Lambda function to interface with the blockchain.
+Part 3 will show you how to publish a REST API with API Gateway and Lambda that invokes chaincode on a Hyperledger Fabric blockchain network running on Amazon Managed Blockchain.  You will use the NodeJS Hyperledger Fabric SDK within the Lambda function to interface with the blockchain.
 
 ## Pre-requisites
  There are multiple parts to the workshop.  Before starting on Part 6, you should have completed [Part 1](../sitigrid-fabric/README.md) and [Part 2](../sitigrid-chaincode/README.md).
@@ -140,7 +140,8 @@ curl -s -X GET "$APIURL/meters"
 You now have a REST API managed by API Gateway that is invoking a Lambda function to execute transactions on the blockchain.  To expose additional chaincode functions within API Gateway, you would add API Gateway routes to support them, and continue routing to the same Lambda function.   
 
 * [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
-* [Part 2:](../sitigrid-chaincode/README.md) Deploy the sitigrid chaincode. 
-* [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
-* [Part 4:](../new-member/README.md) Add a new member to the network. 
-* [Part 5:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
+* [Part 2:](../sitigrid-chaincode/README.md) Deploy the sitigrid chaincode.
+* [Part 3:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda. 
+* [Part 4:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
+* [Part 5:](../new-member/README.md) Add a new member to the network. 
+

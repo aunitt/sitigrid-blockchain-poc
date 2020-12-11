@@ -1,4 +1,4 @@
-# Part 3: RESTful API to expose the Chaincode
+# Part 4: RESTful API to expose the Chaincode
 
 The RESTful API is a Node.js application that uses the Fabric SDK to interact with the Fabric chaincode
 and exposes the chaincode functions as REST APIs. This allows loose coupling between the UI application
@@ -181,11 +181,12 @@ For purposes of the workshop we can just leave the SSH session open. However, if
 API application running after we exit the SSH session, we can use various methods to do this. I use `PM2`,
 using a command such as `pm2 start app.js`, which will keep the app running. The logs can be found in `~/.pm2/logs`.
 
-## Move on to Part 4
-The workshop instructions can be found in the README files in parts 1-4:
+## Optionally move on to Part 4
+The workshop instructions can be found in the README files in parts 1-3:
 
 * [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
 * [Part 2:](../sitigrid-chaincode/README.md) Deploy the sitigrid chaincode. 
-* [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
-* [Part 4:](../new-member/README.md) Add a new member to the network.
-* [Part 5:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
+* [Part 3:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
+* [Part 4:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
+* [Part 5:](../new-member/README.md) Add a new member to the network.
+

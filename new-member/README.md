@@ -1,5 +1,7 @@
 # Part 5: Adding a new member to a Fabric network on Amazon Managed Blockchain
 
+> **Note that Part 5 hasn't been fully tested as we've not yet needed to test with multiple members**
+
 Part 5 will help you to add a new member running in a different AWS Account to the Fabric network you created in [Part 1](../sitigrid-fabric/README.md). After adding the new member you will create a peer node for the member and join the peer
 node to the channel created in [Part 1](../sitigrid-fabric/README.md). The new peer node will receive the blocks that exist
 on the new channel and will build its own copy of the ledger. We will also configure the Fabric network so the new
@@ -895,7 +897,8 @@ Rerunning the query should confirm that the peer node in Account B can now endor
 The workshop instructions can be found in the README files in parts 1-4:
 
 * [Part 1:](../sitigrid-fabric/README.md) Start the workshop by building the Hyperledger Fabric blockchain network using Amazon Managed Blockchain.
-* [Part 2:](../sitigrid-chaincode/README.md) Deploy the sitigrid chaincode. 
-* [Part 3:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
-* [Part 4:](../new-member/README.md) Add a new member to the network. 
-* [Part 5:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda.
+* [Part 2:](../sitigrid-chaincode/README.md) Deploy the sitigrid chaincode.
+* [Part 3:](../sitigrid-lambda/README.md) Read and write to the blockchain with Amazon API Gateway and AWS Lambda. 
+* [Part 4:](../sitigrid-rest-api/README.md) Run the RESTful API server.  
+* [Part 5:](../new-member/README.md) Add a new member to the network. 
+
