@@ -169,4 +169,4 @@ cd sitigrid-chaincode/src
 npm test
 ```
 
-If you want to update versions of chaincode in the live environment see - [sitigrid-chaincode/updating-chaincode.md](sitigrid-chaincode/updating-chaincode.md)
+If you want to update versions of chaincode in the live environment see - [updating-chaincode.md](updating-chaincode.md)
