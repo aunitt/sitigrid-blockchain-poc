@@ -1,3 +1,7 @@
+# How to update chaincode in a live environment
+
+The following code snippets are useful if you need to update chaincode in a live environment. You need to increment the version number in the environment variable for each deploy.
+
 ```
 cd ~
 cp ./sitigrid-blockchain-poc/sitigrid-chaincode/src/* ./fabric-samples/chaincode/sitigrid

@@ -1,8 +1,6 @@
 # Sitigrid on Hyperledger Fabric
 
-The chaincode in sitigrid.js supports donors donating funds to an NGO (i.e. non-profit), while tracking 
-the spending of those funds and the allocation of the spending records against each donation. Donors
-are therefore able to track how their donations are being spent. The Fabric Chaincode is written in Node.js.
+The chaincode in sitigrid.js supports transactions running on an example energy grid. The Fabric Chaincode is written in Node.js.
 
 ## Pre-requisites
 

@@ -161,3 +161,12 @@ The workshop instructions can be found in the README files in parts 1-3:
 * [Part 4:](../sitigrid-rest-api/README.md) Run the RESTful API server. 
 * [Part 5:](../new-member/README.md) Add a new member to the network. 
 
+## Chaincode development
+
+There are unit tests written for the chaincode. These can run using npm:
+```
+cd sitigrid-chaincode/src
+npm test
+```
+
+If you want to update versions of chaincode in the live environment see - [sitigrid-chaincode/updating-chaincode.md](sitigrid-chaincode/updating-chaincode.md)
