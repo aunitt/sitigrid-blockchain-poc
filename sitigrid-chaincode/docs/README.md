@@ -15,7 +15,7 @@ The following documents represent the core entities in the blockchain.
 This document represents an energy meter in the network. MPANs are used as the unique identifier for a meter, see https://en.wikipedia.org/wiki/Meter_Point_Administration_Number
 
 Example:
-```yaml
+```json
 {
    "doctype":"meterpoint",
    "key":"meterpoint00-111-222-13-1234-5678-345",
@@ -29,7 +29,7 @@ Example:
 This document is a record of energy produced by a producer.
 
 Example:
-```yaml
+```json
 {    
     "doctype":"production",
     "key":"production2211",
@@ -54,7 +54,7 @@ Notes:
 This document is a record of energy consumed by a consumer.
 
 Example:
-```yaml
+```json
 {   
     "doctype":"consumption",
     "key":"consumption433da889-777d-4f11-b9eb-a6610d8ba555", 
@@ -77,7 +77,7 @@ Notes:
 Each org in the system has a reconcilation record which keeps track as to which records we have reconciled up to.
 
 Example:
-```yaml
+```json
 {   
     "doctype":"reconciliation",
     "key":"reconiliationsitigrid-id", 
@@ -96,11 +96,11 @@ The following documents are created to enable fast reads of the core documents. 
 ### Production date record
 
 Example:
-```yaml
+```json
 {    
     "doctype":"prodDate",
     "key":"prodDate1537447319000",
-    "productionId":"2211"
+    "productionId":"2211",
     "MPAN":"00-111-222-13-1234-5678-345",
     "owner":"sitigrid-id"     
 }
@@ -113,11 +113,11 @@ Notes:
 ### Consumption date record
 
 Example:
-```yaml
+```json
 {    
     "doctype":"consDate",
     "key":"consDate1537447319000",
-    "consumptionId":"433da889-777d-4f11-b9eb-a6610d8ba555"
+    "consumptionId":"433da889-777d-4f11-b9eb-a6610d8ba555",
     "MPAN":"00-111-222-13-1234-5678-345",
     "owner":"sitigrid-id"     
 }
