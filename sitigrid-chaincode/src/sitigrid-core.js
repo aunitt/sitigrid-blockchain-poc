@@ -256,7 +256,7 @@ let Chaincode = class {
    * @param {*} args - JSON as follows:
    * {
    *    "MPAN":"00-111-222-13-1234-5678-345",
-   *    "registeredDate":"2018-10-22T11:52:20.182Z"
+   *    "registeredDate":"1537447319000"
    * }
    */
   async createMeterpoint(stub, args) {

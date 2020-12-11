@@ -170,3 +170,5 @@ npm test
 ```
 
 If you want to update versions of chaincode in the live environment see - [updating-chaincode.md](updating-chaincode.md)
+
+For details on the documents created in the blockchain by the chaincode see [docs/README.md](docs/README.md)
